@@ -7,6 +7,12 @@
 #include <Trade/Trade.mqh>
 #include "..//detect//DetectPositions.mqh";
 
+enum ENUM_PROFIT_PROTECTION_TYPE
+  {
+   TRAILING_STOP,
+   BREAK_EVEN
+  };
+
 // Class definition for ProfitProtection
 class ProfitProtection
   {

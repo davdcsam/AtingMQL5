@@ -41,6 +41,7 @@ private:
    double               current; // Current position on the line
    bool                 is_add; // Boolean to check if addition is needed
 
+
 public:
    // Constructor for the Lines class
                      Lines(double start_line,double start_add_line,double end_line,double step_line, double add_line)
@@ -96,7 +97,7 @@ public:
 
 
    // CheckToString: Method to generate a comment based on the result of the line check
-   string            CheckToString(ENUM_CHECK_LINE_GENERATOR enum_result)
+   string            EnumCheckLinesGeneratorToString(ENUM_CHECK_LINE_GENERATOR enum_result)
      {
       string result;
 
@@ -113,25 +114,25 @@ public:
             result = StringFormat(
                         "%s: Step %s is bigger than diference betwen start %s and end %s.",
                         EnumToString(enum_result),
-                        DoubleToString(input_step_line, _Digits),
-                        DoubleToString(input_start_line, _Digits),
-                        DoubleToString(input_end_line, _Digits)
+                        DoubleToString(step, _Digits),
+                        DoubleToString(start, _Digits),
+                        DoubleToString(end, _Digits)
                      );
             break;
          case ERR_START_OVER_END:
             result = StringFormat(
                         "%s: Start value %s is greater than end value %s.",
                         EnumToString(enum_result),
-                        DoubleToString(input_start_line, _Digits),
-                        DoubleToString(input_end_line, _Digits)
+                        DoubleToString(start, _Digits),
+                        DoubleToString(end, _Digits)
                      );
             break;
          case ERR_ADD_OVER_STEP:
             result = StringFormat(
                         "%s: Add value %s is greater than step value %s.",
                         EnumToString(enum_result),
-                        DoubleToString(input_add_line, _Digits),
-                        DoubleToString(input_step_line, _Digits)
+                        DoubleToString(add, _Digits),
+                        DoubleToString(step, _Digits)
                      );
             break;
          case ERR_PRICE_OUT_LINES:
@@ -139,8 +140,8 @@ public:
                         "%s: Price %s is out inputs %s to %s",
                         EnumToString(enum_result),
                         DoubleToString(iClose(_Symbol, PERIOD_CURRENT, 0), _Digits),
-                        DoubleToString(input_start_line, _Digits),
-                        DoubleToString(input_end_line, _Digits)
+                        DoubleToString(start, _Digits),
+                        DoubleToString(end, _Digits)
                      );
             break;
          default:
@@ -225,18 +226,38 @@ public:
       return(type_near_lines);
      }
 
+   // ConvertMqlArray: Function to convert the lines array to an MQL array
+   void                 ConvertMqlArray(double& array[])
+     {
+      // If there are no lines, print an error message
+      if(!lines.Total())
+        {
+         Print("Lines no generated yet");
+         return;
+        }
+
+      // Resize the MQL array to the size of the lines array
+      ArrayResize(array, lines.Total());
+
+      // For each line in the lines array, add it to the MQL array
+      for(int i=0; i<lines.Total(); i++)
+        {
+         array[i] = lines.At(i);
+        }
+     }
+
    // Function to update the comment for the line handler
-   string            CommentToShow()
+   string              CommentToShow()
      {
       string result;
 
       // Get the type of near lines based on the current close price
-      type_near_lines = GetNearLines(
-            iClose(_Symbol, PERIOD_CURRENT, 0)
-                                             );
+      ENUM_TYPE_NEAR_LINES temp = GetNearLines(
+                                     iClose(_Symbol, PERIOD_CURRENT, 0)
+                                  );
 
       // Switch case to handle different types of near lines
-      switch(type_near_lines)
+      switch(temp)
         {
          // If the type of near lines is TYPE_BETWEN_PARALELS
          case TYPE_BETWEN_PARALELS:
@@ -269,27 +290,5 @@ public:
 
       return result;
      }
-
-   // ConvertMqlArray: Function to convert the lines array to an MQL array
-   void                 ConvertMqlArray(double& array[])
-     {
-      // If there are no lines, print an error message
-      if(!lines.Total())
-        {
-         Print("Lines no generated yet");
-         return;
-        }
-
-      // Resize the MQL array to the size of the lines array
-      ArrayResize(array, lines.Total());
-
-      // For each line in the lines array, add it to the MQL array
-      for(int i=0; i<lines.Total(); i++)
-        {
-         array[i] = lines.At(i);
-        }
-     }
-
   };
-
 //+------------------------------------------------------------------+

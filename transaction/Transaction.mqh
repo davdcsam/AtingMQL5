@@ -185,7 +185,7 @@ public:
      }
 
    // Function to return a string comment based on the result of the check transaction
-   string            CheckToString(ENUM_CHECK_TRANSACTION enum_result)
+   string            EnumCheckTransactionToString(ENUM_CHECK_TRANSACTION enum_result)
      {
       string result;
 
@@ -214,7 +214,7 @@ public:
             result = StringFormat(
                         "%s: Lot Size %.2f invalied.",
                         EnumToString(enum_result),
-                        input_lot_size
+                        lot_size
                      );
             break;
 
@@ -223,7 +223,7 @@ public:
             result = StringFormat(
                         "%s: Deviation %d may not sufficient. Position couldn't place.",
                         EnumToString(enum_result),
-                        input_deviation_trade
+                        deviation_trade
                      );
             break;
 
@@ -284,7 +284,7 @@ public:
             result = StringFormat(
                         "%s: Filling mode %s found and setted.",
                         EnumToString(enum_result),
-                        EnumToString(transaction.trade_request.type_filling)
+                        EnumToString(trade_request.type_filling)
                      );
             break;
 
@@ -315,17 +315,17 @@ public:
      }
 
    // Function to update the comment for the transaction
-   string              CommentToShow(bool input_allow_extra_orders_arg)
+   string              CommentToShow()
      {
-         return StringFormat(
-                      "\n Send Extra Orders: %s\n Lot Size: %.2f \n Stop Loss: %d\n Take Profit: %d\n Devation: %d\n Magic: %d\n Correct Filling: %s\n",
-                      input_allow_extra_orders_arg ? "Allowed" : "Prohibited",
-                      lot_size,
-                      stop_loss,
-                      take_profit,
-                      deviation_trade,
-                      magic_number,
-                      EnumToString(trade_request.type_filling)
-                   );
+      return StringFormat(
+                "\n Lot Size: %.2f \n Stop Loss: %d\n Take Profit: %d\n Devation: %d\n Magic: %d\n Correct Filling: %s\n",
+                lot_size,
+                stop_loss,
+                take_profit,
+                deviation_trade,
+                magic_number,
+                EnumToString(trade_request.type_filling)
+             );
+     }
   };
 //+------------------------------------------------------------------+

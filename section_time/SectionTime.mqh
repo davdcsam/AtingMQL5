@@ -105,5 +105,51 @@ public:
       // Return true if the current time is between the start and end times, otherwise return false
       return(StructToTime(start_datetime) <= StructToTime(broker_datetime) && StructToTime(broker_datetime) <= StructToTime(end_datetime));
      }
-  }
+
+   // Function to return a string comment based on the result of the section time check
+   string            EnumCheckSectionTimeToString(ENUM_CHECK_SECTION_TIME enum_result)
+     {
+      string result;
+
+      // Switch case based on the result of the section time check
+      switch(enum_result)
+        {
+         // Case when the arguments passed the check
+         case CHECK_ARG_SECTION_TIME_PASSED:
+            result = StringFormat("%s: Arguments passed the check.", EnumToString(enum_result));
+            break;
+
+         // Case when the start time is equal to the end time
+         case ERR_START_EQUAL_END:
+            result = StringFormat("%s: Start Time %s is equal to End Time %s.", EnumToString(enum_result), start_time_str, end_time_str);
+            break;
+
+         // Case when the current time is over the end time
+         case ERR_CURRENT_OVER_END:
+            result = StringFormat("%s: Broker DateTime %s is over End Time %s.", EnumToString(enum_result), broker_datetime_str, end_time_str);
+            break;
+
+         // Default case when an unknown error occurred
+         default:
+            result = "Unknown error.";
+            break;
+        }
+
+      return(result);
+     }
+
+   // Function to update the section time comment
+   string              CommentToShow()
+     {
+      // Format the section time handler comment
+      return StringFormat(
+                "\n Section Time from %s to %s - BrokerDateTime %s\n",
+                start_time_str,
+                end_time_str,
+                broker_datetime_str
+             );
+     }
+  };
+//+------------------------------------------------------------------+
+
 //+------------------------------------------------------------------+
