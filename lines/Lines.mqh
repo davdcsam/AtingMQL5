@@ -94,6 +94,63 @@ public:
       return(CHECK_ARG_LINE_GENERATOR_PASSED);
      }
 
+
+   // CheckToString: Method to generate a comment based on the result of the line check
+   string            CheckToString(ENUM_CHECK_LINE_GENERATOR enum_result)
+     {
+      string result;
+
+      // Switch case to handle different types of results
+      switch(enum_result)
+        {
+         case CHECK_ARG_LINE_GENERATOR_PASSED:
+            result = StringFormat(
+                        "%s: Arguments passed the check.",
+                        EnumToString(enum_result)
+                     );
+            break;
+         case ERR_NO_ENOUGH_STEP:
+            result = StringFormat(
+                        "%s: Step %s is bigger than diference betwen start %s and end %s.",
+                        EnumToString(enum_result),
+                        DoubleToString(input_step_line, _Digits),
+                        DoubleToString(input_start_line, _Digits),
+                        DoubleToString(input_end_line, _Digits)
+                     );
+            break;
+         case ERR_START_OVER_END:
+            result = StringFormat(
+                        "%s: Start value %s is greater than end value %s.",
+                        EnumToString(enum_result),
+                        DoubleToString(input_start_line, _Digits),
+                        DoubleToString(input_end_line, _Digits)
+                     );
+            break;
+         case ERR_ADD_OVER_STEP:
+            result = StringFormat(
+                        "%s: Add value %s is greater than step value %s.",
+                        EnumToString(enum_result),
+                        DoubleToString(input_add_line, _Digits),
+                        DoubleToString(input_step_line, _Digits)
+                     );
+            break;
+         case ERR_PRICE_OUT_LINES:
+            result = StringFormat(
+                        "%s: Price %s is out inputs %s to %s",
+                        EnumToString(enum_result),
+                        DoubleToString(iClose(_Symbol, PERIOD_CURRENT, 0), _Digits),
+                        DoubleToString(input_start_line, _Digits),
+                        DoubleToString(input_end_line, _Digits)
+                     );
+            break;
+         default:
+            result = "Unknown error.";
+            break;
+        }
+
+      return(result);
+     }
+
    // Generate: Function to generate the lines
    void              Generate()
      {
@@ -168,6 +225,51 @@ public:
       return(type_near_lines);
      }
 
+   // Function to update the comment for the line handler
+   string            CommentToShow()
+     {
+      string result;
+
+      // Get the type of near lines based on the current close price
+      type_near_lines = GetNearLines(
+            iClose(_Symbol, PERIOD_CURRENT, 0)
+                                             );
+
+      // Switch case to handle different types of near lines
+      switch(type_near_lines)
+        {
+         // If the type of near lines is TYPE_BETWEN_PARALELS
+         case TYPE_BETWEN_PARALELS:
+            // Set the comment for the line handler to show the upper and lower buy and sell points
+            result = StringFormat(
+                        "\n Upper Sell %s, Upper Buy %s\n Lower Sell %s, Lower Buy %s\n",
+                        DoubleToString(upper_sell, _Digits),
+                        DoubleToString(upper_buy, _Digits),
+                        DoubleToString(lower_sell, _Digits),
+                        DoubleToString(lower_buy, _Digits)
+                     );
+            break;
+         // If the type of near lines is TYPE_INSIDE_PARALEL
+         case TYPE_INSIDE_PARALEL:
+            // Set the comment for the line handler to show the middle buy and sell points
+            result = StringFormat(
+                        "\n Upper Buy %s\n Upper Sell %s, Lower Buy %s\n Lower Sell %s\n",
+                        DoubleToString(upper_buy, _Digits),
+                        DoubleToString(upper_sell, _Digits),
+                        DoubleToString(lower_buy, _Digits),
+                        DoubleToString(lower_sell, _Digits)
+                     );
+            break;
+         // If the type of near lines is ERR_INVALID_LINES
+         case ERR_INVALID_LINES:
+            // Set the comment for the line handler to show an error message
+            result = "\n Invalid Lines \n";
+            break;
+        }
+
+      return result;
+     }
+
    // ConvertMqlArray: Function to convert the lines array to an MQL array
    void                 ConvertMqlArray(double& array[])
      {
@@ -189,4 +291,5 @@ public:
      }
 
   };
+
 //+------------------------------------------------------------------+
