@@ -20,8 +20,8 @@ enum ENUM_CHECK_LINE_GENERATOR
 // ENUM_TYPE_NEAR_LINES: Enum to handle different types of near lines
 enum ENUM_TYPE_NEAR_LINES
   {
-   TYPE_BETWEN_PARALELS, // Type: Between parallels
-   TYPE_INSIDE_PARALEL, // Type: Inside parallel
+   TYPE_BETWEN_PARALLELS, // Type: Between parallels
+   TYPE_INSIDE_PARALLEL, // Type: Inside parallel
    ERR_INVALID_LINES // Error: Invalid lines
   };
 
@@ -204,7 +204,7 @@ public:
                lower_sell = lines.At(i-1) + add;
 
                // Set the type of near lines to TYPE_INSIDE_PARALEL
-               type_near_lines = TYPE_INSIDE_PARALEL;
+               type_near_lines = TYPE_INSIDE_PARALLEL;
                return(type_near_lines);
               }
 
@@ -216,7 +216,7 @@ public:
             lower_buy = lines.At(i);
 
             // Set the type of near lines to TYPE_BETWEN_PARALELS
-            type_near_lines = TYPE_BETWEN_PARALELS;
+            type_near_lines = TYPE_BETWEN_PARALLELS;
             return(type_near_lines);
            }
         }
@@ -260,7 +260,7 @@ public:
       switch(temp)
         {
          // If the type of near lines is TYPE_BETWEN_PARALELS
-         case TYPE_BETWEN_PARALELS:
+         case TYPE_BETWEN_PARALLELS:
             // Set the comment for the line handler to show the upper and lower buy and sell points
             result = StringFormat(
                         "\n Upper Sell %s, Upper Buy %s\n Lower Sell %s, Lower Buy %s\n",
@@ -271,7 +271,7 @@ public:
                      );
             break;
          // If the type of near lines is TYPE_INSIDE_PARALEL
-         case TYPE_INSIDE_PARALEL:
+         case TYPE_INSIDE_PARALLEL:
             // Set the comment for the line handler to show the middle buy and sell points
             result = StringFormat(
                         "\n Upper Buy %s\n Upper Sell %s, Lower Buy %s\n Lower Sell %s\n",
