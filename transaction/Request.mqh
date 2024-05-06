@@ -7,8 +7,8 @@
 // ENUM_ORDER_PENDING_TYPE: Enum to handle different types of pending orders
 enum ENUM_ORDER_PENDING_TYPE
   {
-   ORDER_PENDING_TYPE_BUY, // Pending order type: Buy
-   ORDER_PENDING_TYPE_SELL // Pending order type: Sell
+   ORDER_PENDING_TYPE_BUY = POSITION_TYPE_BUY, // Pending order type: Buy
+   ORDER_PENDING_TYPE_SELL = POSITION_TYPE_SELL // Pending order type: Sell
   };
 
 //+------------------------------------------------------------------+
@@ -68,8 +68,8 @@ protected:
       MqlTradeRequest& request, // Request to build
       ENUM_POSITION_TYPE order_type, // Order type for the request
       ENUM_ORDER_TYPE_FILLING filling_mode, // Filling mode for the request
-      double& price_ask, // Ask price for the request
-      double& price_bid // Bid price for the request
+      double price_ask, // Ask price for the request
+      double price_bid // Bid price for the request
    )
      {
       ZeroMemory(request); // Clear the memory for the request
@@ -103,7 +103,9 @@ protected:
       MqlTradeRequest& request, // Request to build
       ENUM_ORDER_PENDING_TYPE order_pending_type, // Pending order type for the request
       ENUM_ORDER_TYPE_FILLING filling_mode, // Filling mode for the request
-      double open_price // Open price for the request
+      double open_price, // Open price for the request
+      double price_ask, // Ask price for the request
+      double price_bid // Bid price for the request
    )
      {
       ZeroMemory(request); // Clear the memory for the request
@@ -123,79 +125,40 @@ protected:
          request.sl = NormalizeDouble(request.price - stop_loss * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
          request.tp = NormalizeDouble(request.price + take_profit * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
 
-         // Get the current ask price
-         double current_price = SymbolInfoDouble(symbol, SYMBOL_ASK);
-
          // Set the buy pending order action type for the request
-         setBuyPendingOrderActionType(request, current_price);
+         setBuyPendingOrderActionType(request, price_ask);
         }
       else // If the pending order type is not ORDER_PENDING_TYPE_BUY
         {
          // Set the stop loss and take profit for the request
          request.sl = NormalizeDouble(request.price + stop_loss * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
          request.tp = NormalizeDouble(request.price - take_profit * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
-
-         // Get the current bid price
-         double current_price = SymbolInfoDouble(symbol, SYMBOL_BID);
-
+         
          // Set the sell pending order action type for the request
-         setSellPendingOrderActionType(request, current_price);
+         setSellPendingOrderActionType(request, price_bid);
         }
      }
 
-   // Function to build a fixed pending order
-   void              BuildPendingFixed(
+   // Function to build a pending or position order
+   void              BuildPendingOrPosition(
       MqlTradeRequest& request, // Request to build
       ENUM_ORDER_PENDING_TYPE order_pending_type, // Pending order type for the request
       ENUM_ORDER_TYPE_FILLING filling_mode, // Filling mode for the request
-      double open_price // Open price for the request
+      double open_price, // Open price for the request
+      double comparative_price
    )
      {
-      ZeroMemory(request); // Clear the memory for the request
+      BuildPending(request, order_pending_type, filling_mode, open_price, comparative_price, comparative_price);
 
-      // Set the properties for the request
-      request.symbol = symbol;
-      request.volume = roundVolume(lot_size);
-      request.price = open_price;
-      request.deviation = deviation_trade;
-      request.magic = magic_number;
-      request.type_filling = filling_mode;
+      MqlTradeCheckResult check_result;
 
-      // If the pending order type is ORDER_PENDING_TYPE_BUY
-      if(order_pending_type == ORDER_PENDING_TYPE_BUY)
-        {
-         // Set the stop loss and take profit for the request
-         request.sl = NormalizeDouble(request.price - stop_loss * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
-         request.tp = NormalizeDouble(request.price + take_profit * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
+      if(OrderCheck(request, check_result))
+         return;
 
-         // Get the current ask price
-         double current_price = SymbolInfoDouble(symbol, SYMBOL_ASK);
+      if(check_result.retcode != TRADE_RETCODE_INVALID_PRICE)
+         return;
 
-         // If the current price is equal to the request price
-         if(current_price == request.price)
-            // Set the action for the request to TRADE_ACTION_DEAL
-            request.action = TRADE_ACTION_DEAL;
-         else
-            // Set the buy pending order action type for the request
-            setBuyPendingOrderActionType(request, current_price);
-        }
-      else // If the pending order type is not ORDER_PENDING_TYPE_BUY
-        {
-         // Set the stop loss and take profit for the request
-         request.sl = NormalizeDouble(request.price + stop_loss * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
-         request.tp = NormalizeDouble(request.price - take_profit * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
-
-         // Get the current bid price
-         double current_price = SymbolInfoDouble(symbol, SYMBOL_BID);
-
-         // If the current price is equal to the request price
-         if(current_price == request.price)
-            // Set the action for the request to TRADE_ACTION_DEAL
-            request.action = TRADE_ACTION_DEAL;
-         else
-            // Set the sell pending order action type for the request
-            setSellPendingOrderActionType(request, current_price);
-        }
+      BuildPosition(request, ENUM_POSITION_TYPE(order_pending_type), filling_mode, SymbolInfoDouble(symbol, SYMBOL_ASK), SymbolInfoDouble(symbol, SYMBOL_BID));
      }
 
 private:
@@ -263,4 +226,5 @@ public:
       magic_number = magic_number_arg;
      }
   };
+//+------------------------------------------------------------------+
 //+------------------------------------------------------------------+

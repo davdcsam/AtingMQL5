@@ -160,10 +160,10 @@ public:
      }
 
    // Function to send a pending order for the transaction
-   ENUM_ORDER_TRANSACTION SendPending(double open_price, ENUM_ORDER_PENDING_TYPE order_type)
+   ENUM_ORDER_TRANSACTION SendPendingDefault(double open_price, ENUM_ORDER_PENDING_TYPE order_type)
      {
       // Build a pending order for the transaction
-      BuildPending(trade_request, order_type, type_filliing_mode, open_price);
+      BuildPending(trade_request, order_type, type_filliing_mode, open_price, SymbolInfoDouble(symbol, SYMBOL_ASK), SymbolInfoDouble(symbol, SYMBOL_BID));
 
       // Send the order
       if(!OrderSend(trade_request, trade_result))
@@ -184,6 +184,26 @@ public:
       return(ORDER_PLACED_SUCCESSFULLY);
      }
 
+   ENUM_ORDER_TRANSACTION SendPendingOrPosition(double open_price, double comparative_price, ENUM_ORDER_PENDING_TYPE order_type)
+     {
+      BuildPendingOrPosition(trade_request, order_type, type_filliing_mode, open_price, comparative_price);
+      
+      if(!OrderSend(trade_request, trade_result))
+        {
+         PrintFormat(
+            "Type s%, Lot %s, Sl %s, Tp %s, Op %s",
+            EnumToString(trade_request.type),
+            DoubleToString(trade_request.volume, _Digits),
+            DoubleToString(trade_request.sl, _Digits),
+            DoubleToString(trade_request.tp, _Digits),
+            DoubleToString(trade_request.price, _Digits)
+         );
+
+         return(ERR_SEND_FAILED);         
+        }
+      
+      return(ORDER_PLACED_SUCCESSFULLY);
+     }
    // Function to return a string comment based on the result of the check transaction
    string            EnumCheckTransactionToString(ENUM_CHECK_TRANSACTION enum_result)
      {
