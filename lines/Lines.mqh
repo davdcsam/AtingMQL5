@@ -1,11 +1,11 @@
 //+------------------------------------------------------------------+
 //|                                                            Lines |
-//|                                         Copyright 2024, DavdCsam |
+//|                                         Copyright 2024, davdcsam |
 //|                                      https://github.com/davdcsam |
 //+------------------------------------------------------------------+
 
 // Include the ArrayDouble class from the Arrays library
-#include <Arrays\ArrayDouble.mqh>
+#include <Arrays/ArrayDouble.mqh>
 
 // ENUM_CHECK_LINE_GENERATOR: Enum to handle different types of errors and checks in line generation
 enum ENUM_CHECK_LINE_GENERATOR
@@ -20,7 +20,7 @@ enum ENUM_CHECK_LINE_GENERATOR
 // ENUM_TYPE_NEAR_LINES: Enum to handle different types of near lines
 enum ENUM_TYPE_NEAR_LINES
   {
-   TYPE_BETWEN_PARALLELS, // Type: Between parallels
+   TYPE_BETWEEN_PARALLELS, // Type: Between parallels
    TYPE_INSIDE_PARALLEL, // Type: Inside parallel
    ERR_INVALID_LINES // Error: Invalid lines
   };
@@ -112,7 +112,7 @@ public:
             break;
          case ERR_NO_ENOUGH_STEP:
             result = StringFormat(
-                        "%s: Step %s is bigger than diference betwen start %s and end %s.",
+                        "%s: Step %s is bigger than difference between start %s and end %s.",
                         EnumToString(enum_result),
                         DoubleToString(step, _Digits),
                         DoubleToString(start, _Digits),
@@ -203,7 +203,7 @@ public:
 
                lower_sell = lines.At(i-1) + add;
 
-               // Set the type of near lines to TYPE_INSIDE_PARALEL
+               // Set the type of near lines to TYPE_INSIDE_PARALLEL
                type_near_lines = TYPE_INSIDE_PARALLEL;
                return(type_near_lines);
               }
@@ -215,8 +215,8 @@ public:
             lower_sell = lines.At(i) + add;
             lower_buy = lines.At(i);
 
-            // Set the type of near lines to TYPE_BETWEN_PARALELS
-            type_near_lines = TYPE_BETWEN_PARALLELS;
+            // Set the type of near lines to TYPE_BETWEEN_PARALLELS
+            type_near_lines = TYPE_BETWEEN_PARALLELS;
             return(type_near_lines);
            }
         }
@@ -259,8 +259,8 @@ public:
       // Switch case to handle different types of near lines
       switch(temp)
         {
-         // If the type of near lines is TYPE_BETWEN_PARALELS
-         case TYPE_BETWEN_PARALLELS:
+         // If the type of near lines is TYPE_BETWEEN_PARALLELS
+         case TYPE_BETWEEN_PARALLELS:
             // Set the comment for the line handler to show the upper and lower buy and sell points
             result = StringFormat(
                         "\n Upper Sell %s, Upper Buy %s\n Lower Sell %s, Lower Buy %s\n",
@@ -270,7 +270,7 @@ public:
                         DoubleToString(lower_buy, _Digits)
                      );
             break;
-         // If the type of near lines is TYPE_INSIDE_PARALEL
+         // If the type of near lines is TYPE_INSIDE_PARALLEL
          case TYPE_INSIDE_PARALLEL:
             // Set the comment for the line handler to show the middle buy and sell points
             result = StringFormat(
