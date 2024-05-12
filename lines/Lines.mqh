@@ -25,6 +25,7 @@ enum ENUM_TYPE_NEAR_LINES
    ERR_INVALID_LINES // Error: Invalid lines
   };
 
+
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
@@ -32,7 +33,18 @@ enum ENUM_TYPE_NEAR_LINES
 // Lines: Class to handle line operations
 class Lines
   {
-private:
+protected:
+
+   enum ENUM_PRIVATE_ATR_DOUBLE
+     {
+      START,
+      START_ADD,
+      END,
+      STEP,
+      ADD,
+      CURRENT
+     };
+
    double               start; // Start of the line
    double               start_add; // Addition to the start of the line
    double               end; // End of the line
@@ -71,6 +83,38 @@ public:
    double              lower_buy; // Lower limit for buy
    double              lower_sell; // Lower limit for sell
    ENUM_TYPE_NEAR_LINES type_near_lines; // Type of near lines
+
+   double            GetPrivateAtr(ENUM_PRIVATE_ATR_DOUBLE atr)
+     {
+      double result = 0;
+
+      switch(atr)
+        {
+         case START:
+            result = start;
+            break;
+         case START_ADD:
+            result = start_add;
+            break;
+         case END:
+            result = end;
+            break;
+         case STEP:
+            result = step;
+            break;
+         case ADD:
+            result = add;
+            break;
+         case CURRENT:
+            result = current;
+            break;
+         default:
+            result = 0;
+            break;
+        }
+
+      return result;
+     }
 
    // CheckArg: Function to check the arguments for line generation
    ENUM_CHECK_LINE_GENERATOR              CheckArg()
