@@ -7,8 +7,8 @@
 // ENUM_ORDER_PENDING_TYPE: Enum to handle different types of pending orders
 enum ENUM_ORDER_PENDING_TYPE
   {
-   ORDER_PENDING_TYPE_BUY = POSITION_TYPE_BUY, // Pending order type: Buy
-   ORDER_PENDING_TYPE_SELL = POSITION_TYPE_SELL // Pending order type: Sell
+   ORDER_PENDING_TYPE_BUY = POSITION_TYPE_BUY, // Buy
+   ORDER_PENDING_TYPE_SELL = POSITION_TYPE_SELL // Sell
   };
 
 //+------------------------------------------------------------------+
@@ -47,22 +47,17 @@ protected:
 
    double            internal(double price, ulong stop, ENUM_POSITION_TYPE type, ENUM_STOP_TYPE stop_type)
      {
-      if(type == POSITION_TYPE_BUY)
-        {
-         if(stop_type == TAKE_PROFIT)
-            return NormalizeDouble(price + stop * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
-         else
-            return NormalizeDouble(price - stop * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
-        }
-      else
-        {
-         if(stop_type == TAKE_PROFIT)
-            return NormalizeDouble(price - stop * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
-         else
-            return NormalizeDouble(price + stop * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
-        }
-
-      return 0;
+      return (type == POSITION_TYPE_BUY) ?
+             (
+                (stop_type == TAKE_PROFIT) ?
+                NormalizeDouble(price + stop * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS)):
+                NormalizeDouble(price - stop * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS))
+             ):
+             (
+                (stop_type == TAKE_PROFIT) ?
+                NormalizeDouble(price - stop * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS)):
+                NormalizeDouble(price + stop * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS))
+             );
      }
 
 public:
@@ -139,23 +134,20 @@ protected:
          request.price = price_ask; // Set the price for the request
          request.tp = NormalizeDouble(request.price + spread * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS)); // Set the take profit for the request
          request.sl = NormalizeDouble(request.price - spread  * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS)); // Set the stop loss for the request
+         return;
         }
+
       // If the order type is not POSITION_TYPE_BUY
-      else
-        {
-         request.price = price_bid; // Set the price for the request
-         request.tp = NormalizeDouble(request.price - spread * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS)); // Set the take profit for the request
-         request.sl = NormalizeDouble(request.price + spread * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS)); // Set the stop loss for the request
-        }
+      request.price = price_bid; // Set the price for the request
+      request.tp = NormalizeDouble(request.price - spread * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS)); // Set the take profit for the request
+      request.sl = NormalizeDouble(request.price + spread * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS)); // Set the stop loss for the request
      }
 
    // BuildPosition: Function to build a position
    void              BuildPosition(
       MqlTradeRequest& request, // Request to build
       ENUM_POSITION_TYPE type, // Position type for the request
-      ENUM_ORDER_TYPE_FILLING filling_mode, // Filling mode for the request
-      double price_ask, // Ask price for the request
-      double price_bid // Bid price for the request
+      ENUM_ORDER_TYPE_FILLING filling_mode // Filling mode for the request
    )
      {
       ZeroMemory(request); // Clear the memory for the request
@@ -171,17 +163,17 @@ protected:
       // If the order type is POSITION_TYPE_BUY
       if(type == POSITION_TYPE_BUY)
         {
-         request.price = price_ask; // Set the price for the request
+         request.price = SymbolInfoDouble(symbol, SYMBOL_ASK); // Set the price for the request
          request.tp = calcStop.Run(request.price, take_profit, type, CalcStop::TAKE_PROFIT); // Set the take profit for the request
          request.sl = calcStop.Run(request.price, stop_loss, type, CalcStop::STOP_LOSS); // Set the stop loss for the request
+         return;
         }
+
       // If the order type is not POSITION_TYPE_BUY
-      else
-        {
-         request.price = price_bid; // Set the price for the request
-         request.tp = calcStop.Run(request.price, take_profit, type, CalcStop::TAKE_PROFIT); // Set the take profit for the request
-         request.sl = calcStop.Run(request.price, stop_loss, type, CalcStop::STOP_LOSS); // Set the stop loss for the request
-        }
+      request.price = SymbolInfoDouble(symbol, SYMBOL_BID); // Set the price for the request
+      request.tp = calcStop.Run(request.price, take_profit, type, CalcStop::TAKE_PROFIT); // Set the take profit for the request
+      request.sl = calcStop.Run(request.price, stop_loss, type, CalcStop::STOP_LOSS); // Set the stop loss for the request
+
      }
 
    // Function to build a pending order
@@ -213,16 +205,19 @@ protected:
 
          // Set the buy pending order action type for the request
          setBuyPendingOrderActionType(request, price_ask);
-        }
-      else // If the pending order type is not ORDER_PENDING_TYPE_BUY
-        {
-         // Set the stop loss and take profit for the request
-         request.tp = calcStop.Run(request.price, take_profit, ORDER_PENDING_TYPE_SELL, CalcStop::TAKE_PROFIT); // Set the take profit for the request
-         request.sl = calcStop.Run(request.price, stop_loss, ORDER_PENDING_TYPE_SELL, CalcStop::STOP_LOSS); // Set the stop loss for the request
 
-         // Set the sell pending order action type for the request
-         setSellPendingOrderActionType(request, price_bid);
+         return;
         }
+
+      // If the pending order type is not ORDER_PENDING_TYPE_BUY
+
+      // Set the stop loss and take profit for the request
+      request.tp = calcStop.Run(request.price, take_profit, ORDER_PENDING_TYPE_SELL, CalcStop::TAKE_PROFIT); // Set the take profit for the request
+      request.sl = calcStop.Run(request.price, stop_loss, ORDER_PENDING_TYPE_SELL, CalcStop::STOP_LOSS); // Set the stop loss for the request
+
+      // Set the sell pending order action type for the request
+      setSellPendingOrderActionType(request, price_bid);
+
      }
 
    // Function to build a pending or position order
@@ -244,7 +239,7 @@ protected:
       if(check_result.retcode != TRADE_RETCODE_INVALID_PRICE)
          return;
 
-      BuildPosition(request, ENUM_POSITION_TYPE(order_pending_type), filling_mode, SymbolInfoDouble(symbol, SYMBOL_ASK), SymbolInfoDouble(symbol, SYMBOL_BID));
+      BuildPosition(request, ENUM_POSITION_TYPE(order_pending_type), filling_mode);
      }
 
 private:
@@ -349,7 +344,7 @@ public:
             break;
          default:
             result = 0;
-         break;
+            break;
         }
 
       return result;
