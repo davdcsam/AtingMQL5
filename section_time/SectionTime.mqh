@@ -143,12 +143,14 @@ public:
      {
       // Format the section time handler comment
       return StringFormat(
-                "\n Section Time from %s to %s - BrokerDateTime %s\n",
+                "\n Section Time from %s to %s - BrokerDateTime %s %s\n",
                 start_time_str,
                 end_time_str,
+                EnumToString(ENUM_DAY_OF_WEEK(broker_datetime.day_of_week)),
                 broker_datetime_str
              );
-     }
+     }     
+
   };
 //+------------------------------------------------------------------+
 
