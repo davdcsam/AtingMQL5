@@ -27,26 +27,26 @@ public:
      };
 
    // The calculated upper limit.
-   double            limit_upper;
+   double            upper;
    // The calculated lower limit.
-   double            limit_lower;
+   double            lower;
    // The index of the upper limit.
-   uint              index_limit_upper;
+   uint              index_upper;
    // The index of the lower limit.
-   uint              index_limit_lower;
+   uint              index_lower;
 
    // Method to calculate the near upper and lower limits.
    void              GetNearLimits()
      {
       // Find the highest value for the given symbol and timeframe.
-      index_limit_upper = iHighest(symbol, timeframe, MODE_HIGH, counter, shifter);
+      index_upper = iHighest(symbol, timeframe, MODE_HIGH, counter, shifter);
       // Find the lowest value for the given symbol and timeframe.
-      index_limit_lower = iLowest(symbol, timeframe, MODE_LOW, counter, shifter);
+      index_lower = iLowest(symbol, timeframe, MODE_LOW, counter, shifter);
 
       // Get the high value at the upper limit index.
-      limit_upper = iHigh(symbol, timeframe, index_limit_upper);
+      upper = iHigh(symbol, timeframe, index_upper);
       // Get the low value at the lower limit index.
-      limit_lower = iLow(symbol, timeframe, index_limit_lower);
+      lower = iLow(symbol, timeframe, index_lower);
      }
   };
 //+------------------------------------------------------------------+
