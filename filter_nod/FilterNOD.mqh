@@ -108,14 +108,14 @@ public:
 
    bool              IsOperativeDay(void)
      {
-      TimeCurrent(today);
-
-      TimeToStruct(StringToTime(datesString.At(0)), next_date);
-
       if(!datesString.Total())
          return true;
 
       PrintFormat("Evaluating %s", datesString.At(0));
+
+      TimeCurrent(today);
+
+      TimeToStruct(StringToTime(datesString.At(0)), next_date);
 
       if(next_date.year < today.year)
         {
