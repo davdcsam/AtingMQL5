@@ -64,22 +64,16 @@ public:
 //+------------------------------------------------------------------+
 class FilterByCSVFile
   {
-public:
-   enum ENUM_MODES
-     {
-      MODE_WHITE_LIST,
-      MODE_BLACK_LIST
-     };
+
 private:
    string            privateFileName;
    CArrayString      datesString;
-   ENUM_MODES        mode;
    MqlDateTime       today;
    MqlDateTime       next_date;
 public:
                      FilterByCSVFile(void) {};
 
-   bool              UpdateAtr(const string fileName, ENUM_MODES enumMode)
+   bool              UpdateAtr(const string fileName)
      {
       if(!StringFind(fileName, ".csv", -1))
         {
@@ -88,7 +82,6 @@ public:
         }
 
       privateFileName = fileName;
-      mode = enumMode;
       return true;
      }
 
@@ -131,7 +124,7 @@ public:
         }
       else
          if(next_date.year > today.year)
-            return mode == MODE_BLACK_LIST ? true : false;
+            return true;
 
       if(next_date.day_of_year < today.day_of_year)
         {
@@ -140,12 +133,11 @@ public:
         }
 
       if(next_date.day_of_year > today.day_of_year)
-         return mode == MODE_BLACK_LIST ? true : false;
+         return  true;
 
       // Implicit case if(next_date.day_of_year == today.day_of_year)
-
       datesString.Delete(0);
-      return mode == MODE_BLACK_LIST ? false : true;
+      return false;
      }
   };
 
