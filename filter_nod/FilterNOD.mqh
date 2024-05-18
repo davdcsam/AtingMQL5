@@ -112,10 +112,10 @@ public:
 
       TimeToStruct(StringToTime(datesString.At(0)), next_date);
 
-      PrintFormat("Evaluating %s", datesString.At(0));
-
       if(!datesString.Total())
          return true;
+
+      PrintFormat("Evaluating %s", datesString.At(0));
 
       if(next_date.year < today.year)
         {
