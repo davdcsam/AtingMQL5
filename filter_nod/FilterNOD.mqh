@@ -90,7 +90,10 @@ public:
       int fileHandle = FileOpen(privateFileName,FILE_ANSI|FILE_READ|FILE_CSV|FILE_COMMON, "\t");
       if(fileHandle == INVALID_HANDLE)
         {
-         PrintFormat("Failed to open %s file. Err code: %d", privateFileName, GetLastError());
+         PrintFormat("Failed to open %s. Err code: %d",
+                     TerminalInfoString(TERMINAL_COMMONDATA_PATH) + "\\Files\\" + privateFileName,
+                     GetLastError()
+                    );
          return false;
         };
 
