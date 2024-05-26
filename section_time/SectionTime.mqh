@@ -13,6 +13,10 @@ enum ENUM_CHECK_SECTION_TIME
   };
 
 
+
+// Cadena de responsabilidades
+// O array de funciones lambdas
+
 // Class to handle section times
 class SectionTime
   {
