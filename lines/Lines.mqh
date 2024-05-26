@@ -222,6 +222,14 @@ public:
      }
 
    // GetNearLines: Function to get the near lines based on the close price
+
+   /*
+   Option #1: Modifcar uns busqueda binaria, donde eneotnre que encuentre mas a la izquieda a la mado mayor, y el derecha mas al derecha que menor.
+
+   Option #2: Investigar en un arbol banario de busqueda o arbol de segmento.
+   */
+
+   //
    ENUM_TYPE_NEAR_LINES              GetNearLines(double close_price)
      {
       // If there are no lines, return ERR_INVALID_LINES
@@ -334,5 +342,184 @@ public:
 
       return result;
      }
+  };
+
+//+------------------------------------------------------------------+
+//|                                                                  |
+//+------------------------------------------------------------------+
+class LinesZero
+  {
+public:
+   enum ENUM_PRIVATE_ATR_DOUBLE
+     {
+      START_ADD,
+      STEP,
+      ADD,
+      UPPER_BUY,
+      UPPER_SELL,
+      LOWER_BUY,
+      LOWER_SELL
+     };
+private:
+   double               StartAdd, Step, Add;
+   double              UpperBuy, UpperSell, LowerBuy, LowerSell;
+
+   double            calcArithmeticSequenceTerm(int n) { return StartAdd + (n) * Step; }
+public:
+
+   ENUM_TYPE_NEAR_LINES typeNearLines; // Type of near lines
+
+                     LinesZero(double startAdd, double step, double add)
+     {
+      StartAdd = startAdd;
+      Step = step;
+      Add = add;
+     }
+
+   double            GetPrivateAtr(ENUM_PRIVATE_ATR_DOUBLE atr)
+     {
+      double result = 0;
+
+      switch(atr)
+        {
+         case START_ADD:
+            result = StartAdd;
+            break;
+         case STEP:
+            result = Step;
+            break;
+         case ADD:
+            result = Add;
+            break;
+         case UPPER_BUY:
+            result = UpperBuy;
+            break;
+         case UPPER_SELL:
+            result = UpperSell;
+            break;
+         case LOWER_BUY:
+            result = LowerBuy;
+            break;
+         case LOWER_SELL:
+            result = LowerSell;
+         default:
+            result = 0;
+            break;
+        }
+
+      return result;
+     }
+
+   // CheckArg: Function to check the arguments for line generation
+   ENUM_CHECK_LINE_GENERATOR              CheckArg()
+     {
+      // Check if addition is greater than step
+      if(Add > Step)
+         return(ERR_ADD_OVER_STEP);
+
+      // If all checks pass, return CHECK_ARG_LINE_GENERATOR_PASSED
+      return(CHECK_ARG_LINE_GENERATOR_PASSED);
+     }
+
+
+   // CheckToString: Method to generate a comment based on the result of the line check
+   string            EnumCheckLinesGeneratorToString(ENUM_CHECK_LINE_GENERATOR enum_result)
+     {
+      string result;
+
+      // Switch case to handle different types of results
+      switch(enum_result)
+        {
+         case CHECK_ARG_LINE_GENERATOR_PASSED:
+            result = StringFormat(
+                        "%s: Arguments passed the check.",
+                        EnumToString(enum_result)
+                     );
+            break;
+         case ERR_ADD_OVER_STEP:
+            result = StringFormat(
+                        "%s: Add value %s is greater than step value %s.",
+                        EnumToString(enum_result),
+                        DoubleToString(Add, _Digits),
+                        DoubleToString(Step, _Digits)
+                     );
+            break;
+         default:
+            result = "Unknown error.";
+            break;
+        }
+
+      return(result);
+     }
+
+   ENUM_TYPE_NEAR_LINES              GetNearLines(double closePrice)
+     {
+      int n = (int)MathFloor((closePrice - StartAdd) / Step) + 1;
+      double NearUp = calcArithmeticSequenceTerm(n) - (MathMod(n, 2) == 0 ? 0 : Add);
+      double NearDown = calcArithmeticSequenceTerm(n-1);
+
+      if(NearUp < closePrice && closePrice < NearUp + Add)
+        {
+         UpperBuy = calcArithmeticSequenceTerm(n+1);
+
+         UpperSell = NearUp + Add;
+         LowerBuy = NearUp;
+
+         LowerSell = NearDown + Add;
+
+         typeNearLines = TYPE_INSIDE_PARALLEL;
+         return typeNearLines;
+        }
+
+      UpperSell = NearUp + Add;
+      UpperBuy = NearUp;
+
+      LowerSell = NearDown + Add;
+      LowerBuy = NearDown;
+
+      typeNearLines = TYPE_BETWEEN_PARALLELS;
+      return typeNearLines;
+     }
+
+   // Function to update the comment for the line handler
+   string              CommentToShow(ENUM_TYPE_NEAR_LINES atr)
+     {
+      string result;
+
+      // Switch case to handle different types of near lines
+      switch(atr)
+        {
+         // If the type of near lines is TYPE_BETWEEN_PARALLELS
+         case TYPE_BETWEEN_PARALLELS:
+            // Set the comment for the line handler to show the upper and lower buy and sell points
+            result = StringFormat(
+                        "\n Upper Sell %s, Upper Buy %s\n Lower Sell %s, Lower Buy %s\n",
+                        DoubleToString(UpperSell, _Digits),
+                        DoubleToString(UpperBuy, _Digits),
+                        DoubleToString(LowerSell, _Digits),
+                        DoubleToString(LowerBuy, _Digits)
+                     );
+            break;
+         // If the type of near lines is TYPE_INSIDE_PARALLEL
+         case TYPE_INSIDE_PARALLEL:
+            // Set the comment for the line handler to show the middle buy and sell points
+            result = StringFormat(
+                        "\n Upper Buy %s\n Upper Sell %s, Lower Buy %s\n Lower Sell %s\n",
+                        DoubleToString(UpperBuy, _Digits),
+                        DoubleToString(UpperSell, _Digits),
+                        DoubleToString(LowerBuy, _Digits),
+                        DoubleToString(LowerSell, _Digits)
+                     );
+            break;
+         // If the type of near lines is ERR_INVALID_LINES
+         case ERR_INVALID_LINES:
+            // Set the comment for the line handler to show an error message
+            result = "\n Invalid Lines \n";
+            break;
+        }
+
+      return result;
+     }
+
   };
 //+------------------------------------------------------------------+
