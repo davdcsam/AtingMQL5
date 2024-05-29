@@ -9,8 +9,8 @@
 
 enum ENUM_PROFIT_PROTECTION_TYPE
   {
-   TRAILING_STOP,
-   BREAK_EVEN
+   TRAILING_STOP, // Trailing Stop
+   BREAK_EVEN // Break Even
   };
 
 // Class definition for ProfitProtection
