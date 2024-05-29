@@ -3,6 +3,8 @@
 //|                                         Copyright 2024, DavdCsam |
 //|                                      https://github.com/davdcsam |
 //+------------------------------------------------------------------+
+#include <Arrays/ArrayDouble.mqh>
+
 
 // ENUM_ORDER_PENDING_TYPE: Enum to handle different types of pending orders
 enum ENUM_ORDER_PENDING_TYPE
@@ -69,6 +71,38 @@ public:
    double            Run(double price, long stop, ENUM_ORDER_PENDING_TYPE type, ENUM_STOP_TYPE stop_type) { return internal(price, stop, ENUM_POSITION_TYPE(type), stop_type); }
 
    double            Run(double price, long stop, ENUM_POSITION_TYPE type, ENUM_STOP_TYPE stop_type) { return internal(price, stop, type, stop_type); }
+
+   static bool              VerifyNoNegative(double price) { return price > 0 ? true : false; }
+
+   static bool              VerifyNoNegative(double &prices[])
+     {
+      int size = (int)prices.Size();
+
+      if(!size)
+         return false;
+
+      for(int i=0;i<size;i++)
+        {
+         if(prices[i] <= 0)
+            return false;
+        }
+      return true;
+     }
+
+   static bool              VerifyNoNegative(CArrayDouble &prices)
+     {
+      int size = (int)prices.Total();
+
+      if(!size)
+         return false;
+
+      for(int i=0;i<size;i++)
+        {
+         if(prices.At(i) <= 0)
+            return false;
+        }
+      return true;
+     }
 
   };
 
