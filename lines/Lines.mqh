@@ -347,7 +347,7 @@ public:
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-class LinesZero
+class InstitutionalArithmeticPrices
   {
 public:
    enum ENUM_PRIVATE_ATR_DOUBLE
@@ -364,12 +364,12 @@ private:
    double               StartAdd, Step, Add;
    double              UpperBuy, UpperSell, LowerBuy, LowerSell;
 
-   double            calcArithmeticSequenceTerm(int n) { return StartAdd + (n) * Step; }
+   double            calcArithmeticSequenceTerm(int n) { return StartAdd + (n) * Step - (MathMod(n, 2) == 0 ? 0 : Add); }
 public:
 
    ENUM_TYPE_NEAR_LINES typeNearLines; // Type of near lines
 
-                     LinesZero(double startAdd, double step, double add)
+                     InstitutionalArithmeticPrices(double startAdd, double step, double add)
      {
       StartAdd = startAdd;
       Step = step;
@@ -402,6 +402,7 @@ public:
             break;
          case LOWER_SELL:
             result = LowerSell;
+            break;
          default:
             result = 0;
             break;
@@ -455,7 +456,7 @@ public:
    ENUM_TYPE_NEAR_LINES              GetNearLines(double closePrice)
      {
       int n = (int)MathFloor((closePrice - StartAdd) / Step) + 1;
-      double NearUp = calcArithmeticSequenceTerm(n) - (MathMod(n, 2) == 0 ? 0 : Add);
+      double NearUp = calcArithmeticSequenceTerm(n);
       double NearDown = calcArithmeticSequenceTerm(n-1);
 
       if(NearUp < closePrice && closePrice < NearUp + Add)
