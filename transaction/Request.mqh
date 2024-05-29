@@ -313,7 +313,8 @@ private:
 public:
 
    // Constructor for the Request class
-                     Request(
+                     Request() {}
+   void              UpdateAtr(
       string symbol_arg, // Symbol for the request
       double lot_size_arg, // Lot size for the request
       uint take_profit_arg, // Take profit for the request

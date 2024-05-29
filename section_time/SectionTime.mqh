@@ -26,7 +26,9 @@ private:
 
 public:
    // Constructor for the SectionTime class
-                     SectionTime(
+                     SectionTime(void) {}
+
+   void              UpdateAtr(
       uchar start_time_hour,
       uchar start_time_min,
       uchar start_time_seg,
@@ -153,7 +155,7 @@ public:
                 EnumToString(ENUM_DAY_OF_WEEK(broker_datetime.day_of_week)),
                 broker_datetime_str
              );
-     }     
+     }
 
   };
 //+------------------------------------------------------------------+

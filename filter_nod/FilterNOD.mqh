@@ -77,7 +77,7 @@ public:
      {
       if(!StringFind(fileName, ".csv", -1))
         {
-         Print("Extention file invalid");
+         Alert("Extention file invalid");
          return false;
         }
 
@@ -90,10 +90,11 @@ public:
       int fileHandle = FileOpen(privateFileName,FILE_ANSI|FILE_READ|FILE_CSV|FILE_COMMON, "\t");
       if(fileHandle == INVALID_HANDLE)
         {
-         PrintFormat("Failed to open %s. Err code: %d",
-                     TerminalInfoString(TERMINAL_COMMONDATA_PATH) + "\\Files\\" + privateFileName,
-                     GetLastError()
-                    );
+         Alert(StringFormat(
+                  "Failed to open %s. Err code: %d",
+                  TerminalInfoString(TERMINAL_COMMONDATA_PATH) + "\\Files\\" + privateFileName,
+                  GetLastError()
+               ));
          return false;
         };
 

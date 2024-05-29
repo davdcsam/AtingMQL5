@@ -63,21 +63,7 @@ protected:
 
 public:
    // Constructor for the Transaction class
-                     Transaction(
-      string symbol_arg, // Symbol for the transaction
-      double lot_size_arg, // Lot size for the transaction
-      uint take_profit_arg, // Take profit for the transaction
-      uint stop_loss_arg, // Stop loss for the transaction
-      uint deviation_trade_arg, // Deviation trade for the transaction
-      ulong magic_number_arg // Magic number for the transaction
-   ) :               Request(
-         symbol_arg,
-         lot_size_arg,
-         take_profit_arg,
-         stop_loss_arg,
-         deviation_trade_arg,
-         magic_number_arg
-      ) {}
+                     Transaction(void) {}
 
    // Trade request for the transaction
    MqlTradeRequest   trade_request;
@@ -105,8 +91,8 @@ public:
 
       // Check if the deviation trade is within the valid range
       if(
-         deviation_trade < take_profit * 0.005
-         || deviation_trade < stop_loss * 0.005
+         deviation_trade < take_profit * 0.001
+         || deviation_trade < stop_loss * 0.001
       )
         {
          return(ERR_DEVIATION_INSUFFICIENT);

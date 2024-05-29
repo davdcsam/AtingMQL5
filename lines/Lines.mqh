@@ -369,7 +369,9 @@ public:
 
    ENUM_TYPE_NEAR_LINES typeNearLines; // Type of near lines
 
-                     InstitutionalArithmeticPrices(double startAdd, double step, double add)
+                     InstitutionalArithmeticPrices(void) {}
+
+   void              UpdateAtr(double startAdd, double step, double add)
      {
       StartAdd = startAdd;
       Step = step;
