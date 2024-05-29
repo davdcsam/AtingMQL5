@@ -37,7 +37,7 @@ enum ENUM_FIX_FILLING_MODE
 // Transaction: Class to handle transaction operations
 class Transaction : public Request
   {
-private:
+protected:
    // Ask price for the transaction
    double            price_ask;
 
@@ -49,6 +49,17 @@ private:
 
    // Filling mode for the transaction
    ENUM_ORDER_TYPE_FILLING type_filliing_mode;
+
+   string            failSendingOrder()
+     {
+      return StringFormat("Fail with order Type s%, Lot %s, Sl %s, Tp %s, Op %s",
+                          EnumToString(trade_request.type),
+                          DoubleToString(trade_request.volume, _Digits),
+                          DoubleToString(trade_request.sl, _Digits),
+                          DoubleToString(trade_request.tp, _Digits),
+                          DoubleToString(trade_request.price, _Digits)
+                         );
+     };
 
 public:
    // Constructor for the Transaction class
@@ -163,16 +174,14 @@ public:
      {
       BuildPosition(trade_request, order_type, type_filliing_mode);
 
-      if(!OrderSend(trade_request, trade_result))
+      double stops[] = {trade_request.sl, trade_request.tp, trade_request.price};
+
+      if(
+         !calcStop.VerifyNoNegative(stops) ||
+         !OrderSend(trade_request, trade_result)
+      )
         {
-         PrintFormat(
-            "Type %s, Lot %s, Sl %s, Tp %s, Op %s",
-            EnumToString(trade_request.type),
-            DoubleToString(trade_request.volume,_Digits),
-            DoubleToString(trade_request.sl,_Digits),
-            DoubleToString(trade_request.tp,_Digits),
-            DoubleToString(trade_request.price, _Digits)
-         );
+         Print(failSendingOrder());
          return(ERR_SEND_FAILED);
         }
 
@@ -186,18 +195,15 @@ public:
       // Build a pending order for the transaction
       BuildPending(trade_request, order_type, type_filliing_mode, open_price, SymbolInfoDouble(symbol, SYMBOL_ASK), SymbolInfoDouble(symbol, SYMBOL_BID));
 
-      // Send the order
-      if(!OrderSend(trade_request, trade_result))
+      double stops[] = {trade_request.sl, trade_request.tp, trade_request.price};
+
+      if(
+         !calcStop.VerifyNoNegative(stops) ||
+         !OrderSend(trade_request, trade_result)
+      )
         {
          // If the order cannot be sent, print an error message and return ERR_SEND_FAILED
-         PrintFormat(
-            "Type %s, Lot %s, Sl %s, Tp %s, Op %s",
-            EnumToString(trade_request.type),
-            DoubleToString(trade_request.volume, _Digits),
-            DoubleToString(trade_request.sl,_Digits),
-            DoubleToString(trade_request.tp,_Digits),
-            DoubleToString(trade_request.price, _Digits)
-         );
+         Print(failSendingOrder());
          return(ERR_SEND_FAILED);
         }
 
@@ -209,17 +215,14 @@ public:
      {
       BuildPendingOrPosition(trade_request, order_type, type_filliing_mode, open_price, comparative_price);
 
-      if(!OrderSend(trade_request, trade_result))
-        {
-         PrintFormat(
-            "Type s%, Lot %s, Sl %s, Tp %s, Op %s",
-            EnumToString(trade_request.type),
-            DoubleToString(trade_request.volume, _Digits),
-            DoubleToString(trade_request.sl, _Digits),
-            DoubleToString(trade_request.tp, _Digits),
-            DoubleToString(trade_request.price, _Digits)
-         );
+      double stops[] = {trade_request.sl, trade_request.tp, trade_request.price};
 
+      if(
+         !calcStop.VerifyNoNegative(stops) ||
+         !OrderSend(trade_request, trade_result)
+      )
+        {
+         Print(failSendingOrder());
          return(ERR_SEND_FAILED);
         }
 
