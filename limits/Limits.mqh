@@ -61,10 +61,11 @@ class LimitsByTimeRange
 public: // Custom
    enum ENUM_CHECK
      {
-      CHECK_ARG_LIMITS_BY_TIME_RANGE_PASSED, // Check for section time passed
-      ERR_LIMITS_BY_TIME_RANGE_START_EQUAL_END, // Error: Start time is equal to end time
-      ERR_LIMITS_BY_TIME_RANGE_START_OVER_END, // Error: Start Time is over end time
-      ERR_LIMITS_BY_TIME_RANGE_INCORRECT_FORMATTING // Error: Incorrect formating time
+      PASSED, // Check for section time passed
+      START_EQUAL_END, // Error: Start time is equal to end time
+      START_OVER_END, // Error: Start Time is over end time
+      INCORRECT_FORMATTING, // Error: Incorrect formating time
+      RATES_NO_FOUND // Error: CopyRates no found the range time
      };
 
    struct TimeRange
@@ -145,15 +146,18 @@ public:
          previous_start_sec >= 60 ||
          previous_end_sec >= 60
       )
-         return(ERR_LIMITS_BY_TIME_RANGE_INCORRECT_FORMATTING);
+         return(INCORRECT_FORMATTING);
 
       if(StructToTime(start_datetime) == StructToTime(end_datetime))
-         return(ERR_LIMITS_BY_TIME_RANGE_START_EQUAL_END);
+         return(START_EQUAL_END);
 
       if(StructToTime(start_datetime) > StructToTime(end_datetime))
-         return(ERR_LIMITS_BY_TIME_RANGE_START_OVER_END);
+         return(START_OVER_END);
+         
+      if(prices.lower == 0 && prices.upper == 0)
+        return(RATES_NO_FOUND);
 
-      return(CHECK_ARG_LIMITS_BY_TIME_RANGE_PASSED);
+      return(PASSED);
      }
 
    string            EnumCheckToString(ENUM_CHECK enum_result)
@@ -161,13 +165,13 @@ public:
       string result;
       switch(enum_result)
         {
-         case  CHECK_ARG_LIMITS_BY_TIME_RANGE_PASSED:
+         case  PASSED:
             result = StringFormat(
                         "%s: Arguments passed the check.",
                         EnumToString(enum_result)
                      );
             break;
-         case ERR_LIMITS_BY_TIME_RANGE_START_EQUAL_END:
+         case START_EQUAL_END:
             result = StringFormat(
                         "%s: Start DateTime %s equals to End DateTime %s.",
                         EnumToString(enum_result),
@@ -175,7 +179,7 @@ public:
                         TimeToString(time_range.end)
                      );
             break;
-         case ERR_LIMITS_BY_TIME_RANGE_START_OVER_END:
+         case START_OVER_END:
             result = StringFormat(
                         "%s: Start DateTime %s is over End DateTime %s.",
                         EnumToString(enum_result),
@@ -183,12 +187,18 @@ public:
                         TimeToString(time_range.end)
                      );
             break;
-         case ERR_LIMITS_BY_TIME_RANGE_INCORRECT_FORMATTING:
+         case INCORRECT_FORMATTING:
             result = StringFormat(
                         "%s: Incorrect Formmating Inputs.",
                         EnumToString(enum_result)
                      );
             break;
+            case RATES_NO_FOUND:
+            result = StringFormat(
+                        "%s: CopyRates no found the range time.",
+                        EnumToString(enum_result)
+                     );
+               break;
          default:
             result = "Unknown error.";
             break;
@@ -218,6 +228,9 @@ public:
          time_range.end,
          rates_limits
       );
+
+      if(!rates_limits.Size())
+         return prices;
 
       prices.lower = rates_limits[0].low;
       prices.upper = rates_limits[0].high;
