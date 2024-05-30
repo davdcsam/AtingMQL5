@@ -9,19 +9,27 @@
 //+------------------------------------------------------------------+
 class LimitsByIndex
   {
-private:
-   // The symbol for which the limits are calculated.
+public:
+   struct Prices
+     {
+      double         upper;
+      uint           upperIndex;
+      double         lower;
+      uint           lowerIndex;
+     };
+
+protected:
    string            symbol;
-   // The timeframe for which the limits are calculated.
    ENUM_TIMEFRAMES   timeframe;
-   // The counter used in the calculation of the limits.
    uint              counter;
-   // The shifter
    uint              shifter;
+   Prices            prices;
 
 public:
    // Constructor for the class. Initializes the symbol, timeframe, counter and shifter.
-                     LimitsByIndex(string symbol_arg, ENUM_TIMEFRAMES timeframe_atr, uint counter_arg, uint shifter_arg)
+                     LimitsByIndex() {}
+
+   void              UpdateAtr(string symbol_arg, ENUM_TIMEFRAMES timeframe_atr, uint counter_arg, uint shifter_arg)
      {
       symbol = symbol_arg;
       timeframe = timeframe_atr;
@@ -29,27 +37,20 @@ public:
       shifter = shifter_arg;
      };
 
-   // The calculated upper limit.
-   double            upper;
-   // The calculated lower limit.
-   double            lower;
-   // The index of the upper limit.
-   uint              index_upper;
-   // The index of the lower limit.
-   uint              index_lower;
+   Prices            GetPricesStruct() { return prices; }
 
    // Method to calculate the near upper and lower limits.
    void              Get()
      {
       // Find the highest value for the given symbol and timeframe.
-      index_upper = iHighest(symbol, timeframe, MODE_HIGH, counter, shifter);
+      prices.upperIndex = iHighest(symbol, timeframe, MODE_HIGH, counter, shifter);
       // Find the lowest value for the given symbol and timeframe.
-      index_lower = iLowest(symbol, timeframe, MODE_LOW, counter, shifter);
+      prices.lowerIndex = iLowest(symbol, timeframe, MODE_LOW, counter, shifter);
 
       // Get the high value at the upper limit index.
-      upper = iHigh(symbol, timeframe, index_upper);
+      prices.upper =    iHigh(symbol, timeframe, prices.upperIndex);
       // Get the low value at the lower limit index.
-      lower = iLow(symbol, timeframe, index_lower);
+      prices.lower =    iLow(symbol, timeframe, prices.lowerIndex);
      }
   };
 
@@ -107,7 +108,9 @@ private:
      };
 
 public:
-                     LimitsByTimeRange(
+                     LimitsByTimeRange(void) {}
+
+   void              UpdateAtr(
       uchar prev_start_hour,
       uchar prev_start_min,
       uchar prev_start_sec,
@@ -153,9 +156,9 @@ public:
 
       if(StructToTime(start_datetime) > StructToTime(end_datetime))
          return(START_OVER_END);
-         
+
       if(prices.lower == 0 && prices.upper == 0)
-        return(RATES_NO_FOUND);
+         return(RATES_NO_FOUND);
 
       return(PASSED);
      }
@@ -193,12 +196,12 @@ public:
                         EnumToString(enum_result)
                      );
             break;
-            case RATES_NO_FOUND:
+         case RATES_NO_FOUND:
             result = StringFormat(
                         "%s: CopyRates no found the range time.",
                         EnumToString(enum_result)
                      );
-               break;
+            break;
          default:
             result = "Unknown error.";
             break;
