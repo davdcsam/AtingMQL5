@@ -57,7 +57,11 @@ protected:
 
 public:
    // Constructor for ProfitProtection class
-                     ProfitProtection(
+                     ProfitProtection(void) {}
+
+   void              UpdateAtr(
+      ulong magic_arg, // Magic number argument
+      string symbol_arg, // Symbol argument
       double activation_percent_arg, // Activation percentage argument
       double deviation_percent_arg // Deviation percentage argument
    )
@@ -65,14 +69,6 @@ public:
       // Initialize member variables
       activation_percent = activation_percent_arg;
       deviation_percent = deviation_percent_arg;
-     }
-
-   // Method to update required ATR
-   void              UpdateRequiredAtr(
-      ulong magic_arg, // Magic number argument
-      string symbol_arg // Symbol argument
-   )
-     {
       // Update member variables
       magic = magic_arg;
       symbol = symbol_arg;
@@ -90,11 +86,7 @@ class BreakEven : public ProfitProtection
   {
 public:
    // Constructor for BreakEven class
-                     BreakEven(
-      uchar activation_percent_arg, // Activation percentage argument
-      uchar deviation_percent_arg // Deviation percentage argument
-   )
-      :              ProfitProtection(activation_percent_arg, deviation_percent_arg) {} // Call the base class constructor
+                     BreakEven(void) {}
 
    // Method to verify the positions
    void              Verify()
@@ -157,11 +149,7 @@ class TrailingStop : public ProfitProtection
   {
 public:
    // Constructor for TrailingStop class
-                     TrailingStop(
-      uchar activation_percent_arg, // Activation percentage argument
-      uchar deviation_percent_arg // Deviation percentage argument
-   )
-      :              ProfitProtection(activation_percent_arg, deviation_percent_arg) {} // Call the base class constructor
+                     TrailingStop(void) {}
 
    // Method to verify the positions
    void              Verify()
