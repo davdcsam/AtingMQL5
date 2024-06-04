@@ -350,74 +350,40 @@ public:
 class InstitutionalArithmeticPrices
   {
 public:
-   enum ENUM_PRIVATE_ATR_DOUBLE
+
+   struct Prices
      {
-      START_ADD,
-      STEP,
-      ADD,
-      UPPER_BUY,
-      UPPER_SELL,
-      LOWER_BUY,
-      LOWER_SELL
+      double         upperBuy, upperSell, lowerBuy, lowerSell;
+      ENUM_TYPE_NEAR_LINES typeNearLines;
      };
+
+   struct Setting
+   {
+      double startAdd, step, add;
+   };
+
 private:
-   double               StartAdd, Step, Add;
-   double              UpperBuy, UpperSell, LowerBuy, LowerSell;
+   Prices prices;
+   Setting setting;
+   template<typename T>
+   T calcArithmeticSequenceTerm(T n) { return setting.startAdd + (n) * setting.step - (MathMod(n, 2) == 0 ? 0 : setting.add); }
 
-   double            calcArithmeticSequenceTerm(int n) { return StartAdd + (n) * Step - (MathMod(n, 2) == 0 ? 0 : Add); }
 public:
-
-   ENUM_TYPE_NEAR_LINES typeNearLines; // Type of near lines
 
                      InstitutionalArithmeticPrices(void) {}
 
-   void              UpdateAtr(double startAdd, double step, double add)
+   void UpdateSetting(double startAdd, double step, double add)
      {
-      StartAdd = startAdd;
-      Step = step;
-      Add = add;
-     }
-
-   double            GetPrivateAtr(ENUM_PRIVATE_ATR_DOUBLE atr)
-     {
-      double result = 0;
-
-      switch(atr)
-        {
-         case START_ADD:
-            result = StartAdd;
-            break;
-         case STEP:
-            result = Step;
-            break;
-         case ADD:
-            result = Add;
-            break;
-         case UPPER_BUY:
-            result = UpperBuy;
-            break;
-         case UPPER_SELL:
-            result = UpperSell;
-            break;
-         case LOWER_BUY:
-            result = LowerBuy;
-            break;
-         case LOWER_SELL:
-            result = LowerSell;
-            break;
-         default:
-            result = 0;
-            break;
-        }
-
-      return result;
+      setting.startAdd = startAdd;
+      setting.step = step;
+      setting.add = add;
      }
 
    // CheckArg: Function to check the arguments for line generation
    ENUM_CHECK_LINE_GENERATOR              CheckArg()
      {
       // Check if addition is greater than step
-      if(Add > Step)
+      if(setting.add > setting.step)
          return(ERR_ADD_OVER_STEP);
 
       // If all checks pass, return CHECK_ARG_LINE_GENERATOR_PASSED
@@ -443,8 +409,8 @@ public:
             result = StringFormat(
                         "%s: Add value %s is greater than step value %s.",
                         EnumToString(enum_result),
-                        DoubleToString(Add, _Digits),
-                        DoubleToString(Step, _Digits)
+                        DoubleToString(setting.add, _Digits),
+                        DoubleToString(setting.step, _Digits)
                      );
             break;
          default:
@@ -455,62 +421,69 @@ public:
       return(result);
      }
 
-   ENUM_TYPE_NEAR_LINES              GetNearLines(double closePrice)
+   Prices              Generate(double closePrice)
      {
-      int n = (int)MathFloor((closePrice - StartAdd) / Step) + 1;
-      double NearUp = calcArithmeticSequenceTerm(n);
-      double NearDown = calcArithmeticSequenceTerm(n-1);
+      double n = MathFloor((closePrice - setting.startAdd) / setting.step) + 1;
 
-/*
-      Print(
-         StringFormat("%s > %s = %d", DoubleToString(closePrice, _Digits), DoubleToString(NearDown, _Digits), closePrice > NearDown)
-      );
-
-      Print(
-         StringFormat("%s < %s = %d", DoubleToString(closePrice, _Digits), DoubleToString(NearDown + Add, _Digits), closePrice < NearDown + Add)
-      );
-*/
-
-      if(closePrice > NearDown && closePrice < NearDown + Add)
+      if(closePrice >= calcArithmeticSequenceTerm(n))
         {
-         UpperBuy = NearUp;
+         if(closePrice > calcArithmeticSequenceTerm(n) && closePrice < calcArithmeticSequenceTerm(n) + setting.add)
+           {
+            prices.upperBuy = calcArithmeticSequenceTerm(n+1);
 
-         UpperSell = NearDown + Add;
-         LowerBuy = NearDown;
+            prices.upperSell = calcArithmeticSequenceTerm(n) + setting.add;
+            prices.lowerBuy = calcArithmeticSequenceTerm(n);
 
-         LowerSell = calcArithmeticSequenceTerm(n-2) + Add;
+            prices.lowerSell = calcArithmeticSequenceTerm(n - 1) + setting.add;
 
-         typeNearLines = TYPE_INSIDE_PARALLEL;
-         return typeNearLines;
+            prices.typeNearLines = TYPE_INSIDE_PARALLEL;
+            return prices;
+           }
+        }
+      else
+        {
+         if(closePrice > calcArithmeticSequenceTerm(n - 1) && closePrice < calcArithmeticSequenceTerm(n - 1) + setting.add)
+           {
+            prices.upperBuy = calcArithmeticSequenceTerm(n);
+
+            prices.upperSell = calcArithmeticSequenceTerm(n - 1) + setting.add;
+            prices.lowerBuy = calcArithmeticSequenceTerm(n - 1);
+
+            prices.lowerSell = calcArithmeticSequenceTerm(n- 2) + setting.add;
+
+            prices.typeNearLines = TYPE_INSIDE_PARALLEL;
+            return prices;
+           }
+
         }
 
-      UpperSell = NearUp + Add;
-      UpperBuy = NearUp;
+      prices.upperSell = calcArithmeticSequenceTerm(n) + setting.add;
+      prices.upperBuy = calcArithmeticSequenceTerm(n);
 
-      LowerSell = NearDown + Add;
-      LowerBuy = NearDown;
+      prices.lowerSell = calcArithmeticSequenceTerm(n - 1) + setting.add;
+      prices.lowerBuy = calcArithmeticSequenceTerm(n - 1);
 
-      typeNearLines = TYPE_BETWEEN_PARALLELS;
-      return typeNearLines;
+      prices.typeNearLines = TYPE_BETWEEN_PARALLELS;
+      return prices;
      }
 
    // Function to update the comment for the line handler
-   string              CommentToShow(ENUM_TYPE_NEAR_LINES atr)
+   string              CommentToShow()
      {
       string result;
 
       // Switch case to handle different types of near lines
-      switch(atr)
+      switch(prices.typeNearLines)
         {
          // If the type of near lines is TYPE_BETWEEN_PARALLELS
          case TYPE_BETWEEN_PARALLELS:
             // Set the comment for the line handler to show the upper and lower buy and sell points
             result = StringFormat(
                         "\n Upper Sell %s, Upper Buy %s\n Lower Sell %s, Lower Buy %s\n",
-                        DoubleToString(UpperSell, _Digits),
-                        DoubleToString(UpperBuy, _Digits),
-                        DoubleToString(LowerSell, _Digits),
-                        DoubleToString(LowerBuy, _Digits)
+                        DoubleToString(prices.upperSell, _Digits),
+                        DoubleToString(prices.upperBuy, _Digits),
+                        DoubleToString(prices.lowerSell, _Digits),
+                        DoubleToString(prices.lowerBuy, _Digits)
                      );
             break;
          // If the type of near lines is TYPE_INSIDE_PARALLEL
@@ -518,10 +491,10 @@ public:
             // Set the comment for the line handler to show the middle buy and sell points
             result = StringFormat(
                         "\n Upper Buy %s\n Upper Sell %s, Lower Buy %s\n Lower Sell %s\n",
-                        DoubleToString(UpperBuy, _Digits),
-                        DoubleToString(UpperSell, _Digits),
-                        DoubleToString(LowerBuy, _Digits),
-                        DoubleToString(LowerSell, _Digits)
+                        DoubleToString(prices.upperBuy, _Digits),
+                        DoubleToString(prices.upperSell, _Digits),
+                        DoubleToString(prices.lowerBuy, _Digits),
+                        DoubleToString(prices.lowerSell, _Digits)
                      );
             break;
          // If the type of near lines is ERR_INVALID_LINES
