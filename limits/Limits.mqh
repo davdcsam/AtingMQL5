@@ -83,7 +83,7 @@ public: // Custom
       datetime       lower_datetime;
      };
 
-private:
+protected:
    uchar             previous_start_hour, previous_start_min, previous_start_sec, previous_end_hour, previous_end_min, previous_end_sec;
    ENUM_TIMEFRAMES   timeframes;
    string            symbol;
@@ -106,6 +106,11 @@ private:
       end_datetime.min = previous_end_min;
       end_datetime.sec = previous_end_sec;
      };
+
+   MqlDateTime       start_datetime, end_datetime, dt;
+   MqlRates          rates_limits[];
+   TimeRange              time_range;
+   Prices            prices;
 
 public:
                      LimitsByTimeRange(void) {}
@@ -132,10 +137,9 @@ public:
       ArraySetAsSeries(rates_limits, true);
      };
 
-   MqlDateTime       start_datetime, end_datetime, dt;
-   MqlRates          rates_limits[];
-   TimeRange              time_range;
-   Prices            prices;
+   Prices            GetPricesStruct() { return prices; }
+   
+   TimeRange GetTimeRangeStruct() { return time_range; }
 
    ENUM_CHECK        CheckArg()
      {
