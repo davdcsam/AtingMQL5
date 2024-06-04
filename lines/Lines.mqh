@@ -461,14 +461,24 @@ public:
       double NearUp = calcArithmeticSequenceTerm(n);
       double NearDown = calcArithmeticSequenceTerm(n-1);
 
-      if(NearUp < closePrice && closePrice < NearUp + Add)
+/*
+      Print(
+         StringFormat("%s > %s = %d", DoubleToString(closePrice, _Digits), DoubleToString(NearDown, _Digits), closePrice > NearDown)
+      );
+
+      Print(
+         StringFormat("%s < %s = %d", DoubleToString(closePrice, _Digits), DoubleToString(NearDown + Add, _Digits), closePrice < NearDown + Add)
+      );
+*/
+
+      if(closePrice > NearDown && closePrice < NearDown + Add)
         {
-         UpperBuy = calcArithmeticSequenceTerm(n+1);
+         UpperBuy = NearUp;
 
-         UpperSell = NearUp + Add;
-         LowerBuy = NearUp;
+         UpperSell = NearDown + Add;
+         LowerBuy = NearDown;
 
-         LowerSell = NearDown + Add;
+         LowerSell = calcArithmeticSequenceTerm(n-2) + Add;
 
          typeNearLines = TYPE_INSIDE_PARALLEL;
          return typeNearLines;
