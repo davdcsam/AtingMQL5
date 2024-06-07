@@ -358,26 +358,28 @@ public:
      };
 
    struct Setting
-   {
-      double startAdd, step, add;
-   };
+     {
+      double         startAdd, step, add;
+     };
 
 private:
-   Prices prices;
-   Setting setting;
+   Prices            prices;
+   Setting           setting;
    template<typename T>
-   T calcArithmeticSequenceTerm(T n) { return setting.startAdd + (n) * setting.step - (MathMod(n, 2) == 0 ? 0 : setting.add); }
+   T                 calcArithmeticSequenceTerm(T n) { return setting.startAdd + (n) * setting.step - (MathMod(n, 2) == 0 ? 0 : setting.add); }
 
 public:
 
                      InstitutionalArithmeticPrices(void) {}
 
-   void UpdateSetting(double startAdd, double step, double add)
+   void              UpdateSetting(double startAdd, double step, double add)
      {
       setting.startAdd = startAdd;
       setting.step = step;
       setting.add = add;
      }
+   Setting           GetSetting() { return setting; }
+   void              GetSetting(Setting &param) { param = setting; }
 
    // CheckArg: Function to check the arguments for line generation
    ENUM_CHECK_LINE_GENERATOR              CheckArg()

@@ -19,8 +19,8 @@ enum ENUM_CHECK_TRANSACTION
 // ENUM_ORDER_TRANSACTION: Enum to handle different types of order transactions
 enum ENUM_ORDER_TRANSACTION
   {
-   ORDER_PLACED_SUCCESSFULLY, // Order placed successfully
-   ERR_SEND_FAILED // Error: Send failed
+   ORDER_PLACED_SUCCESSFULLY = 1, // Order placed successfully
+   ERR_SEND_FAILED = 0// Error: Send failed
   };
 
 // ENUM_FIX_FILLING_MODE: Enum to handle different types of fix filling modes
