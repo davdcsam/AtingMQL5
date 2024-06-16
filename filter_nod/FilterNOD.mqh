@@ -69,7 +69,7 @@ private:
    string            privateFileName;
    CArrayString      datesString;
    MqlDateTime       today;
-   MqlDateTime       next_date;
+   MqlDateTime       nextDate;
 public:
                      FilterByCSVFile(void) {};
 
@@ -119,27 +119,27 @@ public:
 
       TimeCurrent(today);
 
-      TimeToStruct(StringToTime(datesString.At(0)), next_date);
+      TimeToStruct(StringToTime(datesString.At(0)), nextDate);
 
-      if(next_date.year < today.year)
+      if(nextDate.year < today.year)
         {
          datesString.Delete(0);
          return IsOperativeDay();
         }
       else
-         if(next_date.year > today.year)
+         if(nextDate.year > today.year)
             return true;
 
-      if(next_date.day_of_year < today.day_of_year)
+      if(nextDate.day_of_year < today.day_of_year)
         {
          datesString.Delete(0);
          return IsOperativeDay();
         }
 
-      if(next_date.day_of_year > today.day_of_year)
+      if(nextDate.day_of_year > today.day_of_year)
          return  true;
 
-      // Implicit case if(next_date.day_of_year == today.day_of_year)
+      // Implicit case if(nextDate.day_of_year == today.day_of_year)
       datesString.Delete(0);
       return false;
      }
