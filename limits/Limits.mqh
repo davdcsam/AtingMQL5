@@ -78,9 +78,9 @@ public: // Custom
    struct Prices
      {
       double         upper;
-      datetime       upper_datetime;
+      datetime       upperDatetime;
       double         lower;
-      datetime       lower_datetime;
+      datetime       lowerDatetime;
      };
 
 protected:
@@ -247,12 +247,12 @@ public:
          if(rates_limits[i].low < prices.lower)
            {
             prices.lower = rates_limits[i].low;
-            prices.lower_datetime = rates_limits[i].time;
+            prices.lowerDatetime = rates_limits[i].time;
            }
          if(rates_limits[i].high > prices.upper)
            {
             prices.upper = rates_limits[i].high;
-            prices.upper_datetime = rates_limits[i].time;
+            prices.upperDatetime = rates_limits[i].time;
            }
         }
 
