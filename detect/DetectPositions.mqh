@@ -18,7 +18,7 @@ private:
 
 public:
    // Array to store the position tickets
-   CArrayLong        positions_tickets;
+   CArrayLong        positionsTickets;
 
    // Default constructor for the DetectPositions class
                      DetectPositions(void) {};
@@ -46,17 +46,17 @@ public:
    bool              UpdatePositions()
      {
       // Shutdown the positions tickets array
-      positions_tickets.Shutdown();
+      positionsTickets.Shutdown();
 
       // Get the total number of positions
-      int total_positions = PositionsTotal();
+      int totalPositions = PositionsTotal();
 
       // If there are no positions, return false
-      if(!total_positions)
+      if(!totalPositions)
          return(false);
 
       // Loop through each position
-      for(int i=0; i<total_positions; i++)
+      for(int i=0; i<totalPositions; i++)
         {
          // Get the ticket for the position
          ulong ticket = PositionGetTicket(i);
@@ -70,11 +70,11 @@ public:
             continue;
 
          // Add the ticket to the positions tickets array
-         positions_tickets.Add(ticket);
+         positionsTickets.Add(ticket);
         }
 
       // If there are no positions tickets, return false
-      if(!positions_tickets.Total())
+      if(!positionsTickets.Total())
          return(false);
 
       // If there are positions tickets, return true

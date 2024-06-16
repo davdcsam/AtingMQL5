@@ -18,7 +18,7 @@ private:
 
 public:
    // Array to store the order tickets
-   CArrayLong        order_tickets;
+   CArrayLong        orderTickets;
 
    // Default constructor for the DetectOrders class
                      DetectOrders(void) {};
@@ -46,17 +46,17 @@ public:
    bool              UpdateOrders()
      {
       // Shutdown the order tickets array
-      order_tickets.Shutdown();
+      orderTickets.Shutdown();
 
       // Get the total number of orders
-      int total_orders = OrdersTotal();
+      int totalOrders = OrdersTotal();
 
       // If there are no orders, return false
-      if(!total_orders)
+      if(!totalOrders)
          return(false);
 
       // Loop through each order
-      for(int i=0; i<total_orders; i++)
+      for(int i=0; i<totalOrders; i++)
         {
          // Get the ticket for the order
          ulong ticket = OrderGetTicket(i);
@@ -70,11 +70,11 @@ public:
             continue;
 
          // Add the ticket to the order tickets array
-         order_tickets.Add(ticket);
+         orderTickets.Add(ticket);
         }
 
       // If there are no order tickets, return false
-      if(!order_tickets.Total())
+      if(!orderTickets.Total())
          return(false);
 
       // If there are order tickets, return true
