@@ -39,25 +39,19 @@ class Transaction : public Request
   {
 protected:
    // Ask price for the transaction
-   double            price_ask;
-
-   // Bid price for the transaction
-   double            price_bid;
-
-   // Tick size for the transaction
-   double            tick_size;
+   double            priceAsk, priceBid, tickSize;
 
    // Filling mode for the transaction
-   ENUM_ORDER_TYPE_FILLING type_filliing_mode;
+   ENUM_ORDER_TYPE_FILLING typeFilliingMode;
 
    string            failSendingOrder()
      {
       return StringFormat("Fail with order Type s%, Lot %s, Sl %s, Tp %s, Op %s",
-                          EnumToString(trade_request.type),
-                          DoubleToString(trade_request.volume, _Digits),
-                          DoubleToString(trade_request.sl, _Digits),
-                          DoubleToString(trade_request.tp, _Digits),
-                          DoubleToString(trade_request.price, _Digits)
+                          EnumToString(tradeRequest.type),
+                          DoubleToString(tradeRequest.volume, _Digits),
+                          DoubleToString(tradeRequest.sl, _Digits),
+                          DoubleToString(tradeRequest.tp, _Digits),
+                          DoubleToString(tradeRequest.price, _Digits)
                          );
      };
 
@@ -66,33 +60,33 @@ public:
                      Transaction(void) {}
 
    // Trade request for the transaction
-   MqlTradeRequest   trade_request;
+   MqlTradeRequest   tradeRequest;
 
    // Trade result for the transaction
-   MqlTradeResult    trade_result;
+   MqlTradeResult    tradeResult;
 
    // Trade check result for the transaction
-   MqlTradeCheckResult trade_check_result;
+   MqlTradeCheckResult tradeCheckResult;
 
    // Function to check the arguments for the transaction
    ENUM_CHECK_TRANSACTION CheckArg()
      {
       // Check if the symbol exists
-      bool is_custom;
-      if(!SymbolExist(symbol, is_custom))
+      bool isCustom;
+      if(!SymbolExist(symbol, isCustom))
          return(ERR_SYMBOL_NOT_AVAILABLE);
 
       // Check if the lot size is within the valid range
       if(
-         SymbolInfoDouble(symbol, SYMBOL_VOLUME_MIN) >= lot_size
-         && SymbolInfoDouble(symbol, SYMBOL_VOLUME_MAX) <= lot_size
+         SymbolInfoDouble(symbol, SYMBOL_VOLUME_MIN) >= lotSize
+         && SymbolInfoDouble(symbol, SYMBOL_VOLUME_MAX) <= lotSize
       )
          return(ERR_INVALID_LOT_SIZE);
 
       // Check if the deviation trade is within the valid range
       if(
-         deviation_trade < take_profit * 0.001
-         || deviation_trade < stop_loss * 0.001
+         deviationTrade < takeProfit * 0.001
+         || deviationTrade < stopLoss * 0.001
       )
         {
          return(ERR_DEVIATION_INSUFFICIENT);
@@ -106,13 +100,13 @@ public:
    void              Update()
      {
       // Get the tick size for the symbol
-      tick_size = SymbolInfoDouble(symbol, SYMBOL_TRADE_TICK_SIZE);
+      tickSize = SymbolInfoDouble(symbol, SYMBOL_TRADE_TICK_SIZE);
 
       // Round the ask price to the nearest tick size
-      price_ask = round(SymbolInfoDouble(symbol, SYMBOL_ASK) / tick_size) * tick_size;
+      priceAsk = round(SymbolInfoDouble(symbol, SYMBOL_ASK) / tickSize) * tickSize;
 
       // Round the bid price to the nearest tick size
-      price_bid = round(SymbolInfoDouble(symbol, SYMBOL_BID) / tick_size) * tick_size;
+      priceBid = round(SymbolInfoDouble(symbol, SYMBOL_BID) / tickSize) * tickSize;
      }
 
    // Function to fix the filling mode for the transaction
@@ -134,20 +128,20 @@ public:
          Update();
 
          // Build a check position for the transaction
-         BuildCheckPosition(trade_request, POSITION_TYPE_BUY, list_order_type_filling[i], price_ask, price_bid);
+         BuildCheckPosition(tradeRequest, POSITION_TYPE_BUY, list_order_type_filling[i], priceAsk, priceBid);
 
          // Check if the order is valid
-         if(!OrderCheck(trade_request, trade_check_result) && trade_check_result.retcode != TRADE_RETCODE_INVALID_FILL)
+         if(!OrderCheck(tradeRequest, tradeCheckResult) && tradeCheckResult.retcode != TRADE_RETCODE_INVALID_FILL)
            {
             // If the order is not valid, print an error message and return ERR_INVALID_REQUEST
-            PrintFormat("Error Checking Request: %d %s", GetLastError(), trade_check_result.comment);
+            PrintFormat("Error Checking Request: %d %s", GetLastError(), tradeCheckResult.comment);
             return(ERR_INVALID_REQUEST);
            }
 
          // If the order is valid, set the filling mode and return FILLING_MODE_FOUND
-         if(trade_check_result.retcode == 0)
+         if(tradeCheckResult.retcode == 0)
            {
-            type_filliing_mode = trade_request.type_filling;
+            typeFilliingMode = tradeRequest.type_filling;
             return(FILLING_MODE_FOUND);
            }
         }
@@ -158,13 +152,13 @@ public:
 
    ENUM_ORDER_TRANSACTION SendPosition(ENUM_POSITION_TYPE order_type)
      {
-      BuildPosition(trade_request, order_type, type_filliing_mode);
+      BuildPosition(tradeRequest, order_type, typeFilliingMode);
 
-      double stops[] = {trade_request.sl, trade_request.tp, trade_request.price};
+      double stops[] = {tradeRequest.sl, tradeRequest.tp, tradeRequest.price};
 
       if(
          !calcStop.VerifyNoNegative(stops) ||
-         !OrderSend(trade_request, trade_result)
+         !OrderSend(tradeRequest, tradeResult)
       )
         {
          Print(failSendingOrder());
@@ -179,13 +173,13 @@ public:
    ENUM_ORDER_TRANSACTION SendPendingDefault(double open_price, ENUM_ORDER_PENDING_TYPE order_type)
      {
       // Build a pending order for the transaction
-      BuildPending(trade_request, order_type, type_filliing_mode, open_price, SymbolInfoDouble(symbol, SYMBOL_ASK), SymbolInfoDouble(symbol, SYMBOL_BID));
+      BuildPending(tradeRequest, order_type, typeFilliingMode, open_price, SymbolInfoDouble(symbol, SYMBOL_ASK), SymbolInfoDouble(symbol, SYMBOL_BID));
 
-      double stops[] = {trade_request.sl, trade_request.tp, trade_request.price};
+      double stops[] = {tradeRequest.sl, tradeRequest.tp, tradeRequest.price};
 
       if(
          !calcStop.VerifyNoNegative(stops) ||
-         !OrderSend(trade_request, trade_result)
+         !OrderSend(tradeRequest, tradeResult)
       )
         {
          // If the order cannot be sent, print an error message and return ERR_SEND_FAILED
@@ -199,13 +193,13 @@ public:
 
    ENUM_ORDER_TRANSACTION SendPendingOrPosition(double open_price, double comparative_price, ENUM_ORDER_PENDING_TYPE order_type)
      {
-      BuildPendingOrPosition(trade_request, order_type, type_filliing_mode, open_price, comparative_price);
+      BuildPendingOrPosition(tradeRequest, order_type, typeFilliingMode, open_price, comparative_price);
 
-      double stops[] = {trade_request.sl, trade_request.tp, trade_request.price};
+      double stops[] = {tradeRequest.sl, tradeRequest.tp, tradeRequest.price};
 
       if(
          !calcStop.VerifyNoNegative(stops) ||
-         !OrderSend(trade_request, trade_result)
+         !OrderSend(tradeRequest, tradeResult)
       )
         {
          Print(failSendingOrder());
@@ -244,7 +238,7 @@ public:
             result = StringFormat(
                         "%s: Lot Size %.2f invalied.",
                         EnumToString(enum_result),
-                        lot_size
+                        lotSize
                      );
             break;
 
@@ -253,7 +247,7 @@ public:
             result = StringFormat(
                         "%s: Deviation %d may not sufficient. Position couldn't place.",
                         EnumToString(enum_result),
-                        deviation_trade
+                        deviationTrade
                      );
             break;
 
@@ -287,8 +281,8 @@ public:
             result = StringFormat(
                         "%s: Send Failed. Err: %d %s",
                         EnumToString(enum_result),
-                        trade_result.retcode,
-                        trade_result.comment
+                        tradeResult.retcode,
+                        tradeResult.comment
                      );
             break;
 
@@ -314,7 +308,7 @@ public:
             result = StringFormat(
                         "%s: Filling mode %s found and setted.",
                         EnumToString(enum_result),
-                        EnumToString(trade_request.type_filling)
+                        EnumToString(tradeRequest.type_filling)
                      );
             break;
 
@@ -349,12 +343,12 @@ public:
      {
       return StringFormat(
                 "\n Lot Size: %.2f \n Stop Loss: %d\n Take Profit: %d\n Devation: %d\n Magic: %d\n Correct Filling: %s\n",
-                lot_size,
-                stop_loss,
-                take_profit,
-                deviation_trade,
-                magic_number,
-                EnumToString(trade_request.type_filling)
+                lotSize,
+                stopLoss,
+                takeProfit,
+                deviationTrade,
+                magicNumber,
+                EnumToString(tradeRequest.type_filling)
              );
      }
   };

@@ -133,11 +133,11 @@ protected:
      };
 
    string            symbol; // Symbol for the request
-   double            lot_size; // Lot size for the request
-   ulong              take_profit; // Take profit for the request
-   ulong              stop_loss; // Stop loss for the request
-   ulong              deviation_trade; // Deviation trade for the request
-   ulong             magic_number; // Magic number for the request
+   double            lotSize; // Lot size for the request
+   ulong              takeProfit; // Take profit for the request
+   ulong              stopLoss; // Stop loss for the request
+   ulong              deviationTrade; // Deviation trade for the request
+   ulong             magicNumber; // Magic number for the request
    RoundVolume       roundVolume;
    CalcStop          calcStop;
 
@@ -159,7 +159,7 @@ protected:
       request.type = ENUM_ORDER_TYPE(type); // Set the order type for the request
       request.volume = SymbolInfoDouble(symbol, SYMBOL_VOLUME_MIN); // Set the volume for the request
       request.deviation = spread; // Set the deviation for the request
-      request.magic = magic_number; // Set the magic number for the request
+      request.magic = magicNumber; // Set the magic number for the request
       request.type_filling = filling_mode; // Set the filling mode for the request
 
       // If the order type is POSITION_TYPE_BUY
@@ -189,24 +189,24 @@ protected:
       request.action = TRADE_ACTION_DEAL; // Set the action for the request
       request.symbol = symbol; // Set the symbol for the request
       request.type = ENUM_ORDER_TYPE(type); // Set the order type for the request
-      request.volume = roundVolume.Run(lot_size); // Set the volume for the request
-      request.deviation = deviation_trade; // Set the deviation for the request
-      request.magic = magic_number; // Set the magic number for the request
+      request.volume = roundVolume.Run(lotSize); // Set the volume for the request
+      request.deviation = deviationTrade; // Set the deviation for the request
+      request.magic = magicNumber; // Set the magic number for the request
       request.type_filling = filling_mode; // Set the filling mode for the request
 
       // If the order type is POSITION_TYPE_BUY
       if(type == POSITION_TYPE_BUY)
         {
          request.price = SymbolInfoDouble(symbol, SYMBOL_ASK); // Set the price for the request
-         request.tp = calcStop.Run(request.price, take_profit, type, CalcStop::TAKE_PROFIT); // Set the take profit for the request
-         request.sl = calcStop.Run(request.price, stop_loss, type, CalcStop::STOP_LOSS); // Set the stop loss for the request
+         request.tp = calcStop.Run(request.price, takeProfit, type, CalcStop::TAKE_PROFIT); // Set the take profit for the request
+         request.sl = calcStop.Run(request.price, stopLoss, type, CalcStop::STOP_LOSS); // Set the stop loss for the request
          return;
         }
 
       // If the order type is not POSITION_TYPE_BUY
       request.price = SymbolInfoDouble(symbol, SYMBOL_BID); // Set the price for the request
-      request.tp = calcStop.Run(request.price, take_profit, type, CalcStop::TAKE_PROFIT); // Set the take profit for the request
-      request.sl = calcStop.Run(request.price, stop_loss, type, CalcStop::STOP_LOSS); // Set the stop loss for the request
+      request.tp = calcStop.Run(request.price, takeProfit, type, CalcStop::TAKE_PROFIT); // Set the take profit for the request
+      request.sl = calcStop.Run(request.price, stopLoss, type, CalcStop::STOP_LOSS); // Set the stop loss for the request
 
      }
 
@@ -224,18 +224,18 @@ protected:
 
       // Set the properties for the request
       request.symbol = symbol;
-      request.volume = roundVolume.Run(lot_size);
+      request.volume = roundVolume.Run(lotSize);
       request.price = open_price;
-      request.deviation = deviation_trade;
-      request.magic = magic_number;
+      request.deviation = deviationTrade;
+      request.magic = magicNumber;
       request.type_filling = filling_mode;
 
       // If the pending order type is ORDER_PENDING_TYPE_BUY
       if(order_pending_type == ORDER_PENDING_TYPE_BUY)
         {
          // Set the stop loss and take profit for the request
-         request.tp = calcStop.Run(request.price, take_profit, ORDER_PENDING_TYPE_BUY, CalcStop::TAKE_PROFIT); // Set the take profit for the request
-         request.sl = calcStop.Run(request.price, stop_loss, ORDER_PENDING_TYPE_BUY, CalcStop::STOP_LOSS); // Set the stop loss for the request
+         request.tp = calcStop.Run(request.price, takeProfit, ORDER_PENDING_TYPE_BUY, CalcStop::TAKE_PROFIT); // Set the take profit for the request
+         request.sl = calcStop.Run(request.price, stopLoss, ORDER_PENDING_TYPE_BUY, CalcStop::STOP_LOSS); // Set the stop loss for the request
 
          // Set the buy pending order action type for the request
          setBuyPendingOrderActionType(request, price_ask);
@@ -246,8 +246,8 @@ protected:
       // If the pending order type is not ORDER_PENDING_TYPE_BUY
 
       // Set the stop loss and take profit for the request
-      request.tp = calcStop.Run(request.price, take_profit, ORDER_PENDING_TYPE_SELL, CalcStop::TAKE_PROFIT); // Set the take profit for the request
-      request.sl = calcStop.Run(request.price, stop_loss, ORDER_PENDING_TYPE_SELL, CalcStop::STOP_LOSS); // Set the stop loss for the request
+      request.tp = calcStop.Run(request.price, takeProfit, ORDER_PENDING_TYPE_SELL, CalcStop::TAKE_PROFIT); // Set the take profit for the request
+      request.sl = calcStop.Run(request.price, stopLoss, ORDER_PENDING_TYPE_SELL, CalcStop::STOP_LOSS); // Set the stop loss for the request
 
       // Set the sell pending order action type for the request
       setSellPendingOrderActionType(request, price_bid);
@@ -325,11 +325,11 @@ public:
      {
       // Set the properties for the request
       symbol = symbol_arg;
-      lot_size = lot_size_arg;
-      take_profit = take_profit_arg;
-      stop_loss = stop_loss_arg;
-      deviation_trade = deviation_trade_arg;
-      magic_number = magic_number_arg;
+      lotSize = lot_size_arg;
+      takeProfit = take_profit_arg;
+      stopLoss = stop_loss_arg;
+      deviationTrade = deviation_trade_arg;
+      magicNumber = magic_number_arg;
 
       roundVolume.SetSymbol(symbol);
       calcStop.SetSymbol(symbol);
@@ -352,7 +352,7 @@ public:
       switch(atr)
         {
          case LOT_SIZE:
-            return lot_size;
+            return lotSize;
             break;
         }
 
@@ -366,16 +366,16 @@ public:
       switch(atr)
         {
          case TAKE_PROFIT:
-            result = take_profit;
+            result = takeProfit;
             break;
          case STOP_LOSS:
-            result = stop_loss;
+            result = stopLoss;
             break;
          case DEVIATION_TRADE:
-            result = deviation_trade;
+            result = deviationTrade;
             break;
          case MAGIC_NUMBER:
-            result = magic_number;
+            result = magicNumber;
             break;
          default:
             result = 0;
