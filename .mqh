@@ -7,7 +7,6 @@
 #include "profit_protection//ProfitProtection.mqh";
 #include "remove//Remove.mqh";
 #include "section_time//SectionTime.mqh";
-#include "task_manager//TaskManager.mqh";
 #include "transaction//Request.mqh";
 #include "transaction//Transaction.mqh";
 #include "commonInp.mqh";
