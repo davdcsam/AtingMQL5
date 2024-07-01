@@ -1,110 +1,13 @@
 //+------------------------------------------------------------------+
-//|                                                          Request |
-//|                                         Copyright 2024, DavdCsam |
+//|                                                 AutomatedTrading |
+//|                                         Copyright 2024, davdcsam |
 //|                                      https://github.com/davdcsam |
 //+------------------------------------------------------------------+
-#include <Arrays/ArrayDouble.mqh>
+
+#include "CalcStop.mqh"
+#include "RoudVolume.mqh"
 
 
-// ENUM_ORDER_PENDING_TYPE: Enum to handle different types of pending orders
-enum ENUM_ORDER_PENDING_TYPE
-  {
-   ORDER_PENDING_TYPE_BUY = POSITION_TYPE_BUY, // Buy
-   ORDER_PENDING_TYPE_SELL = POSITION_TYPE_SELL // Sell
-  };
-
-//+------------------------------------------------------------------+
-//|                                                                  |
-//+------------------------------------------------------------------+
-class RoundVolume
-  {
-public:
-   string            symbol;
-
-                     RoundVolume() {}
-   void              SetSymbol(string& symbol_arg) {symbol = symbol_arg; }
-
-   // Function to round the volume to the nearest step
-   double            Run(double volume)
-     {
-      // Get the volume step for the symbol
-      double volume_step = SymbolInfoDouble(symbol, SYMBOL_VOLUME_STEP);
-
-      // Return the rounded volume
-      return MathRound(volume / volume_step) * volume_step;
-     }
-  };
-
-//+------------------------------------------------------------------+
-//|                                                                  |
-//+------------------------------------------------------------------+
-class CalcStop
-  {
-protected:
-   enum ENUM_STOP_TYPE
-     {
-      TAKE_PROFIT,
-      STOP_LOSS
-     };
-
-   double            internal(double price, ulong stop, ENUM_POSITION_TYPE type, ENUM_STOP_TYPE stop_type)
-     {
-      return (type == POSITION_TYPE_BUY) ?
-             (
-                (stop_type == TAKE_PROFIT) ?
-                NormalizeDouble(price + stop * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS)):
-                NormalizeDouble(price - stop * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS))
-             ):
-             (
-                (stop_type == TAKE_PROFIT) ?
-                NormalizeDouble(price - stop * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS)):
-                NormalizeDouble(price + stop * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS))
-             );
-     }
-
-public:
-   string            symbol;
-
-                     CalcStop() {}
-   void              SetSymbol(string& symbol_arg) {symbol = symbol_arg; }
-
-   double            Run(double price, long stop, ENUM_ORDER_PENDING_TYPE type, ENUM_STOP_TYPE stop_type) { return internal(price, stop, ENUM_POSITION_TYPE(type), stop_type); }
-
-   double            Run(double price, long stop, ENUM_POSITION_TYPE type, ENUM_STOP_TYPE stop_type) { return internal(price, stop, type, stop_type); }
-
-   static bool              VerifyNoNegative(double price) { return price > 0 ? true : false; }
-
-   static bool              VerifyNoNegative(double &prices[])
-     {
-      int size = (int)prices.Size();
-
-      if(!size)
-         return false;
-
-      for(int i=0;i<size;i++)
-        {
-         if(prices[i] <= 0)
-            return false;
-        }
-      return true;
-     }
-
-   static bool              VerifyNoNegative(CArrayDouble &prices)
-     {
-      int size = (int)prices.Total();
-
-      if(!size)
-         return false;
-
-      for(int i=0;i<size;i++)
-        {
-         if(prices.At(i) <= 0)
-            return false;
-        }
-      return true;
-     }
-
-  };
 
 //+------------------------------------------------------------------+
 //|                                                                  |
@@ -114,6 +17,14 @@ public:
 class Request
   {
 protected:
+
+   enum ENUM_ORDER_PENDING_TYPE
+     {
+      ORDER_PENDING_TYPE_BUY = POSITION_TYPE_BUY, // Buy
+      ORDER_PENDING_TYPE_SELL = POSITION_TYPE_SELL // Sell
+     };
+
+
    enum ENUM_PRIVATE_ATR_STRING
      {
       SYMBOL,
@@ -234,8 +145,8 @@ protected:
       if(order_pending_type == ORDER_PENDING_TYPE_BUY)
         {
          // Set the stop loss and take profit for the request
-         request.tp = calcStop.Run(request.price, takeProfit, ORDER_PENDING_TYPE_BUY, CalcStop::TAKE_PROFIT); // Set the take profit for the request
-         request.sl = calcStop.Run(request.price, stopLoss, ORDER_PENDING_TYPE_BUY, CalcStop::STOP_LOSS); // Set the stop loss for the request
+         request.tp = calcStop.Run(request.price, takeProfit, ENUM_POSITION_TYPE(ORDER_PENDING_TYPE_BUY), CalcStop::TAKE_PROFIT); // Set the take profit for the request
+         request.sl = calcStop.Run(request.price, stopLoss, ENUM_POSITION_TYPE(ORDER_PENDING_TYPE_BUY), CalcStop::STOP_LOSS); // Set the stop loss for the request
 
          // Set the buy pending order action type for the request
          setBuyPendingOrderActionType(request, price_ask);
@@ -246,8 +157,8 @@ protected:
       // If the pending order type is not ORDER_PENDING_TYPE_BUY
 
       // Set the stop loss and take profit for the request
-      request.tp = calcStop.Run(request.price, takeProfit, ORDER_PENDING_TYPE_SELL, CalcStop::TAKE_PROFIT); // Set the take profit for the request
-      request.sl = calcStop.Run(request.price, stopLoss, ORDER_PENDING_TYPE_SELL, CalcStop::STOP_LOSS); // Set the stop loss for the request
+      request.tp = calcStop.Run(request.price, takeProfit, ENUM_POSITION_TYPE(ORDER_PENDING_TYPE_BUY), CalcStop::TAKE_PROFIT); // Set the take profit for the request
+      request.sl = calcStop.Run(request.price, stopLoss, ENUM_POSITION_TYPE(ORDER_PENDING_TYPE_BUY), CalcStop::STOP_LOSS); // Set the stop loss for the request
 
       // Set the sell pending order action type for the request
       setSellPendingOrderActionType(request, price_bid);
@@ -386,5 +297,4 @@ public:
      }
 
   };
-//+------------------------------------------------------------------+
 //+------------------------------------------------------------------+
