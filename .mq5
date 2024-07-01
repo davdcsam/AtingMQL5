@@ -1,12 +1,29 @@
-// Common reference
-#include "detect//DetectOrders.mqh";
-#include "detect//DetectPositions.mqh";
-#include "filter_nod//FilterNod.mqh";
-#include "limits//Limits.mqh";
-#include "lines//Lines.mqh";
-#include "profit_protection//ProfitProtection.mqh";
-#include "remove//Remove.mqh";
-#include "section_time//SectionTime.mqh";
-#include "transaction//Request.mqh";
-#include "transaction//Transaction.mqh";
-#include "commonInp.mqh";
+//+------------------------------------------------------------------+
+//|                                                 AutomatedTrading |
+//|                                         Copyright 2024, davdcsam |
+//|                                      https://github.com/davdcsam |
+//+------------------------------------------------------------------+
+
+// Reference
+
+#include "common//BooleanEnums.mqh"
+
+#include "detect//DetectOrders.mqh"
+#include "detect//DetectPositions.mqh"
+
+#include "filterOperativeDays//FilterByCSVFile.mqh"
+#include "filterOperativeDays//FilterByDayWeek.mqh"
+
+#include "prices//InstitutionalArithmeticPrices.mqh"
+#include "prices//LimitsByIndex.mqh"
+#include "prices//LimitsByTimeRange.mqh"
+
+#include "profitProtection//BreakEven.mqh"
+#include "profitProtection//TrailingStop.mqh"
+
+#include "remove//RemoveByLocationPrice.mqh"
+#include "remove//RemoveByOrderType.mqh"
+
+#include "time//SectionTime.mqh"
+
+#include "transaction//Transaction.mqh"
