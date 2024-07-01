@@ -1,5 +1,5 @@
 //+------------------------------------------------------------------+
-//|                                                            Lines |
+//|                                                 AutomatedTrading |
 //|                                         Copyright 2024, davdcsam |
 //|                                      https://github.com/davdcsam |
 //+------------------------------------------------------------------+
@@ -7,31 +7,30 @@
 // Include the ArrayDouble class from the Arrays library
 #include <Arrays/ArrayDouble.mqh>
 
-// ENUM_CHECK_LINE_GENERATOR: Enum to handle different types of errors and checks in line generation
-enum ENUM_CHECK_LINE_GENERATOR
-  {
-   CHECK_ARG_LINE_GENERATOR_PASSED, // Check passed
-   ERR_NO_ENOUGH_STEP, // Error: Not enough steps
-   ERR_START_OVER_END, // Error: Start is greater than end
-   ERR_ADD_OVER_STEP, // Error: Addition is greater than step
-   ERR_PRICE_OUT_LINES // Error: Price is out of lines
-  };
-
-// ENUM_TYPE_NEAR_LINES: Enum to handle different types of near lines
-enum ENUM_TYPE_NEAR_LINES
-  {
-   TYPE_BETWEEN_PARALLELS, // Type: Between parallels
-   TYPE_INSIDE_PARALLEL, // Type: Inside parallel
-   ERR_INVALID_LINES // Error: Invalid lines
-  };
-
-
 //+------------------------------------------------------------------+
-//|                                                                  |
+//| InstitutionalArithmeticPrices                                    |
 //+------------------------------------------------------------------+
 class InstitutionalArithmeticPrices
   {
 public:
+
+   // ENUM_CHECK: Enum to handle different types of errors and checks in line generation
+   enum ENUM_CHECK
+     {
+      CHECK_ARG_LINE_GENERATOR_PASSED, // Check passed
+      ERR_NO_ENOUGH_STEP, // Error: Not enough steps
+      ERR_START_OVER_END, // Error: Start is greater than end
+      ERR_ADD_OVER_STEP, // Error: Addition is greater than step
+      ERR_PRICE_OUT_LINES // Error: Price is out of lines
+     };
+
+   // ENUM_TYPE_NEAR_LINES: Enum to handle different types of near lines
+   enum ENUM_TYPE_NEAR_LINES
+     {
+      TYPE_BETWEEN_PARALLELS, // Type: Between parallels
+      TYPE_INSIDE_PARALLEL, // Type: Inside parallel
+      ERR_INVALID_LINES // Error: Invalid lines
+     };
 
    struct Prices
      {
@@ -64,7 +63,7 @@ public:
    void              GetSetting(Setting &param) { param = setting; }
 
    // CheckArg: Function to check the arguments for line generation
-   ENUM_CHECK_LINE_GENERATOR              CheckArg()
+   ENUM_CHECK        CheckArg()
      {
       // Check if addition is greater than step
       if(setting.add > setting.step)
@@ -76,7 +75,7 @@ public:
 
 
    // CheckToString: Method to generate a comment based on the result of the line check
-   string            EnumCheckLinesGeneratorToString(ENUM_CHECK_LINE_GENERATOR enum_result)
+   string            EnumCheckLinesGeneratorToString(ENUM_CHECK enum_result)
      {
       string result;
 
