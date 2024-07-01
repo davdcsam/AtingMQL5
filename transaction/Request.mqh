@@ -157,8 +157,8 @@ protected:
       // If the pending order type is not ORDER_PENDING_TYPE_BUY
 
       // Set the stop loss and take profit for the request
-      request.tp = calcStop.Run(request.price, takeProfit, ENUM_POSITION_TYPE(ORDER_PENDING_TYPE_BUY), CalcStop::TAKE_PROFIT); // Set the take profit for the request
-      request.sl = calcStop.Run(request.price, stopLoss, ENUM_POSITION_TYPE(ORDER_PENDING_TYPE_BUY), CalcStop::STOP_LOSS); // Set the stop loss for the request
+      request.tp = calcStop.Run(request.price, takeProfit, ENUM_POSITION_TYPE(ORDER_PENDING_TYPE_SELL), CalcStop::TAKE_PROFIT); // Set the take profit for the request
+      request.sl = calcStop.Run(request.price, stopLoss, ENUM_POSITION_TYPE(ORDER_PENDING_TYPE_SELL), CalcStop::STOP_LOSS); // Set the stop loss for the request
 
       // Set the sell pending order action type for the request
       setSellPendingOrderActionType(request, price_bid);
