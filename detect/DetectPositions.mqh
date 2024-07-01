@@ -1,8 +1,9 @@
 //+------------------------------------------------------------------+
-//|                                                  DetectPositions |
+//|                                                 AutomatedTrading |
 //|                                         Copyright 2024, davdcsam |
-//|                                              github.com/davdcsam |
+//|                                      https://github.com/davdcsam |
 //+------------------------------------------------------------------+
+
 // Include the ArrayLong library from the Arrays directory
 #include <Arrays/ArrayLong.mqh>
 

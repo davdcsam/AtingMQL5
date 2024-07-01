@@ -1,20 +1,21 @@
 //+------------------------------------------------------------------+
-//|                                                     DetectOrders |
+//|                                                 AutomatedTrading |
 //|                                         Copyright 2024, davdcsam |
-//|                                              github.com/davdcsam |
+//|                                      https://github.com/davdcsam |
 //+------------------------------------------------------------------+
+
 // Include the ArrayLong library from the Arrays directory
 #include <Arrays/ArrayLong.mqh>
 
 // Class to detect orders
 class DetectOrders
-{
+  {
 private:
    // Symbol for the order
-   string symbol;
+   string            symbol;
 
    // Magic number for the order
-   ulong magic;   
+   ulong             magic;
 
 public:
    // Array to store the order tickets
