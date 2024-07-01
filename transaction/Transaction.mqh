@@ -1,40 +1,15 @@
 //+------------------------------------------------------------------+
-//|                                                       Trasaction |
-//|                                         Copyright 2024, DavdCsam |
+//|                                                 AutomatedTrading |
+//|                                         Copyright 2024, davdcsam |
 //|                                      https://github.com/davdcsam |
 //+------------------------------------------------------------------+
 
 // Include the Request class from the Request library
 #include "Request.mqh";
 
-// ENUM_CHECK_TRANSACTION: Enum to handle different types of check transactions
-enum ENUM_CHECK_TRANSACTION
-  {
-   CHECK_ARG_TRANSACTION_PASSED, // Check transaction passed
-   ERR_SYMBOL_NOT_AVAILABLE, // Error: Symbol not available
-   ERR_INVALID_LOT_SIZE, // Error: Invalid lot size
-   ERR_DEVIATION_INSUFFICIENT // Error: Insufficient deviation
-  };
-
-// ENUM_ORDER_TRANSACTION: Enum to handle different types of order transactions
-enum ENUM_ORDER_TRANSACTION
-  {
-   ORDER_PLACED_SUCCESSFULLY = 1, // Order placed successfully
-   ERR_SEND_FAILED = 0// Error: Send failed
-  };
-
-// ENUM_FIX_FILLING_MODE: Enum to handle different types of fix filling modes
-enum ENUM_FIX_FILLING_MODE
-  {
-   FILLING_MODE_FOUND, // Filling mode found
-   ERR_FILLING_MODE_NO_FOUND, // Error: Filling mode not found
-   ERR_INVALID_REQUEST // Error: Invalid request
-  };
-
 //+------------------------------------------------------------------+
-//|                                                                  |
+//| Transaction                                                      |
 //+------------------------------------------------------------------+
-// Transaction: Class to handle transaction operations
 class Transaction : public Request
   {
 protected:
@@ -59,6 +34,31 @@ public:
    // Constructor for the Transaction class
                      Transaction(void) {}
 
+
+   // ENUM_CHECK: Enum to handle different types of check transactions
+   enum ENUM_CHECK
+     {
+      CHECK_ARG_TRANSACTION_PASSED, // Check transaction passed
+      ERR_SYMBOL_NOT_AVAILABLE, // Error: Symbol not available
+      ERR_INVALID_LOT_SIZE, // Error: Invalid lot size
+      ERR_DEVIATION_INSUFFICIENT // Error: Insufficient deviation
+     };
+
+   // ENUM_ORDER_TRANSACTION: Enum to handle different types of order transactions
+   enum ENUM_ORDER_TRANSACTION
+     {
+      ORDER_PLACED_SUCCESSFULLY = 1, // Order placed successfully
+      ERR_SEND_FAILED = 0// Error: Send failed
+     };
+
+   // ENUM_FIX_FILLING_MODE: Enum to handle different types of fix filling modes
+   enum ENUM_FIX_FILLING_MODE
+     {
+      FILLING_MODE_FOUND, // Filling mode found
+      ERR_FILLING_MODE_NO_FOUND, // Error: Filling mode not found
+      ERR_INVALID_REQUEST // Error: Invalid request
+     };
+
    // Trade request for the transaction
    MqlTradeRequest   tradeRequest;
 
@@ -69,7 +69,7 @@ public:
    MqlTradeCheckResult tradeCheckResult;
 
    // Function to check the arguments for the transaction
-   ENUM_CHECK_TRANSACTION CheckArg()
+   ENUM_CHECK        CheckArg()
      {
       // Check if the symbol exists
       bool isCustom;
@@ -209,7 +209,7 @@ public:
       return(ORDER_PLACED_SUCCESSFULLY);
      }
    // Function to return a string comment based on the result of the check transaction
-   string            EnumCheckTransactionToString(ENUM_CHECK_TRANSACTION enum_result)
+   string            EnumCheckTransactionToString(ENUM_CHECK enum_result)
      {
       string result;
 
