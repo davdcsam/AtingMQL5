@@ -6,6 +6,8 @@
 
 // Reference
 
+#include "baseOnTask//TaskManager.mqh"
+
 #include "common//BooleanEnums.mqh"
 
 #include "detect//DetectOrders.mqh"
