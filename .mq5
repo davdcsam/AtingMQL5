@@ -27,5 +27,6 @@
 #include "remove//RemoveByOrderType.mqh"
 
 #include "time//SectionTime.mqh"
+#include "time//TimeLapseTree.mqh"
 
 #include "transaction//Transaction.mqh"
