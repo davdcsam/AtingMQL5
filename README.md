@@ -11,61 +11,49 @@ The AutomatedTrading library is designed to simplify everyday tasks in the devel
 This demo mainly uses the modules transaction, single lapse time, profit protection and trailing stop.
 
 
-## Transaction (Improve of CTrade)
+### Transaction (Enhanced CTrade Class)
 
-### Automatic Filling Mode Selection
+- **Automatic Filling Mode Selection:** Automatically chooses the best filling method based on market conditions and symbol requirements.
+- **Invalid Input Alerts:** Provides warnings for invalid inputs to ensure smooth order execution.
+- **Pending Order Handling:** Automatically determines the type of pending order (limits or stops) based on market logic.
+- **Stop Calculation & Volume Rounding:** Calculates stop levels and rounds order volumes to meet symbol requirements.
 
-Automates the choice of order filling method based on market conditions and symbol requirements.
+### Order and Position Detection
 
-### Invalid Input Warnings
+- **By Magic Number and Symbol:** Efficiently manage and identify orders and positions using magic numbers and symbols.
 
-Provides warning messages when the inputs provided for the transaction are invalid.
+### Operational Day and Date Filtering
 
-### Sending Custom Pending Orders
+- **Day of the Week Filtering:** Operate only on specified days of the week.
+- **CSV-based Date Filtering:** For backtesting, filter operational dates based on a CSV file for precise historical testing.
 
-Allows sending pending orders without specifying whether they are limits or stops, determining it automatically based on market logic.
-Stop Calculation and Volume Rounding: Automates the calculation of stop levels and adjusts the volume of orders according to the symbol requirements.
+### Institutional Arithmetic Price Generation
 
-## Orders and Positions Detection by Magic Number and Symbol
+- **Price Calculation:** Generate institutional arithmetic prices to aid in decision-making based on key market levels.
 
-Facilitates the identification and management of orders and positions using the magic number and the associated symbol, allowing a more efficient management of transactions.
+### Signal Generation
 
-## Operating Days and Dates Filter
+- **Time Range Limits:** Create trading signals based on price limits within specific time ranges.
+- **Index-Based Limits:** Generate signals based on predefined market indices.
 
-### Weekday Filter
+### Profit Protection
 
-Allows trading only on specific days of the week.
+- **Breakeven:** Automatically adjust stop loss to breakeven once a certain profit level is reached.
+- **Trailing Stop:** Dynamically move the stop loss to protect profits as the price moves favorably.
 
-### CSV-based Date Filter
+### Order Removal
 
-For backtesting, allows filtering trading dates based on a CSV document, providing greater flexibility and accuracy in historical testing.
+- **By Magic Number and Symbol:** Easily cancel specific orders using magic numbers and symbols for streamlined order management.
 
-## Institutional Arithmetic Price Generation
+### Time Range Definition
 
-Calculates institutional average prices to facilitate decision making based on key market price levels.
+- **TimeLapseTree Class:** Store and manage multiple time ranges, facilitating complex trading strategies.
 
-## Signal Generation by Time Limits and IndicesTime Range Limits
+- **SectionTime Class:** For handling a single time section, used by the Multi Lapse class for more detailed time management.
 
-Generates trading signals based on price limits defined by a specific time range.
-Limits by Indices: Generates signals based on predefined market indices.
+### Experimental Task Manager
 
-## Percentage Profit ProtectionBreakeven
-
-Automatically adjusts the stop loss to a break even level when the position has reached a certain profit level. Also include a trailing stop: Moves the stop loss following the price to protect profits as the price moves in the favorable direction.
-
-## Order Deletion by Magic Number and Symbol
-
-Facilitates the cancellation of specific orders using the magic number and symbol, optimizing the management of pending orders.
-
-## Time Range Definition
-
-### Multi Lapse
-
-Class that allows storing multiple time ranges, facilitating the management of operations in different time periods and improving the bot's efficiency.
-
-### Single Lapse
-
-Class to allow a single section time. This class is used by Multi Lapse.
+- **OnTimer Event Implementation:** Execute all library modules periodically using the OnTimer event for organized and scheduled task execution.
 
 # Documentation
 
