@@ -6,27 +6,27 @@
 
 // Reference
 
-#include "baseOnTask//TaskManager.mqh"
-
 #include "common//BooleanEnums.mqh"
 
-#include "detect//DetectOrders.mqh"
-#include "detect//DetectPositions.mqh"
+#include "src//baseOnTask//TaskManager.mqh"
 
-#include "filterOperativeDays//FilterByCSVFile.mqh"
-#include "filterOperativeDays//FilterByDayWeek.mqh"
+#include "src//detect//DetectOrders.mqh"
+#include "src//detect//DetectPositions.mqh"
 
-#include "prices//InstitutionalArithmeticPrices.mqh"
-#include "prices//LimitsByIndex.mqh"
-#include "prices//LimitsByTimeRange.mqh"
+#include "src//filterOperativeDays//FilterByCSVFile.mqh"
+#include "src//filterOperativeDays//FilterByDayWeek.mqh"
 
-#include "profitProtection//BreakEven.mqh"
-#include "profitProtection//TrailingStop.mqh"
+#include "src//prices//InstitutionalArithmeticPrices.mqh"
+#include "src//prices//LimitsByIndex.mqh"
+#include "src//prices//LimitsByTimeRange.mqh"
 
-#include "remove//RemoveByLocationPrice.mqh"
-#include "remove//RemoveByOrderType.mqh"
+#include "src//profitProtection//BreakEven.mqh"
+#include "src//profitProtection//TrailingStop.mqh"
 
-#include "time//SectionTime.mqh"
-#include "time//TimeLapseTree.mqh"
+#include "src//remove//RemoveByLocationPrice.mqh"
+#include "src//remove//RemoveByOrderType.mqh"
 
-#include "transaction//Transaction.mqh"
+#include "src//time//SectionTime.mqh"
+#include "src//time//TimeLapseTree.mqh"
+
+#include "src//transaction//Transaction.mqh"
