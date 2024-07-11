@@ -6,9 +6,9 @@
 
 // Reference
 
-#include "common//BooleanEnums.mqh"
-
 #include "src//baseOnTask//TaskManager.mqh"
+
+#include "src//common//BooleanEnums.mqh"
 
 #include "src//detect//DetectOrders.mqh"
 #include "src//detect//DetectPositions.mqh"
