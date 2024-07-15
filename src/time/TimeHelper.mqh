@@ -4,33 +4,54 @@
 //|                                      https://github.com/davdcsam |
 //+------------------------------------------------------------------+
 
+
 //+------------------------------------------------------------------+
 //| TimeHelper                                                       |
 //+------------------------------------------------------------------+
 class TimeHelper
   {
+private:
+   static void       UpdateDateHelper(MqlDateTime &date, MqlDateTime &s, MqlDateTime &e)
+     {
+      s.day = date.day;
+      s.mon = date.mon;
+      s.year = date.year;
+      
+      e.day = date.day;
+      e.mon = date.mon;
+      e.year = date.year;
+     }
+
+   static void       UpdateDateHelper(datetime &date, datetime &s, datetime &e)
+     {
+      MqlDateTime temp, tempS, tempE;
+      TimeToStruct(date, temp);
+
+      UpdateDateHelper(temp, tempS, tempE);
+      s = StructToTime(tempS);
+      e = StructToTime(tempE);
+     }
+
 public:
-   static bool       Sort(int &start, int &end);
+   static bool       Sort(datetime &start, datetime &end);
+   static bool       IsIn(datetime &date, datetime &s, datetime &e);
 
-   static bool       IsIn(int &currentTimeStamp, int &s, int &e);
-
-   static bool       UpdateDate(int &currentTimeStamp, MqlDateTime &s, MqlDateTime &e);
-   static bool       UpdateDate(int &currentTimeStamp, int &s, int &e);
-   static bool       UpdateDate(MqlDateTime &s, MqlDateTime &e);
-   static bool       UpdateDate(int &s, int &e);
-
+   static void       UpdateDate(MqlDateTime &date, MqlDateTime &s, MqlDateTime &e);
+   static void       UpdateDate(datetime &date, datetime &s, datetime &e);
+   static void       UpdateDate(MqlDateTime &s, MqlDateTime &e);
+   static void       UpdateDate(datetime &s, datetime &e);
   };
 
 //+------------------------------------------------------------------+
 //| TimeHelper::Sort                                                 |
 //+------------------------------------------------------------------+
-bool TimeHelper::Sort(int &start, int &end)
+bool TimeHelper::Sort(datetime &start, datetime &end)
   {
    if(start == end)
       return false;
    if(start > end)
      {
-      int temp = start;
+      datetime temp = start;
       start = end;
       end = temp;
       return true;
@@ -41,80 +62,37 @@ bool TimeHelper::Sort(int &start, int &end)
 //+------------------------------------------------------------------+
 //| TimeHelper::IsIn                                                 |
 //+------------------------------------------------------------------+
-bool TimeHelper::IsIn(int &currentTimeStamp, int &s, int &e)
+bool TimeHelper::IsIn(datetime &date, datetime &s, datetime &e)
+  { return date >= s && date <= e; }
+
+//+------------------------------------------------------------------+
+//| TimeHelper::UpdateDate                                           |
+//+------------------------------------------------------------------+
+void TimeHelper::UpdateDate(MqlDateTime &date, MqlDateTime &s, MqlDateTime &e)
+  { UpdateDateHelper(date, s, e); }
+
+//+------------------------------------------------------------------+
+//| TimeHelper::UpdateDate                                           |
+//+------------------------------------------------------------------+
+void TimeHelper::UpdateDate(datetime &date, datetime &s, datetime &e)
+  { UpdateDateHelper(date, s, e); }
+
+//+------------------------------------------------------------------+
+//| TimeHelper::UpdateDate                                           |
+//+------------------------------------------------------------------+
+void TimeHelper::UpdateDate(MqlDateTime &s, MqlDateTime &e)
   {
-   if(currentTimeStamp >= s && currentTimeStamp <= e)
-      return true;
-   return false;
+   MqlDateTime temp;
+   TimeToStruct(TimeCurrent(), temp);
+   UpdateDateHelper(temp, s, e);
   }
 
 //+------------------------------------------------------------------+
 //| TimeHelper::UpdateDate                                           |
 //+------------------------------------------------------------------+
-bool TimeHelper::UpdateDate(int &currentTimeStamp, MqlDateTime &s, MqlDateTime &e)
+void TimeHelper::UpdateDate(datetime &s, datetime &e)
   {
-   MqlDateTime tempC;
-   TimeToStruct(currentTimeStamp, tempC);
-
-   s.day_of_year = tempC.day_of_year;
-   s.year = tempC.year;
-   e.day_of_year = tempC.day_of_year;
-   e.year = tempC.year;
-   return true;
-  }
-
-//+------------------------------------------------------------------+
-//| TimeHelper::UpdateDate                                           |
-//+------------------------------------------------------------------+
-bool TimeHelper::UpdateDate(int &currentTimeStamp, int &s, int &e)
-  {
-   MqlDateTime tempC, tempS, tempE;
-   TimeToStruct(currentTimeStamp, tempC);
-   TimeToStruct(s, tempS);
-   TimeToStruct(e, tempE);
-
-   tempS.day_of_year = tempC.day_of_year;
-   tempS.year = tempC.year;
-   tempE.day_of_year = tempC.day_of_year;
-   tempE.year = tempC.year;
-   
-   s = (int) StructToTime(tempS);
-   e = (int) StructToTime(tempE);
-   return true;
-  }
-
-//+------------------------------------------------------------------+
-//| TimeHelper::UpdateDate                                           |
-//+------------------------------------------------------------------+
-bool TimeHelper::UpdateDate(MqlDateTime &s, MqlDateTime &e)
-  {
-   MqlDateTime tempC;
-   TimeToStruct(TimeCurrent(), tempC);
-
-   s.day_of_year = tempC.day_of_year;
-   s.year = tempC.year;
-   e.day_of_year = tempC.day_of_year;
-   e.year = tempC.year;
-   return true;
-  }
-
-//+------------------------------------------------------------------+
-//| TimeHelper::UpdateDate                                           |
-//+------------------------------------------------------------------+
-bool TimeHelper::UpdateDate(int &s, int &e)
-  {
-   MqlDateTime tempC, tempS, tempE;
-   TimeToStruct(TimeCurrent(), tempC);
-   TimeToStruct(s, tempS);
-   TimeToStruct(e, tempE);   
-
-   tempS.day_of_year = tempC.day_of_year;
-   tempS.year = tempC.year;
-   tempE.day_of_year = tempC.day_of_year;
-   tempE.year = tempC.year;
-
-   s = (int) StructToTime(tempS);
-   e = (int) StructToTime(tempE);
-   return true;
+   datetime temp = TimeCurrent();
+   UpdateDateHelper(temp, s, e);
   }
 //+------------------------------------------------------------------+
