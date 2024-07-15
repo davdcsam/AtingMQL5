@@ -1,15 +1,15 @@
 
+<img src="res/atingmql5.png" alt="Logo" width="200" height="200">
 
 # Automated Trading for MQL5
 
-The AutomatedTrading library is designed to simplify everyday tasks in the development of bots in MQL5. Below is a detailed explanation of each module included in it:
+The AtingMQL5 is a library created by Ating to simplify any tasks in the development of bots in MQL5.
 
 # Demo Visualization
 
-<p align="center"><img src="res/testAutomatedTradingMQL5.gif"></p>
+<p align="center"><img src="res/testAtingMQL5.gif"></p>
 
 This demo mainly uses the modules transaction, single lapse time, profit protection and trailing stop.
-
 
 ### Transaction (Enhanced CTrade Class)
 
@@ -107,4 +107,4 @@ For support, email <edavidcamposl@gmail.com>, <00514724@uca.edu.sv>, [X](https:/
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
-![Logo](res/automatedtrading.png)
+<img src="res/ating.png" alt="Logo" width="200" height="200">
