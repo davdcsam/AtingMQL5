@@ -1,14 +1,14 @@
 //+------------------------------------------------------------------+
-//|                                                 AutomatedTrading |
+//|                                                        AtingMQL5 |
 //|                                         Copyright 2024, davdcsam |
-//|                                      https://github.com/davdcsam |
+//|                            https://github.com/davdcsam/AtingMQL5 |
 //+------------------------------------------------------------------+
 
 // Reference
 
-#include "src//baseOnTask//TaskManager.mqh"
+#include "src//BooleanEnums.mqh"
 
-#include "src//common//BooleanEnums.mqh"
+#include "src//baseOnTask//TaskManager.mqh"
 
 #include "src//detect//DetectOrders.mqh"
 #include "src//detect//DetectPositions.mqh"

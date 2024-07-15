@@ -1,3 +1,9 @@
+//+------------------------------------------------------------------+
+//|                                                        AtingMQL5 |
+//|                                         Copyright 2024, davdcsam |
+//|                            https://github.com/davdcsam/AtingMQL5 |
+//+------------------------------------------------------------------+
+
 // Alternative Boolean Enums
 
 enum ENUM_BOOLEAN_TOGGLE
