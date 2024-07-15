@@ -3,6 +3,7 @@
 //|                                         Copyright 2024, davdcsam |
 //|                            https://github.com/davdcsam/AtingMQL5 |
 //+------------------------------------------------------------------+
+#include "TimeHelper.mqh"
 
 //+------------------------------------------------------------------+
 //| SectionTime                                                      |
@@ -72,34 +73,22 @@ public:
       TimeToStruct(TimeCurrent(), brokerDateTime);
 
       // Set the start and end times
-      startDateTime.year = brokerDateTime.year;
-      startDateTime.mon = brokerDateTime.mon;
-      startDateTime.day = brokerDateTime.day;
+      TimeHelper::UpdateDate(brokerDateTime, startDateTime, endDateTime);
       startDateTime.hour = startHour;
       startDateTime.min = startMin;
       startDateTime.sec = startSeg;
-
-      endDateTime.year = brokerDateTime.year;
-      endDateTime.mon = brokerDateTime.mon;
-      endDateTime.day = brokerDateTime.day;
       endDateTime.hour = endHour;
       endDateTime.min = endMin;
       endDateTime.sec = endSeg;
 
-      // If the start time is greater than the end time, swap them
-      if(StructToTime(startDateTime) > StructToTime(endDateTime))
-        {
-         MqlDateTime temp = startDateTime;
-         startDateTime = endDateTime;
-         endDateTime = temp;
-        }
+      TimeHelper::Sort(startDateTime, endDateTime);
      }
 
    // Function to verify if the current time is inside the section
    bool              VerifyInsideSection()
      {
       // Return true if the current time is between the start and end times, otherwise return false
-      return(StructToTime(startDateTime) <= StructToTime(brokerDateTime) && StructToTime(brokerDateTime) <= StructToTime(endDateTime));
+      return TimeHelper::IsIn(brokerDateTime, startDateTime, endDateTime);
      }
 
    // Function to return a string comment based on the result of the section time check
