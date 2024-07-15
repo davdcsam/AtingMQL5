@@ -33,13 +33,16 @@ private:
      }
 
 public:
+   static bool       Sort(MqlDateTime &start, MqlDateTime &end);
    static bool       Sort(datetime &start, datetime &end);
-   static bool       IsIn(datetime &date, datetime &s, datetime &e);
 
-   static void       UpdateDate(MqlDateTime &date, MqlDateTime &s, MqlDateTime &e);
-   static void       UpdateDate(datetime &date, datetime &s, datetime &e);
-   static void       UpdateDate(MqlDateTime &s, MqlDateTime &e);
-   static void       UpdateDate(datetime &s, datetime &e);
+   static bool       IsIn(MqlDateTime &date, MqlDateTime &start, MqlDateTime &end);
+   static bool       IsIn(datetime &date, datetime &start, datetime &end);
+
+   static void       UpdateDate(MqlDateTime &date, MqlDateTime &start, MqlDateTime &end);
+   static void       UpdateDate(datetime &date, datetime &start, datetime &end);
+   static void       UpdateDate(MqlDateTime &start, MqlDateTime &end);
+   static void       UpdateDate(datetime &start, datetime &end);
   };
 
 //+------------------------------------------------------------------+
@@ -60,39 +63,58 @@ bool TimeHelper::Sort(datetime &start, datetime &end)
   }
 
 //+------------------------------------------------------------------+
+//| TimeHelper::Sort                                                 |
+//+------------------------------------------------------------------+
+bool TimeHelper::Sort(MqlDateTime &start, MqlDateTime &end)
+  {
+   datetime tempS = StructToTime(start);
+   datetime tempE = StructToTime(end);
+   bool r = Sort(tempS, tempE);
+   TimeToStruct(tempS, start);
+   TimeToStruct(tempE, end);
+   return r;
+  }
+
+//+------------------------------------------------------------------+
 //| TimeHelper::IsIn                                                 |
 //+------------------------------------------------------------------+
-bool TimeHelper::IsIn(datetime &date, datetime &s, datetime &e)
-  { return date >= s && date <= e; }
+bool TimeHelper::IsIn(datetime &date, datetime &start, datetime &end)
+  { return date >= start && date <= end; }
+
+//+------------------------------------------------------------------+
+//| TimeHelper::IsIn                                                 |
+//+------------------------------------------------------------------+
+bool TimeHelper::IsIn(MqlDateTime &date, MqlDateTime &start, MqlDateTime &end)
+  { return StructToTime(date) >= StructToTime(start) && StructToTime(date) <= StructToTime(end); }
 
 //+------------------------------------------------------------------+
 //| TimeHelper::UpdateDate                                           |
 //+------------------------------------------------------------------+
-void TimeHelper::UpdateDate(MqlDateTime &date, MqlDateTime &s, MqlDateTime &e)
-  { UpdateDateHelper(date, s, e); }
+void TimeHelper::UpdateDate(MqlDateTime &date, MqlDateTime &start, MqlDateTime &end)
+  { UpdateDateHelper(date, start, end); }
 
 //+------------------------------------------------------------------+
 //| TimeHelper::UpdateDate                                           |
 //+------------------------------------------------------------------+
-void TimeHelper::UpdateDate(datetime &date, datetime &s, datetime &e)
-  { UpdateDateHelper(date, s, e); }
+void TimeHelper::UpdateDate(datetime &date, datetime &start, datetime &end)
+  { UpdateDateHelper(date, start, end); }
 
 //+------------------------------------------------------------------+
 //| TimeHelper::UpdateDate                                           |
 //+------------------------------------------------------------------+
-void TimeHelper::UpdateDate(MqlDateTime &s, MqlDateTime &e)
+void TimeHelper::UpdateDate(MqlDateTime &start, MqlDateTime &end)
   {
    MqlDateTime temp;
    TimeToStruct(TimeCurrent(), temp);
-   UpdateDateHelper(temp, s, e);
+   UpdateDateHelper(temp, start, end);
   }
 
 //+------------------------------------------------------------------+
 //| TimeHelper::UpdateDate                                           |
 //+------------------------------------------------------------------+
-void TimeHelper::UpdateDate(datetime &s, datetime &e)
+void TimeHelper::UpdateDate(datetime &start, datetime &end)
   {
    datetime temp = TimeCurrent();
-   UpdateDateHelper(temp, s, e);
+   UpdateDateHelper(temp, start, end);
   }
 //+------------------------------------------------------------------+
