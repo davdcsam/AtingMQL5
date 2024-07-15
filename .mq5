@@ -31,3 +31,5 @@
 #include "src//time//TimeLapseTree.mqh"
 
 #include "src//transaction//Transaction.mqh"
+
+#include "test/TimeExecution.mqh"
