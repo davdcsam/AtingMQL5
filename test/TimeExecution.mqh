@@ -22,7 +22,7 @@ public:
      {
       end = GetTickCount() - start;
       PrintFormat(
-         "Calculating backtest took %d ms or %s",
+         "\nCalculating backtest took %d ms or %s\n",
          end,
          TimeToString(datetime(end) / 1000, TIME_SECONDS)
       );

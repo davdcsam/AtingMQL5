@@ -41,7 +41,7 @@ public:
 
    double            Run(double price, long stop, ENUM_POSITION_TYPE type, ENUM_STOP_TYPE stop_type) { return internal(price, stop, type, stop_type); }
 
-   static bool              VerifyNoNegative(double price) { return price > 0 ? true : false; }
+   static bool              VerifyNoNegative(double price) { return price >= 0 ? true : false; }
 
    static bool              VerifyNoNegative(double &prices[])
      {
@@ -52,7 +52,7 @@ public:
 
       for(int i=0;i<size;i++)
         {
-         if(prices[i] <= 0)
+         if(prices[i] < 0)
             return false;
         }
       return true;
@@ -67,7 +67,7 @@ public:
 
       for(int i=0;i<size;i++)
         {
-         if(prices.At(i) <= 0)
+         if(prices.At(i) < 0)
             return false;
         }
       return true;
