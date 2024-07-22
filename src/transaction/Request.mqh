@@ -105,19 +105,26 @@ protected:
       request.magic = magicNumber; // Set the magic number for the request
       request.type_filling = filling_mode; // Set the filling mode for the request
 
+      Print(stopLoss);
+      Print(takeProfit);
+
       // If the order type is POSITION_TYPE_BUY
       if(type == POSITION_TYPE_BUY)
         {
          request.price = SymbolInfoDouble(symbol, SYMBOL_ASK); // Set the price for the request
-         request.tp = calcStop.Run(request.price, takeProfit, type, CalcStop::TAKE_PROFIT); // Set the take profit for the request
-         request.sl = calcStop.Run(request.price, stopLoss, type, CalcStop::STOP_LOSS); // Set the stop loss for the request
+         if(takeProfit != 0)
+            request.tp = calcStop.Run(request.price, takeProfit, type, CalcStop::TAKE_PROFIT); // Set the take profit for the request
+         if(stopLoss != 0)
+            request.sl = calcStop.Run(request.price, stopLoss, type, CalcStop::STOP_LOSS); // Set the stop loss for the request
          return;
         }
 
       // If the order type is not POSITION_TYPE_BUY
       request.price = SymbolInfoDouble(symbol, SYMBOL_BID); // Set the price for the request
-      request.tp = calcStop.Run(request.price, takeProfit, type, CalcStop::TAKE_PROFIT); // Set the take profit for the request
-      request.sl = calcStop.Run(request.price, stopLoss, type, CalcStop::STOP_LOSS); // Set the stop loss for the request
+      if(takeProfit != 0)
+         request.tp = calcStop.Run(request.price, takeProfit, type, CalcStop::TAKE_PROFIT); // Set the take profit for the request
+      if(stopLoss != 0)
+         request.sl = calcStop.Run(request.price, stopLoss, type, CalcStop::STOP_LOSS); // Set the stop loss for the request
 
      }
 
@@ -145,8 +152,10 @@ protected:
       if(order_pending_type == ORDER_PENDING_TYPE_BUY)
         {
          // Set the stop loss and take profit for the request
-         request.tp = calcStop.Run(request.price, takeProfit, ENUM_POSITION_TYPE(ORDER_PENDING_TYPE_BUY), CalcStop::TAKE_PROFIT); // Set the take profit for the request
-         request.sl = calcStop.Run(request.price, stopLoss, ENUM_POSITION_TYPE(ORDER_PENDING_TYPE_BUY), CalcStop::STOP_LOSS); // Set the stop loss for the request
+         if(takeProfit != 0)
+            request.tp = calcStop.Run(request.price, takeProfit, ENUM_POSITION_TYPE(ORDER_PENDING_TYPE_BUY), CalcStop::TAKE_PROFIT); // Set the take profit for the request
+         if(stopLoss != 0)
+            request.sl = calcStop.Run(request.price, stopLoss, ENUM_POSITION_TYPE(ORDER_PENDING_TYPE_BUY), CalcStop::STOP_LOSS); // Set the stop loss for the request
 
          // Set the buy pending order action type for the request
          setBuyPendingOrderActionType(request, price_ask);
@@ -157,8 +166,10 @@ protected:
       // If the pending order type is not ORDER_PENDING_TYPE_BUY
 
       // Set the stop loss and take profit for the request
-      request.tp = calcStop.Run(request.price, takeProfit, ENUM_POSITION_TYPE(ORDER_PENDING_TYPE_SELL), CalcStop::TAKE_PROFIT); // Set the take profit for the request
-      request.sl = calcStop.Run(request.price, stopLoss, ENUM_POSITION_TYPE(ORDER_PENDING_TYPE_SELL), CalcStop::STOP_LOSS); // Set the stop loss for the request
+      if(takeProfit != 0)
+         request.tp = calcStop.Run(request.price, takeProfit, ENUM_POSITION_TYPE(ORDER_PENDING_TYPE_SELL), CalcStop::TAKE_PROFIT); // Set the take profit for the request
+      if(stopLoss != 0)
+         request.sl = calcStop.Run(request.price, stopLoss, ENUM_POSITION_TYPE(ORDER_PENDING_TYPE_SELL), CalcStop::STOP_LOSS); // Set the stop loss for the request
 
       // Set the sell pending order action type for the request
       setSellPendingOrderActionType(request, price_bid);

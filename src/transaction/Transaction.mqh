@@ -158,7 +158,7 @@ public:
 
       if(
          !calcStop.VerifyNoNegative(stops) ||
-         !OrderSend(tradeRequest, tradeResult)
+         !OrderSendAsync(tradeRequest, tradeResult)
       )
         {
          Print(failSendingOrder());
