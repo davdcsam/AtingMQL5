@@ -1,8 +1,3 @@
-
-<img src="res/atingmql5.png" alt="Logo" width="200" height="200">
-
-# Automated Trading for MQL5
-
 The AtingMQL5 is a library created by Ating to simplify any tasks in the development of bots in MQL5.
 
 # Demo Visualization
@@ -101,10 +96,9 @@ So sorry, test in dev.
 
 ## Support
 
-For support, email <edavidcamposl@gmail.com>, <00514724@uca.edu.sv>, [X](https://x.com/davdcsam) & [Instagram](https://www.instagram.com/davdcsam/)
+For support, email [edavidcamposl@gmail.com](edavidcamposl@gmail.com), [00514724@uca.edu.sv](00514724@uca.edu.sv), [X](https://x.com/davdcsam) & [Instagram](https://www.instagram.com/davdcsam/)
 
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
-<img src="res/ating.png" alt="Logo" width="200" height="200">
