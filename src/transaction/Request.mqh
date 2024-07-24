@@ -3,20 +3,15 @@
 //|                                         Copyright 2024, davdcsam |
 //|                            https://github.com/davdcsam/AtingMQL5 |
 //+------------------------------------------------------------------+
-
 #include "CalcStop.mqh"
 #include "RoudVolume.mqh"
 
 //+------------------------------------------------------------------+
-//|                                                                  |
-//+------------------------------------------------------------------+
-
-//+------------------------------------------------------------------+
-//|                                                                  |
-//+------------------------------------------------------------------+
 class Request
   {
-protected:
+
+public:
+
    enum ENUM_ORDER_PENDING_TYPE
      {
       ORDER_PENDING_TYPE_BUY = POSITION_TYPE_BUY,
@@ -33,93 +28,6 @@ protected:
    RoundVolume       roundVolume;
    CalcStop          calcStop;
 
-   // Function to build a check position
-   void              BuildCheckPosition(MqlTradeRequest& request, ENUM_POSITION_TYPE type, ENUM_ORDER_TYPE_FILLING filling_mode, double price_ask, double price_bid)
-     {
-      ZeroMemory(request);
-      long spread = SymbolInfoInteger(symbol, SYMBOL_SPREAD) * 2;
-
-      request.action = TRADE_ACTION_DEAL;
-      request.symbol = symbol;
-      request.type = ENUM_ORDER_TYPE(type);
-      request.volume = SymbolInfoDouble(symbol, SYMBOL_VOLUME_MIN);
-      request.deviation = spread;
-      request.magic = magicNumber;
-      request.type_filling = filling_mode;
-
-      if(type == POSITION_TYPE_BUY)
-        {
-         request.price = price_ask;
-         request.tp = NormalizeDouble(request.price + spread * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
-         request.sl = NormalizeDouble(request.price - spread * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
-        }
-      else
-        {
-         request.price = price_bid;
-         request.tp = NormalizeDouble(request.price - spread * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
-         request.sl = NormalizeDouble(request.price + spread * SymbolInfoDouble(symbol, SYMBOL_POINT), (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS));
-        }
-     }
-
-   // Function to build a position
-   void              BuildPosition(MqlTradeRequest& request, ENUM_POSITION_TYPE type, ENUM_ORDER_TYPE_FILLING filling_mode)
-     {
-      ZeroMemory(request);
-
-      request.action = TRADE_ACTION_DEAL;
-      request.symbol = symbol;
-      request.type = ENUM_ORDER_TYPE(type);
-      request.volume = roundVolume.Run(lotSize);
-      request.deviation = deviationTrade;
-      request.magic = magicNumber;
-      request.type_filling = filling_mode;
-
-      double current_price = (type == POSITION_TYPE_BUY) ? SymbolInfoDouble(symbol, SYMBOL_ASK) : SymbolInfoDouble(symbol, SYMBOL_BID);
-
-      request.price = current_price;
-      if(takeProfit != 0)
-         request.tp = calcStop.Run(current_price, takeProfit, type, CalcStop::TAKE_PROFIT);
-      if(stopLoss != 0)
-         request.sl = calcStop.Run(current_price, stopLoss, type, CalcStop::STOP_LOSS);
-     }
-
-   // Function to build a pending order
-   void              BuildPending(MqlTradeRequest& request, ENUM_ORDER_PENDING_TYPE order_pending_type, ENUM_ORDER_TYPE_FILLING filling_mode, double open_price, double current_price)
-     {
-      ZeroMemory(request);
-
-      request.action = TRADE_ACTION_PENDING;
-      request.symbol = symbol;
-      request.volume = roundVolume.Run(lotSize);
-      request.price = open_price;
-      request.deviation = deviationTrade;
-      request.magic = magicNumber;
-      request.type_filling = filling_mode;
-
-      ENUM_POSITION_TYPE position_type = (order_pending_type == ORDER_PENDING_TYPE_BUY) ? POSITION_TYPE_BUY : POSITION_TYPE_SELL;
-
-      if(takeProfit != 0)
-         request.tp = calcStop.Run(open_price, takeProfit, position_type, CalcStop::TAKE_PROFIT);
-      if(stopLoss != 0)
-         request.sl = calcStop.Run(open_price, stopLoss, position_type, CalcStop::STOP_LOSS);
-
-      if(order_pending_type == ORDER_PENDING_TYPE_BUY)
-         request.type = (current_price > open_price) ? ORDER_TYPE_BUY_LIMIT : ORDER_TYPE_BUY_STOP;
-      else
-         request.type = (current_price > open_price) ? ORDER_TYPE_SELL_STOP : ORDER_TYPE_SELL_LIMIT;
-
-     }
-
-   void              BuildPendingOrPosition(MqlTradeRequest& request, ENUM_ORDER_PENDING_TYPE order_pending_type, ENUM_ORDER_TYPE_FILLING filling_mode, double open_price, double comparative_price)
-     {
-      BuildPending(request, order_pending_type, filling_mode, open_price, comparative_price);
-
-      MqlTradeCheckResult check_result;
-      if(OrderCheck(request, check_result) && check_result.retcode == TRADE_RETCODE_INVALID_PRICE)
-         BuildPosition(request, ENUM_POSITION_TYPE(order_pending_type), filling_mode);
-     }
-
-public:
    // Constructor for the Request class
                      Request() {}
 
@@ -165,6 +73,77 @@ public:
          default:
             return 0;
         }
+     }
+
+   // Function to build a check position
+   void              BuildCheckPosition(MqlTradeRequest& request, ENUM_POSITION_TYPE type, ENUM_ORDER_TYPE_FILLING filling)
+     {
+      ZeroMemory(request);
+
+      request.action = TRADE_ACTION_DEAL;
+      request.symbol = symbol;
+      request.type = ENUM_ORDER_TYPE(type);
+      request.volume = SymbolInfoDouble(symbol, SYMBOL_VOLUME_MIN);
+      request.deviation = SymbolInfoInteger(symbol, SYMBOL_SPREAD) * 2;
+      request.magic = magicNumber;
+      request.type_filling = filling;
+      request.price = (type == POSITION_TYPE_BUY) ? SymbolInfoDouble(symbol, SYMBOL_ASK) : SymbolInfoDouble(symbol, SYMBOL_BID);
+      if(request.deviation != 0)
+        {
+         request.tp = calcStop.Run(request.price, request.deviation, type, CalcStop::TAKE_PROFIT);
+         request.sl = calcStop.Run(request.price, request.deviation, type, CalcStop::STOP_LOSS);
+        }
+
+     }
+
+   // Function to build a position
+   void              BuildPosition(MqlTradeRequest& request, ENUM_POSITION_TYPE type, ENUM_ORDER_TYPE_FILLING filling)
+     {
+      ZeroMemory(request);
+
+      request.action = TRADE_ACTION_DEAL;
+      request.symbol = symbol;
+      request.type = ENUM_ORDER_TYPE(type);
+      request.volume = roundVolume.Run(lotSize);
+      request.deviation = deviationTrade;
+      request.magic = magicNumber;
+      request.type_filling = filling;
+      request.price = (type == POSITION_TYPE_BUY) ? SymbolInfoDouble(symbol, SYMBOL_ASK) : SymbolInfoDouble(symbol, SYMBOL_BID);
+      if(takeProfit != 0)
+         request.tp = calcStop.Run(request.price, takeProfit, type, CalcStop::TAKE_PROFIT);
+      if(stopLoss != 0)
+         request.sl = calcStop.Run(request.price, stopLoss, type, CalcStop::STOP_LOSS);
+     }
+
+   // Function to build a pending order
+   void              BuildPending(MqlTradeRequest& request, ENUM_ORDER_PENDING_TYPE type, ENUM_ORDER_TYPE_FILLING filling, double price)
+     {
+      ZeroMemory(request);
+
+      request.action = TRADE_ACTION_PENDING;
+      request.symbol = symbol;
+      request.type = (type == ORDER_PENDING_TYPE_BUY) ?
+                     ((SymbolInfoDouble(symbol, SYMBOL_ASK) > price) ? ORDER_TYPE_BUY_LIMIT : ORDER_TYPE_BUY_STOP) :
+                     ((SymbolInfoDouble(symbol, SYMBOL_BID) > price) ? ORDER_TYPE_SELL_STOP : ORDER_TYPE_SELL_LIMIT);
+      request.volume = roundVolume.Run(lotSize);
+      request.deviation = deviationTrade;
+      request.magic = magicNumber;
+      request.type_filling = filling;
+      request.price = price;
+      if(takeProfit != 0)
+         request.tp = calcStop.Run(request.price, takeProfit, (ENUM_POSITION_TYPE)type, CalcStop::TAKE_PROFIT);
+      if(stopLoss != 0)
+         request.sl = calcStop.Run(request.price, stopLoss, (ENUM_POSITION_TYPE)type, CalcStop::STOP_LOSS);
+
+     }
+
+   void              BuildPendingOrPosition(MqlTradeRequest& request, ENUM_ORDER_PENDING_TYPE type, ENUM_ORDER_TYPE_FILLING filling, double price)
+     {
+      BuildPending(request, type, filling, price);
+
+      MqlTradeCheckResult check_result;
+      if(OrderCheck(request, check_result) && check_result.retcode == TRADE_RETCODE_INVALID_PRICE)
+         BuildPosition(request, ENUM_POSITION_TYPE(type), filling);
      }
   };
 //+------------------------------------------------------------------+
