@@ -154,6 +154,7 @@ void LimitsByTimeRange::Update()
    end_datetime.min = previous_end_min;
    end_datetime.sec = previous_end_sec;
   }
+
 //+------------------------------------------------------------------+
 void LimitsByTimeRange::UpdateAtr(
    uchar prev_start_hour,
@@ -176,6 +177,7 @@ void LimitsByTimeRange::UpdateAtr(
    symbol = symbol_arg;
    ArraySetAsSeries(rates_limits, true);
   }
+
 //+------------------------------------------------------------------+
 LimitsByTimeRange::ENUM_CHECK LimitsByTimeRange::CheckArg()
   {
@@ -202,6 +204,7 @@ LimitsByTimeRange::ENUM_CHECK LimitsByTimeRange::CheckArg()
 
    return(PASSED);
   }
+
 //+------------------------------------------------------------------+
 string LimitsByTimeRange::EnumCheckToString(ENUM_CHECK enum_result)
   {
@@ -248,6 +251,7 @@ string LimitsByTimeRange::EnumCheckToString(ENUM_CHECK enum_result)
      }
    return(result);
   }
+
 //+------------------------------------------------------------------+
 LimitsByTimeRange::TimeRange LimitsByTimeRange::GetTimeRange()
   {

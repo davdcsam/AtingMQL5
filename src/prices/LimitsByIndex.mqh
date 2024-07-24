@@ -66,6 +66,7 @@ void LimitsByIndex::UpdateAtr(string symbol_arg, ENUM_TIMEFRAMES timeframe_atr, 
    counter = counter_arg;
    shifter = shifter_arg;
   }
+
 //+------------------------------------------------------------------+
 void LimitsByIndex::Get()
   {
