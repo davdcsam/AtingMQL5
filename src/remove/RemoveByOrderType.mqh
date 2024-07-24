@@ -3,151 +3,193 @@
 //|                                         Copyright 2024, davdcsam |
 //|                            https://github.com/davdcsam/AtingMQL5 |
 //+------------------------------------------------------------------+
-
 #include "Remove.mqh"
 
 //+------------------------------------------------------------------+
-//| RemoveByOrderType                                                |
-//+------------------------------------------------------------------+
+/**
+ * @class RemoveByOrderType
+ * @brief Class to handle the removal of orders based on their type relative to positions.
+ */
 class RemoveByOrderType : public Remove
   {
 public:
+   /**
+    * @enum ENUM_MODES
+    * @brief Enumeration to specify the mode of removal.
+    */
    enum ENUM_MODES
      {
-      MODE_REMOVE_SAME_TYPE, // Remove the same type
-      MODE_REMOVE_OPPOSITE_TYPE//
+      MODE_REMOVE_SAME_TYPE,   /**< Remove orders of the same type as the position. */
+      MODE_REMOVE_OPPOSITE_TYPE /**< Remove orders of the opposite type of the position. */
      };
+
 private:
-   // Use to disable VerifyPositionAndRemoveOppositeArray method
+   /**
+    * @brief Flags to indicate whether there are orders of a specific type to be removed.
+    */
    bool              internal_flag_buy;
    bool              internal_flag_sell;
+
+   /**
+    * @brief Mode of removal.
+    */
    ENUM_MODES        mode;
 
 protected:
-   void              ProcessOrder(ulong &ticket)
-     {
-      if(sell_order_tickets.SearchLinear(ticket) != -1)
-        {
-         if(mode == MODE_REMOVE_SAME_TYPE)
-           {
-            HandleOrder(ticket, "sell_order_tickets", sell_order_tickets, buy_order_tickets);
-            internal_flag_sell = false;
-            return;
-           }
+   /**
+    * @brief Processes an order based on its ticket and mode.
+    * @param ticket Ticket number of the order.
+    */
+   void              ProcessOrder(ulong &ticket);
 
-         HandleOrder(ticket, "buy_order_tickets", sell_order_tickets, buy_order_tickets);
-         internal_flag_sell = false;
-        }
-
-      if(buy_order_tickets.SearchLinear(ticket) != -1)
-        {
-         if(mode == MODE_REMOVE_SAME_TYPE)
-           {
-            HandleOrder(ticket, "buy_order_tickets", buy_order_tickets, sell_order_tickets);
-            internal_flag_buy = false;
-            return;
-           }
-
-         HandleOrder(ticket, "sell_order_tickets", buy_order_tickets, sell_order_tickets);
-         internal_flag_sell = false;
-        }
-     }
-
-   void              HandleOrder(ulong ticket, string orderType, CArrayLong &primaryTickets, CArrayLong &secondaryTickets)
-     {
-      UpdateOrders();
-
-      if(!RemoveOrdersFromCArray(mode == MODE_REMOVE_SAME_TYPE ? primaryTickets : secondaryTickets))
-        {
-         PrintFormat("Failed removing orders in %s. Err: %d", GetLastError(), orderType);
-         return;
-        }
-
-      PrintFormat("Removed orders in %s.", orderType);
-     }
+   /**
+    * @brief Handles the removal of orders based on the specified type.
+    * @param ticket Ticket number of the order to be handled.
+    * @param orderType Type of order to be removed.
+    * @param primaryTickets Array containing primary tickets for removal.
+    * @param secondaryTickets Array containing secondary tickets.
+    */
+   void              HandleOrder(ulong ticket, string orderType, CArrayLong &primaryTickets, CArrayLong &secondaryTickets);
 
 public:
-                     RemoveByOrderType(ENUM_MODES mode_arg = NULL): Remove()
-     {
-      mode = mode_arg == NULL ? MODE_REMOVE_SAME_TYPE : mode_arg;
-     };
+   /**
+    * @brief Constructor for the RemoveByOrderType class.
+    * @param mode_arg Mode of removal.
+    */
+                     RemoveByOrderType(ENUM_MODES mode_arg = MODE_REMOVE_SAME_TYPE);
 
-   // Arrays to store order tickets
+   /**
+    * @brief Arrays to store order tickets for buy and sell orders.
+    */
    CArrayLong        buy_order_tickets;
    CArrayLong        sell_order_tickets;
 
-   // Function to update orders by order type
-   void              UpdateOrders()
-     {
-      // Shutdown the order tickets arrays
-      detectOrders.orderTickets.Shutdown();
-      buy_order_tickets.Shutdown();
-      sell_order_tickets.Shutdown();
+   /**
+    * @brief Updates the order arrays based on their types.
+    */
+   void              UpdateOrders();
 
-      int orders_total = OrdersTotal();
-      if(!orders_total)
-        {
-         return;
-        }
-
-
-      // Loop through each order
-      for(int i=0; i < orders_total; i++)
-        {
-         // Get the ticket for the order
-         ulong ticket = OrderGetTicket(i);
-
-         // If the order is not valid, continue to the next order
-         if(!detectOrders.IsValidOrder(ticket))
-            continue;
-
-         // Add the ticket to the order tickets array
-         detectOrders.orderTickets.Add(ticket);
-
-         // Filter the orders to buys and sells
-         switch((int)OrderGetInteger(ORDER_TYPE))
-           {
-            case ORDER_TYPE_BUY_STOP:
-               buy_order_tickets.Add(ticket);
-               break;
-            case ORDER_TYPE_SELL_LIMIT:
-               sell_order_tickets.Add(ticket);
-               break;
-            case ORDER_TYPE_BUY_LIMIT:
-               buy_order_tickets.Add(ticket);
-               break;
-            case ORDER_TYPE_SELL_STOP:
-               sell_order_tickets.Add(ticket);
-               break;
-           }
-
-         // Set the internal flag to true
-         internal_flag_buy = true;
-         internal_flag_sell = true;
-        }
-     }
-
-   // Function to verify position and remove the same extra orders type
-   void              VerifyPositionAndRemove()
-     {
-      // If neither internal flag is set, return early
-      if(!internal_flag_buy && !internal_flag_sell)
-         return;
-
-      int positions_total = PositionsTotal();
-      if(positions_total == 0)
-         return;
-
-      // Loop through each position
-      for(int i = 0; i < positions_total; i++)
-        {
-         ulong ticket = PositionGetTicket(i);
-
-         // If the position is not valid, continue to the next position
-         if(!detectPositions.IsValidPosition(ticket))
-            continue;
-
-         ProcessOrder(ticket);
-        }
-     }
+   /**
+    * @brief Verifies positions and removes orders based on their type.
+    */
+   void              VerifyPositionAndRemove();
   };
+
+//+------------------------------------------------------------------+
+RemoveByOrderType::RemoveByOrderType(ENUM_MODES mode_arg)
+   : Remove(), mode(mode_arg)
+  {
+  }
+
+//+------------------------------------------------------------------+
+void RemoveByOrderType::UpdateOrders()
+  {
+// Clear the order tickets arrays
+   detectOrders.orderTickets.Shutdown();
+   buy_order_tickets.Shutdown();
+   sell_order_tickets.Shutdown();
+
+   int orders_total = OrdersTotal();
+   if(orders_total == 0)
+      return;
+
+// Loop through each order
+   for(int i = 0; i < orders_total; i++)
+     {
+      // Get the ticket for the order
+      ulong ticket = OrderGetTicket(i);
+
+      // If the order is not valid, skip it
+      if(!detectOrders.IsValidOrder(ticket))
+         continue;
+
+      // Add the ticket to the order tickets array
+      detectOrders.orderTickets.Add(ticket);
+
+      // Filter the orders to buys and sells
+      switch((int)OrderGetInteger(ORDER_TYPE))
+        {
+         case ORDER_TYPE_BUY_STOP:
+         case ORDER_TYPE_BUY_LIMIT:
+            buy_order_tickets.Add(ticket);
+            break;
+         case ORDER_TYPE_SELL_LIMIT:
+         case ORDER_TYPE_SELL_STOP:
+            sell_order_tickets.Add(ticket);
+            break;
+        }
+
+      // Set the internal flags
+      internal_flag_buy = true;
+      internal_flag_sell = true;
+     }
+  }
+
+//+------------------------------------------------------------------+
+void RemoveByOrderType::ProcessOrder(ulong &ticket)
+  {
+   if(sell_order_tickets.SearchLinear(ticket) != -1)
+     {
+      if(mode == MODE_REMOVE_SAME_TYPE)
+        {
+         HandleOrder(ticket, "sell_order_tickets", sell_order_tickets, buy_order_tickets);
+         internal_flag_sell = false;
+         return;
+        }
+
+      HandleOrder(ticket, "buy_order_tickets", sell_order_tickets, buy_order_tickets);
+      internal_flag_sell = false;
+     }
+
+   if(buy_order_tickets.SearchLinear(ticket) != -1)
+     {
+      if(mode == MODE_REMOVE_SAME_TYPE)
+        {
+         HandleOrder(ticket, "buy_order_tickets", buy_order_tickets, sell_order_tickets);
+         internal_flag_buy = false;
+         return;
+        }
+
+      HandleOrder(ticket, "sell_order_tickets", buy_order_tickets, sell_order_tickets);
+      internal_flag_buy = false;
+     }
+  }
+
+//+------------------------------------------------------------------+
+void RemoveByOrderType::HandleOrder(ulong ticket, string orderType, CArrayLong &primaryTickets, CArrayLong &secondaryTickets)
+  {
+   UpdateOrders();
+
+   if(!RemoveOrdersFromCArray(mode == MODE_REMOVE_SAME_TYPE ? primaryTickets : secondaryTickets))
+     {
+      PrintFormat("Failed removing orders in %s. Err: %d", orderType, GetLastError());
+      return;
+     }
+
+   PrintFormat("Removed orders in %s.", orderType);
+  }
+
+//+------------------------------------------------------------------+
+void RemoveByOrderType::VerifyPositionAndRemove()
+  {
+// If neither internal flag is set, return
+   if(!internal_flag_buy && !internal_flag_sell)
+      return;
+
+   int positions_total = PositionsTotal();
+   if(positions_total == 0)
+      return;
+
+// Loop through each position
+   for(int i = 0; i < positions_total; i++)
+     {
+      ulong ticket = PositionGetTicket(i);
+
+      // If the position is not valid, skip it
+      if(!detectPositions.IsValidPosition(ticket))
+         continue;
+
+      ProcessOrder(ticket);
+     }
+  }
+//+------------------------------------------------------------------+
