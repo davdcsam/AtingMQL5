@@ -954,7 +954,8 @@ INPUT                  = ../ \
                          ..res/ \
                          res/ \
                          res \
-                         . res/ \
+                         . \
+                         res/ \
                          .res
 
 # This tag can be used to specify the character encoding of the source files
@@ -1345,7 +1346,7 @@ GENERATE_HTML          = YES
 # The default directory is: html.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_OUTPUT            = html
+HTML_OUTPUT            = .
 
 # The HTML_FILE_EXTENSION tag can be used to specify the file extension for each
 # generated HTML page (for example: .htm, .php, .asp).
@@ -1412,7 +1413,8 @@ HTML_STYLESHEET        = ../../doxygen-awesome-css/doxygen-awesome.css
 # documentation.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_EXTRA_STYLESHEET  =
+HTML_EXTRA_STYLESHEET  = doxygen-awesome-css/doxygen-awesome.css \
+                         doxygen-awesome-css/doxygen-awesome-sidebar-only.css
 
 # The HTML_EXTRA_FILES tag can be used to specify one or more extra images or
 # other source files which should be copied to the HTML output directory. Note
@@ -2907,10 +2909,3 @@ MSCGEN_TOOL            =
 # command).
 
 MSCFILE_DIRS           =
-
-GENERATE_TREEVIEW      = YES # required!
-DISABLE_INDEX          = NO
-FULL_SIDEBAR           = NO
-HTML_EXTRA_STYLESHEET  = doxygen-awesome-css/doxygen-awesome.css \
-                        doxygen-awesome-css/doxygen-awesome-sidebar-only.css
-HTML_COLORSTYLE        = LIGHT # required with Doxygen >= 1.9.5
