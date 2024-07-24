@@ -5,36 +5,57 @@
 //+------------------------------------------------------------------+
 #include <Generic/HashMap.mqh>
 
+//+------------------------------------------------------------------+
+/**
+ * @interface BaseTask
+ * @brief Base interface for tasks.
+ */
 interface BaseTask
-  {
+{
 public:
-   virtual void      Run() {};
-
-  };
+   /**
+    * @brief Executes the task.
+    */
+   virtual void Run() {};
+};
 
 //+------------------------------------------------------------------+
-//| TaskManager                                                      |
-//+------------------------------------------------------------------+
+/**
+ * @class TaskManager
+ * @brief Manages and executes a collection of tasks.
+ */
 class TaskManager
-  {
+{
 private:
-   datetime          nextTask;
-   int arrKeys[];
-   BaseTask*         arrValues[];
+   datetime          nextTask; ///< Time for the next scheduled task
+   int               arrKeys[]; ///< Array to hold task keys
+   BaseTask*         arrValues[]; ///< Array to hold task values
 
 public:
+   /**
+    * @brief Default constructor for TaskManager.
+    */
                      TaskManager(void) {};
 
+   /**
+    * @brief A map of tasks where keys are integers and values are task pointers.
+    */
    CHashMap<int, BaseTask*> Tasks;
 
-   void              RunAllTasks(void)
-     {
-      Tasks.CopyTo(arrKeys, arrValues, 0);
+   /**
+    * @brief Executes all the tasks currently in the task manager.
+    */
+   void              RunAllTasks(void);
+};
 
-      for(int i=0;i<ArraySize(arrValues);i++)
-        {
-         arrValues[i].Run();
-        }
-     }
-  };
+//+------------------------------------------------------------------+
+void TaskManager::RunAllTasks(void)
+{
+   Tasks.CopyTo(arrKeys, arrValues, 0);
+
+   for(int i = 0; i < ArraySize(arrValues); i++)
+   {
+      arrValues[i].Run();
+   }
+}
 //+------------------------------------------------------------------+
