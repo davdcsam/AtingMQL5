@@ -1,0 +1,35 @@
+var class_limits_by_time_range =
+[
+    [ "Prices", "struct_limits_by_time_range_1_1_prices.html", "struct_limits_by_time_range_1_1_prices" ],
+    [ "TimeRange", "struct_limits_by_time_range_1_1_time_range.html", "struct_limits_by_time_range_1_1_time_range" ],
+    [ "ENUM_CHECK", "class_limits_by_time_range.html#a090647121ac42e67d2e40fce9867581e", [
+      [ "PASSED", "class_limits_by_time_range.html#a090647121ac42e67d2e40fce9867581ea30b2d314cd2772c124a582489eb57a53", null ],
+      [ "START_EQUAL_END", "class_limits_by_time_range.html#a090647121ac42e67d2e40fce9867581ea8b70d2321b396a7bbb5d4a29320cb2f7", null ],
+      [ "START_OVER_END", "class_limits_by_time_range.html#a090647121ac42e67d2e40fce9867581eabe08ccf6a35b9fca0ab7ea3711e0d636", null ],
+      [ "INCORRECT_FORMATTING", "class_limits_by_time_range.html#a090647121ac42e67d2e40fce9867581ea5025c23e98b13dbfefedfbea2d01381f", null ],
+      [ "RATES_NO_FOUND", "class_limits_by_time_range.html#a090647121ac42e67d2e40fce9867581eaeead1d0e6c2c06b28a738e342eb63381", null ]
+    ] ],
+    [ "LimitsByTimeRange", "class_limits_by_time_range.html#afe9f8e142ae6f0bd2f775b219dd38012", null ],
+    [ "CheckArg", "class_limits_by_time_range.html#ae1ad64f054e7c134f6bc3b231cd8d280", null ],
+    [ "EnumCheckToString", "class_limits_by_time_range.html#a9acf5233d6fe695f8a7ae27221dfe0ce", null ],
+    [ "Get", "class_limits_by_time_range.html#a19b6a457e5b208e4f28e78833726690e", null ],
+    [ "GetPricesStruct", "class_limits_by_time_range.html#a348ae55943fa09a6b9670a5190339215", null ],
+    [ "GetTimeRange", "class_limits_by_time_range.html#ad33cad45822883a332553e13e769a793", null ],
+    [ "GetTimeRangeStruct", "class_limits_by_time_range.html#a009a21f2511762615d17d40756e298ba", null ],
+    [ "Update", "class_limits_by_time_range.html#ad2094bf31fe0c2c065858ea5f688b5d6", null ],
+    [ "UpdateAtr", "class_limits_by_time_range.html#a66d669acfa2c828469b8b76767705abe", null ],
+    [ "dt", "class_limits_by_time_range.html#acaa0adb17cb06ad94f596ea38aad140b", null ],
+    [ "end_datetime", "class_limits_by_time_range.html#a4d3bcf168a871593182e754799ff5396", null ],
+    [ "previous_end_hour", "class_limits_by_time_range.html#afe91975a055a13b1c7458d4c14d87081", null ],
+    [ "previous_end_min", "class_limits_by_time_range.html#a0ca375882cd43a2fa4fc19328035fd82", null ],
+    [ "previous_end_sec", "class_limits_by_time_range.html#ab9d870cce1433bbbc4581d13b9c20587", null ],
+    [ "previous_start_hour", "class_limits_by_time_range.html#a9aa521a88454c191d13ac120ef9ba2f0", null ],
+    [ "previous_start_min", "class_limits_by_time_range.html#a548bc1ad70f98b7b2d3526b3738f29c2", null ],
+    [ "previous_start_sec", "class_limits_by_time_range.html#a4121ab25700d6bbddd3f468efa51d4a2", null ],
+    [ "prices", "class_limits_by_time_range.html#ab01418d720d5685d4673261716f0eb41", null ],
+    [ "rates_limits", "class_limits_by_time_range.html#a52b0dd93abcca315b1ae663e4599d58a", null ],
+    [ "start_datetime", "class_limits_by_time_range.html#aa2f9d1030691474489f397763876a4c1", null ],
+    [ "symbol", "class_limits_by_time_range.html#af43263fb3b6eb7135a1b6f7ef7c6ea1d", null ],
+    [ "time_range", "class_limits_by_time_range.html#aac032cc852845d17a11122b2a6948bb2", null ],
+    [ "timeframes", "class_limits_by_time_range.html#a0235894187911cde05e1edd82a99f8b9", null ]
+];

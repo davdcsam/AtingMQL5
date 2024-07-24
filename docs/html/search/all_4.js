@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['end_0',['End',['../class_test_time.html#a4d97fddb2b21bc6d34657218fb9a1f41',1,'TestTime']]],
+  ['end_1',['end',['../struct_limits_by_time_range_1_1_time_range.html#a3ac1dfb7141f3729067df8dc6b26a3b1',1,'LimitsByTimeRange::TimeRange::end'],['../class_test_time.html#ad98db1c1d40979d7cadef84eae18f72f',1,'TestTime::end']]],
+  ['end_5fdatetime_2',['end_datetime',['../class_limits_by_time_range.html#a4d3bcf168a871593182e754799ff5396',1,'LimitsByTimeRange']]],
+  ['endtime_3',['endTime',['../class_time_lapse_tree_node.html#a94fd14e441afcbe70749f3d49c15fda6',1,'TimeLapseTreeNode']]],
+  ['enhanced_20ctrade_20class_4',['Enhanced CTrade Class',['../index.html#enhanced-ctrade-class',1,'']]],
+  ['enum_5fcheck_5',['ENUM_CHECK',['../class_institutional_arithmetic_prices.html#a33ae75ccf5edd68a70d4112c05edded7',1,'InstitutionalArithmeticPrices::ENUM_CHECK'],['../class_limits_by_time_range.html#a090647121ac42e67d2e40fce9867581e',1,'LimitsByTimeRange::ENUM_CHECK']]],
+  ['enum_5fcheck_5fsection_5ftime_6',['ENUM_CHECK_SECTION_TIME',['../class_section_time.html#a1a2f1f2dac92349ae638a20c83f7f129',1,'SectionTime']]],
+  ['enum_5fmodes_7',['ENUM_MODES',['../class_remove_by_order_type.html#ae70e1ab832afd1b2fa11ed5853d09041',1,'RemoveByOrderType']]],
+  ['enum_5fprofit_5fprotection_5ftype_8',['ENUM_PROFIT_PROTECTION_TYPE',['../class_profit_protection.html#a76bb40387e923a2711c8a39590f037c4',1,'ProfitProtection']]],
+  ['enum_5fstop_5ftype_9',['ENUM_STOP_TYPE',['../class_calc_stop.html#a2e8b4b6c15a03e46abe98c92088db0e7',1,'CalcStop']]],
+  ['enum_5ftype_5fnear_5flines_10',['ENUM_TYPE_NEAR_LINES',['../class_institutional_arithmetic_prices.html#aa72495a044e4c07d6dde42065b296830',1,'InstitutionalArithmeticPrices']]],
+  ['enumchecklinesgeneratortostring_11',['EnumCheckLinesGeneratorToString',['../class_institutional_arithmetic_prices.html#ac4ec457ad0fa1ae44753e598d79e5e41',1,'InstitutionalArithmeticPrices']]],
+  ['enumchecksectiontimetostring_12',['EnumCheckSectionTimeToString',['../class_section_time.html#accd5f71cdffb938783e6a67e3947caeb',1,'SectionTime']]],
+  ['enumchecktostring_13',['EnumCheckToString',['../class_limits_by_time_range.html#a9acf5233d6fe695f8a7ae27221dfe0ce',1,'LimitsByTimeRange']]],
+  ['err_5fadd_5fover_5fstep_14',['ERR_ADD_OVER_STEP',['../class_institutional_arithmetic_prices.html#a33ae75ccf5edd68a70d4112c05edded7aedc02e171104f32d8fa689d8f65d156a',1,'InstitutionalArithmeticPrices']]],
+  ['err_5fcurrent_5fover_5fend_15',['ERR_CURRENT_OVER_END',['../class_section_time.html#a1a2f1f2dac92349ae638a20c83f7f129a3965ac39a54d9aa306de6eaed6f51f7c',1,'SectionTime']]],
+  ['err_5finvalid_5flines_16',['ERR_INVALID_LINES',['../class_institutional_arithmetic_prices.html#aa72495a044e4c07d6dde42065b296830a79f2d8a98408e1ff3ee12c68d29bec78',1,'InstitutionalArithmeticPrices']]],
+  ['err_5fno_5fenough_5fstep_17',['ERR_NO_ENOUGH_STEP',['../class_institutional_arithmetic_prices.html#a33ae75ccf5edd68a70d4112c05edded7a9c6c9b220b166b44223938b90f0a8494',1,'InstitutionalArithmeticPrices']]],
+  ['err_5fprice_5fout_5flines_18',['ERR_PRICE_OUT_LINES',['../class_institutional_arithmetic_prices.html#a33ae75ccf5edd68a70d4112c05edded7ad8ae48d90eea751ea764bfce2dd5233a',1,'InstitutionalArithmeticPrices']]],
+  ['err_5fstart_5fequal_5fend_19',['ERR_START_EQUAL_END',['../class_section_time.html#a1a2f1f2dac92349ae638a20c83f7f129a852ce372f0c8085591b778bf14d675e0',1,'SectionTime']]],
+  ['err_5fstart_5fover_5fend_20',['ERR_START_OVER_END',['../class_institutional_arithmetic_prices.html#a33ae75ccf5edd68a70d4112c05edded7abfd1ab8b06a12dc713292f06161a3cac',1,'InstitutionalArithmeticPrices']]],
+  ['executable_20file_21',['Creating an Executable File',['../index.html#creating-an-executable-file',1,'']]],
+  ['experimental_20task_20manager_22',['Experimental Task Manager',['../index.html#experimental-task-manager',1,'']]]
+];

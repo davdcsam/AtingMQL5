@@ -1,0 +1,16 @@
+digraph "SectionTime::CheckArg"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="SectionTime::CheckArg",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Checks the validity of the section time arguments."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="SectionTime::Update",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_section_time.html#ac2f691c0d39b2165c914fe683d8cae48",tooltip="Updates the section's DateTime structures with current values."];
+  Node2 -> Node3 [id="edge2_Node000002_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="TimeHelper::Sort",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_time_helper.html#ab63b74da25fd23cad1c809f4f4d56580",tooltip="Sorts the start and end dates in ascending order."];
+  Node3 -> Node3 [id="edge3_Node000003_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node2 -> Node4 [id="edge4_Node000002_Node000004",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="TimeHelper::UpdateDate",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_time_helper.html#ae34538660bff6da9ab0654d2ce79370c",tooltip="Updates the start and end dates to match the given date."];
+}

@@ -1,0 +1,28 @@
+digraph "C:/Users/solut/AppData/Roaming/MetaQuotes/Terminal/010E047102812FC0C18890992854220E/MQL5/Include/AtingMQL5/src/detect/DetectPositions.mqh"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  Node1 [id="Node000001",label="C:/Users/solut/AppData\l/Roaming/MetaQuotes/Terminal\l/010E047102812FC0C18890992854220E\l/MQL5/Include/AtingMQL5/src/detect\l/DetectPositions.mqh",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="C:/Users/solut/AppData\l/Roaming/MetaQuotes/Terminal\l/010E047102812FC0C18890992854220E\l/MQL5/Include/AtingMQL5/.mq5",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$_8mq5.html",tooltip=" "];
+  Node2 -> Node3 [id="edge2_Node000002_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="C:/Users/solut/AppData\l/Roaming/MetaQuotes/Terminal\l/010E047102812FC0C18890992854220E\l/MQL5/Include/AtingMQL5/.mqh",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$_8mqh.html",tooltip=" "];
+  Node1 -> Node4 [id="edge3_Node000001_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="C:/Users/solut/AppData\l/Roaming/MetaQuotes/Terminal\l/010E047102812FC0C18890992854220E\l/MQL5/Include/AtingMQL5/src/profitProtection\l/ProfitProtection.mqh",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$_profit_protection_8mqh.html",tooltip=" "];
+  Node4 -> Node5 [id="edge4_Node000004_Node000005",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="C:/Users/solut/AppData\l/Roaming/MetaQuotes/Terminal\l/010E047102812FC0C18890992854220E\l/MQL5/Include/AtingMQL5/src/profitProtection\l/BreakEven.mqh",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$_break_even_8mqh.html",tooltip=" "];
+  Node5 -> Node2 [id="edge5_Node000005_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node4 -> Node6 [id="edge6_Node000004_Node000006",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="C:/Users/solut/AppData\l/Roaming/MetaQuotes/Terminal\l/010E047102812FC0C18890992854220E\l/MQL5/Include/AtingMQL5/src/profitProtection\l/TrailingStop.mqh",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$_trailing_stop_8mqh.html",tooltip=" "];
+  Node6 -> Node2 [id="edge7_Node000006_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node7 [id="edge8_Node000001_Node000007",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node7 [id="Node000007",label="C:/Users/solut/AppData\l/Roaming/MetaQuotes/Terminal\l/010E047102812FC0C18890992854220E\l/MQL5/Include/AtingMQL5/src/remove\l/Remove.mqh",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$_remove_8mqh.html",tooltip=" "];
+  Node7 -> Node8 [id="edge9_Node000007_Node000008",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node8 [id="Node000008",label="C:/Users/solut/AppData\l/Roaming/MetaQuotes/Terminal\l/010E047102812FC0C18890992854220E\l/MQL5/Include/AtingMQL5/src/remove\l/RemoveByLocationPrice.mqh",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$_remove_by_location_price_8mqh.html",tooltip=" "];
+  Node8 -> Node2 [id="edge10_Node000008_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node7 -> Node9 [id="edge11_Node000007_Node000009",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node9 [id="Node000009",label="C:/Users/solut/AppData\l/Roaming/MetaQuotes/Terminal\l/010E047102812FC0C18890992854220E\l/MQL5/Include/AtingMQL5/src/remove\l/RemoveByOrderType.mqh",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$_remove_by_order_type_8mqh.html",tooltip=" "];
+  Node9 -> Node2 [id="edge12_Node000009_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+}

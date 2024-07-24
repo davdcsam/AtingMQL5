@@ -1,0 +1,12 @@
+digraph "Request"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  Node1 [id="Node000001",label="Request",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [id="edge1_Node000001_Node000002",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" roundVolume",fontcolor="grey" ];
+  Node2 [id="Node000002",label="RoundVolume",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$class_round_volume.html",tooltip="Class to round volumes to the nearest step size."];
+  Node3 -> Node1 [id="edge2_Node000001_Node000003",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" calcStop",fontcolor="grey" ];
+  Node3 [id="Node000003",label="CalcStop",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$class_calc_stop.html",tooltip="Class to calculate stop loss and take profit prices."];
+}

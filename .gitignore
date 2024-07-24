@@ -2,4 +2,4 @@
 *.json
 .vscode
 .vs
-docs/html/
+#docs/html/

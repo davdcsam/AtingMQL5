@@ -1,0 +1,14 @@
+digraph "TimeLapseTree::InsertRecursive"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [id="Node000001",label="TimeLapseTree::InsertRecursive",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="TimeLapseTree::Insert",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_time_lapse_tree.html#ac9ffc15915f0e5ccd692a11d7bebd34d",tooltip=" "];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="TimeLapseTree::Insert",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_time_lapse_tree.html#ab0275c6d365643fd51b3840f31358ca1",tooltip=" "];
+  Node1 -> Node1 [id="edge3_Node000001_Node000001",dir="back",color="steelblue1",style="solid",tooltip=" "];
+}

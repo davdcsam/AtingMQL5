@@ -1,0 +1,17 @@
+digraph "DetectPositions::UpdateAtr"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [id="Node000001",label="DetectPositions::UpdateAtr",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Updates the symbol and magic number for the position."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="ProfitProtection::UpdateAtr",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_profit_protection.html#a26a97911b435fa865bd16ce71dd16266",tooltip="Updates the attributes of the ProfitProtection class."];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="Remove::UpdateAtrToDetect",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_remove.html#acba1e40f29c0b17b978b2a20dbee19c7",tooltip="Updates attributes for DetectOrders and DetectPositions objects."];
+  Node3 -> Node4 [id="edge3_Node000003_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="Remove::UpdateAtr",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_remove.html#ac031056d9ae56b1ef75a9289e5ce9eed",tooltip="Updates attributes for the Remove class."];
+  Node3 -> Node5 [id="edge4_Node000003_Node000005",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="RemoveByLocationPrice\l::UpdateAtr",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_remove_by_location_price.html#a7174bc35b4ce3aacd102ec9e5b21beda",tooltip="Updates attributes for the RemoveByLocationPrice class."];
+}

@@ -1,0 +1,13 @@
+digraph "Remove::UpdateAtrToDetect"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="Remove::UpdateAtrToDetect",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Updates attributes for DetectOrders and DetectPositions objects."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="DetectOrders::UpdateAtr",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_detect_orders.html#a06f299fd01142799f0789a14294a7d91",tooltip="Updates the symbol and magic number for the order."];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="DetectPositions::UpdateAtr",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_detect_positions.html#a18e1fcb7c54c2246783a4482d748c1f4",tooltip="Updates the symbol and magic number for the position."];
+}

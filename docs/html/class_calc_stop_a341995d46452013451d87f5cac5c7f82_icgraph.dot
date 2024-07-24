@@ -1,0 +1,11 @@
+digraph "CalcStop::internal"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [id="Node000001",label="CalcStop::internal",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Internal function to calculate stop loss or take profit prices."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="CalcStop::Run",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_calc_stop.html#a48df6835c86088711aef2fd9e433dc2f",tooltip="Calculates the stop price based on provided parameters."];
+}
