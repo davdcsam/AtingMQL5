@@ -8,14 +8,14 @@
 //+------------------------------------------------------------------+
 /**
  * @class InstitutionalArithmeticPrices
- * @brief Class for handling arithmetic price calculations and line generation.
+ * @brief Class to handle arithmetic price calculations and validations for institutional trading.
  */
 class InstitutionalArithmeticPrices
 {
 public:
    /**
     * @enum ENUM_CHECK
-    * @brief Enum to handle different types of errors and checks in line generation.
+    * @brief Enum for handling different types of errors and checks in line generation.
     */
    enum ENUM_CHECK
    {
@@ -28,7 +28,7 @@ public:
 
    /**
     * @enum ENUM_TYPE_NEAR_LINES
-    * @brief Enum to handle different types of near lines.
+    * @brief Enum for handling different types of near lines.
     */
    enum ENUM_TYPE_NEAR_LINES
    {
@@ -39,7 +39,7 @@ public:
 
    /**
     * @struct Prices
-    * @brief Structure to hold price levels and line type information.
+    * @brief Structure to store computed prices and line type.
     */
    struct Prices
    {
@@ -52,30 +52,26 @@ public:
 
    /**
     * @struct Setting
-    * @brief Structure to hold settings for arithmetic calculations.
+    * @brief Structure to store arithmetic sequence settings.
     */
    struct Setting
    {
-      double         startAdd; ///< Starting addition value
-      double         step; ///< Step value
-      double         add; ///< Additional value
+      double         startAdd; ///< Start value for addition
+      double         step; ///< Step size for arithmetic sequence
+      double         add; ///< Additional value for adjustment
    };
 
 private:
-   Prices            prices; ///< Structure to store price levels
-   Setting           setting; ///< Structure to store settings
+   Prices            prices; ///< Prices structure for results
+   Setting           setting; ///< Settings for arithmetic sequence
 
    /**
-    * @brief Calculates the n-th term of the arithmetic sequence.
-    * @param n The term index.
-    * @tparam T Type of the term index.
-    * @return The calculated term of the sequence.
+    * @brief Calculates the term of an arithmetic sequence.
+    * @param n The term index
+    * @return The calculated term value
     */
    template<typename T>
-   T                 calcArithmeticSequenceTerm(T n)
-   {
-      return setting.startAdd + (n) * setting.step - (MathMod(n, 2) == 0 ? 0 : setting.add);
-   }
+   T calcArithmeticSequenceTerm(T n);
 
 public:
    /**
@@ -84,157 +80,185 @@ public:
                      InstitutionalArithmeticPrices(void) {}
 
    /**
-    * @brief Updates the arithmetic settings.
-    * @param startAdd The starting addition value.
-    * @param step The step value.
-    * @param add The additional value.
+    * @brief Updates the settings for arithmetic sequence.
+    * @param startAdd Start value for addition
+    * @param step Step size for arithmetic sequence
+    * @param add Additional value for adjustment
     */
-   void              UpdateSetting(double startAdd, double step, double add)
-   {
-      setting.startAdd = startAdd;
-      setting.step = step;
-      setting.add = add;
-   }
+   void              UpdateSetting(double startAdd, double step, double add);
 
    /**
-    * @brief Gets the current arithmetic settings.
-    * @return The current settings.
+    * @brief Retrieves the current settings.
+    * @return The current settings
     */
-   Setting           GetSetting()
-   {
-      return setting;
-   }
+   Setting           GetSetting();
 
    /**
-    * @brief Gets the current arithmetic settings.
-    * @param param Structure to store the settings.
+    * @brief Retrieves the current settings by reference.
+    * @param param Reference to a Setting structure to store the settings
     */
-   void              GetSetting(Setting &param)
-   {
-      param = setting;
-   }
+   void              GetSetting(Setting &param);
 
    /**
     * @brief Checks the arguments for line generation.
-    * @return The result of the check as ENUM_CHECK.
+    * @return The result of the check as ENUM_CHECK
     */
-   ENUM_CHECK        CheckArg()
-   {
-      if(setting.add > setting.step)
-         return(ERR_ADD_OVER_STEP);
-
-      return(CHECK_ARG_LINE_GENERATOR_PASSED);
-   }
+   ENUM_CHECK        CheckArg();
 
    /**
-    * @brief Generates a string comment based on the result of the line check.
-    * @param enum_result The result of the check.
-    * @return A string comment describing the result.
+    * @brief Converts the ENUM_CHECK result to a string.
+    * @param enum_result The ENUM_CHECK result to convert
+    * @return A string representation of the enum result
     */
-   string            EnumCheckLinesGeneratorToString(ENUM_CHECK enum_result)
-   {
-      string result;
-
-      switch(enum_result)
-      {
-         case CHECK_ARG_LINE_GENERATOR_PASSED:
-            result = StringFormat(
-                        "%s: Arguments passed the check.",
-                        EnumToString(enum_result)
-                     );
-            break;
-         case ERR_ADD_OVER_STEP:
-            result = StringFormat(
-                        "%s: Add value %s is greater than step value %s.",
-                        EnumToString(enum_result),
-                        DoubleToString(setting.add, _Digits),
-                        DoubleToString(setting.step, _Digits)
-                     );
-            break;
-         default:
-            result = "Unknown error.";
-            break;
-      }
-
-      return(result);
-   }
+   string            EnumCheckLinesGeneratorToString(ENUM_CHECK enum_result);
 
    /**
-    * @brief Generates price levels based on the close price.
-    * @param closePrice The close price to base calculations on.
-    * @return A Prices structure with the generated price levels.
+    * @brief Generates price levels based on the given close price.
+    * @param closePrice The close price to use for generation
+    * @return The computed Prices structure
     */
-   Prices              Generate(double closePrice)
-   {
-      double n = MathFloor((closePrice - setting.startAdd) / setting.step) + 1;
-
-      if(closePrice >= calcArithmeticSequenceTerm(n))
-      {
-         if(closePrice > calcArithmeticSequenceTerm(n) && closePrice < calcArithmeticSequenceTerm(n) + setting.add)
-         {
-            prices.upperBuy = calcArithmeticSequenceTerm(n+1);
-            prices.upperSell = calcArithmeticSequenceTerm(n) + setting.add;
-            prices.lowerBuy = calcArithmeticSequenceTerm(n);
-            prices.lowerSell = calcArithmeticSequenceTerm(n - 1) + setting.add;
-            prices.typeNearLines = TYPE_INSIDE_PARALLEL;
-            return prices;
-         }
-      }
-      else
-      {
-         if(closePrice > calcArithmeticSequenceTerm(n - 1) && closePrice < calcArithmeticSequenceTerm(n - 1) + setting.add)
-         {
-            prices.upperBuy = calcArithmeticSequenceTerm(n);
-            prices.upperSell = calcArithmeticSequenceTerm(n - 1) + setting.add;
-            prices.lowerBuy = calcArithmeticSequenceTerm(n - 1);
-            prices.lowerSell = calcArithmeticSequenceTerm(n- 2) + setting.add;
-            prices.typeNearLines = TYPE_INSIDE_PARALLEL;
-            return prices;
-         }
-      }
-
-      prices.upperSell = calcArithmeticSequenceTerm(n) + setting.add;
-      prices.upperBuy = calcArithmeticSequenceTerm(n);
-      prices.lowerSell = calcArithmeticSequenceTerm(n - 1) + setting.add;
-      prices.lowerBuy = calcArithmeticSequenceTerm(n - 1);
-      prices.typeNearLines = TYPE_BETWEEN_PARALLELS;
-      return prices;
-   }
+   Prices             Generate(double closePrice);
 
    /**
-    * @brief Generates a comment for the current price levels.
-    * @return A string comment describing the price levels.
+    * @brief Returns a formatted comment with line information.
+    * @return A string with the line details
     */
-   string              CommentToShow()
-   {
-      string result;
-
-      switch(prices.typeNearLines)
-      {
-         case TYPE_BETWEEN_PARALLELS:
-            result = StringFormat(
-                        "\n Upper Sell %s, Upper Buy %s\n Lower Sell %s, Lower Buy %s\n",
-                        DoubleToString(prices.upperSell, _Digits),
-                        DoubleToString(prices.upperBuy, _Digits),
-                        DoubleToString(prices.lowerSell, _Digits),
-                        DoubleToString(prices.lowerBuy, _Digits)
-                     );
-            break;
-         case TYPE_INSIDE_PARALLEL:
-            result = StringFormat(
-                        "\n Upper Buy %s\n Upper Sell %s, Lower Buy %s\n Lower Sell %s\n",
-                        DoubleToString(prices.upperBuy, _Digits),
-                        DoubleToString(prices.upperSell, _Digits),
-                        DoubleToString(prices.lowerBuy, _Digits),
-                        DoubleToString(prices.lowerSell, _Digits)
-                     );
-            break;
-         case ERR_INVALID_LINES:
-            result = "\n Invalid Lines \n";
-            break;
-      }
-
-      return result;
-   }
+   string              CommentToShow();
 };
+
+//+------------------------------------------------------------------+
+template<typename T>
+T InstitutionalArithmeticPrices::calcArithmeticSequenceTerm(T n)
+{
+   return setting.startAdd + (n) * setting.step - (MathMod(n, 2) == 0 ? 0 : setting.add);
+}
+
+//+------------------------------------------------------------------+
+void InstitutionalArithmeticPrices::UpdateSetting(double startAdd, double step, double add)
+{
+   setting.startAdd = startAdd;
+   setting.step = step;
+   setting.add = add;
+}
+
+//+------------------------------------------------------------------+
+InstitutionalArithmeticPrices::Setting InstitutionalArithmeticPrices::GetSetting()
+{
+   return setting;
+}
+
+//+------------------------------------------------------------------+
+void InstitutionalArithmeticPrices::GetSetting(Setting &param)
+{
+   param = setting;
+}
+
+//+------------------------------------------------------------------+
+InstitutionalArithmeticPrices::ENUM_CHECK InstitutionalArithmeticPrices::CheckArg()
+{
+   if(setting.add > setting.step)
+      return ERR_ADD_OVER_STEP;
+
+   return CHECK_ARG_LINE_GENERATOR_PASSED;
+}
+
+//+------------------------------------------------------------------+
+string InstitutionalArithmeticPrices::EnumCheckLinesGeneratorToString(ENUM_CHECK enum_result)
+{
+   string result;
+
+   switch(enum_result)
+   {
+      case CHECK_ARG_LINE_GENERATOR_PASSED:
+         result = StringFormat(
+                     "%s: Arguments passed the check.",
+                     EnumToString(enum_result)
+                  );
+         break;
+      case ERR_ADD_OVER_STEP:
+         result = StringFormat(
+                     "%s: Add value %s is greater than step value %s.",
+                     EnumToString(enum_result),
+                     DoubleToString(setting.add, _Digits),
+                     DoubleToString(setting.step, _Digits)
+                  );
+         break;
+      default:
+         result = "Unknown error.";
+         break;
+   }
+
+   return result;
+}
+
+//+------------------------------------------------------------------+
+InstitutionalArithmeticPrices::Prices InstitutionalArithmeticPrices::Generate(double closePrice)
+{
+   double n = MathFloor((closePrice - setting.startAdd) / setting.step) + 1;
+
+   if(closePrice >= calcArithmeticSequenceTerm(n))
+   {
+      if(closePrice > calcArithmeticSequenceTerm(n) && closePrice < calcArithmeticSequenceTerm(n) + setting.add)
+      {
+         prices.upperBuy = calcArithmeticSequenceTerm(n + 1);
+         prices.upperSell = calcArithmeticSequenceTerm(n) + setting.add;
+         prices.lowerBuy = calcArithmeticSequenceTerm(n);
+         prices.lowerSell = calcArithmeticSequenceTerm(n - 1) + setting.add;
+         prices.typeNearLines = TYPE_INSIDE_PARALLEL;
+         return prices;
+      }
+   }
+   else
+   {
+      if(closePrice > calcArithmeticSequenceTerm(n - 1) && closePrice < calcArithmeticSequenceTerm(n - 1) + setting.add)
+      {
+         prices.upperBuy = calcArithmeticSequenceTerm(n);
+         prices.upperSell = calcArithmeticSequenceTerm(n - 1) + setting.add;
+         prices.lowerBuy = calcArithmeticSequenceTerm(n - 1);
+         prices.lowerSell = calcArithmeticSequenceTerm(n - 2) + setting.add;
+         prices.typeNearLines = TYPE_INSIDE_PARALLEL;
+         return prices;
+      }
+   }
+
+   prices.upperSell = calcArithmeticSequenceTerm(n) + setting.add;
+   prices.upperBuy = calcArithmeticSequenceTerm(n);
+   prices.lowerSell = calcArithmeticSequenceTerm(n - 1) + setting.add;
+   prices.lowerBuy = calcArithmeticSequenceTerm(n - 1);
+   prices.typeNearLines = TYPE_BETWEEN_PARALLELS;
+   return prices;
+}
+
+//+------------------------------------------------------------------+
+string InstitutionalArithmeticPrices::CommentToShow()
+{
+   string result;
+
+   switch(prices.typeNearLines)
+   {
+      case TYPE_BETWEEN_PARALLELS:
+         result = StringFormat(
+                     "\n Upper Sell %s, Upper Buy %s\n Lower Sell %s, Lower Buy %s\n",
+                     DoubleToString(prices.upperSell, _Digits),
+                     DoubleToString(prices.upperBuy, _Digits),
+                     DoubleToString(prices.lowerSell, _Digits),
+                     DoubleToString(prices.lowerBuy, _Digits)
+                  );
+         break;
+      case TYPE_INSIDE_PARALLEL:
+         result = StringFormat(
+                     "\n Upper Buy %s\n Upper Sell %s, Lower Buy %s\n Lower Sell %s\n",
+                     DoubleToString(prices.upperBuy, _Digits),
+                     DoubleToString(prices.upperSell, _Digits),
+                     DoubleToString(prices.lowerBuy, _Digits),
+                     DoubleToString(prices.lowerSell, _Digits)
+                  );
+         break;
+      case ERR_INVALID_LINES:
+         result = "\n Invalid Lines \n";
+         break;
+   }
+
+   return result;
+}
 //+------------------------------------------------------------------+
