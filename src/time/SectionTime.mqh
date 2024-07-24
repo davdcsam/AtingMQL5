@@ -6,45 +6,75 @@
 #include "TimeHelper.mqh"
 
 //+------------------------------------------------------------------+
+/**
+ * @brief Manages the start and end times for a section.
+ */
 class SectionTime
   {
 private:
-   //--- Start and end times for the section
-   uchar             startHour, startMin, startSeg, endHour, endMin, endSeg;
+   uchar             startHour, startMin, startSeg; ///< Start time components
+   uchar             endHour, endMin, endSeg; ///< End time components
 
 public:
                      SectionTime(void) {};
                     ~SectionTime(void) {};
 
-   //--- Enum to handle different types of section time checks
+   /**
+    * @brief Enum to handle different types of section time checks.
+    */
    enum ENUM_CHECK_SECTION_TIME
      {
-      CHECK_ARG_SECTION_TIME_PASSED, //--- Check for section time passed
-      ERR_START_EQUAL_END, //--- Error: Start time is equal to end time
-      ERR_CURRENT_OVER_END //--- Error: Current time is over end time
+      CHECK_ARG_SECTION_TIME_PASSED, ///< Check if the section time has passed
+      ERR_START_EQUAL_END, ///< Error: Start time is equal to end time
+      ERR_CURRENT_OVER_END ///< Error: Current time is over end time
      };
 
-   void              UpdateAtr(
-      uchar start_time_hour,
-      uchar start_time_min,
-      uchar start_time_seg,
-      uchar end_time_hour,
-      uchar end_time_min,
-      uchar end_time_seg
-   );
+   /**
+    * @brief Updates the section's start and end times.
+    * @param start_time_hour Start time hour
+    * @param start_time_min Start time minute
+    * @param start_time_seg Start time second
+    * @param end_time_hour End time hour
+    * @param end_time_min End time minute
+    * @param end_time_seg End time second
+    */
+   void              UpdateAtr(uchar start_time_hour, uchar start_time_min, uchar start_time_seg, uchar end_time_hour, uchar end_time_min, uchar end_time_seg);
 
-   MqlDateTime       startDateTime, endDateTime, brokerDateTime;
+   MqlDateTime       startDateTime, endDateTime, brokerDateTime; ///< DateTime structures for start, end, and broker times
 
+   /**
+    * @brief Checks the validity of the section time arguments.
+    * @return The result of the check as ENUM_CHECK_SECTION_TIME
+    */
    ENUM_CHECK_SECTION_TIME CheckArg();
-   void              Update();
-   bool              VerifyInsideSection();
-   string            EnumCheckSectionTimeToString(ENUM_CHECK_SECTION_TIME enum_result);
-   string              CommentToShow();
 
+   /**
+    * @brief Updates the section's DateTime structures with current values.
+    */
+   void              Update();
+
+   /**
+    * @brief Verifies if the current time is within the section's start and end times.
+    * @return True if the current time is within the section, otherwise false
+    */
+   bool              VerifyInsideSection();
+
+   /**
+    * @brief Converts the ENUM_CHECK_SECTION_TIME result to a string.
+    * @param enum_result The ENUM_CHECK_SECTION_TIME result to convert
+    * @return A string representation of the enum result
+    */
+   string            EnumCheckSectionTimeToString(ENUM_CHECK_SECTION_TIME enum_result);
+
+   /**
+    * @brief Returns a formatted comment with section time information.
+    * @return A string with the section time details
+    */
+   string            CommentToShow();
   };
 
 //+------------------------------------------------------------------+
-void              SectionTime::UpdateAtr(
+void SectionTime::UpdateAtr(
    uchar start_time_hour,
    uchar start_time_min,
    uchar start_time_seg,
@@ -76,7 +106,7 @@ SectionTime::ENUM_CHECK_SECTION_TIME SectionTime::CheckArg()
   }
 
 //+------------------------------------------------------------------+
-void              SectionTime::Update()
+void SectionTime::Update()
   {
    TimeToStruct(TimeCurrent(), brokerDateTime);
 
@@ -91,21 +121,17 @@ void              SectionTime::Update()
    TimeHelper::Sort(startDateTime, endDateTime);
   }
 
-//--- Verify if the current time is inside the section
 //+------------------------------------------------------------------+
-bool              SectionTime::VerifyInsideSection()
+bool SectionTime::VerifyInsideSection()
   {
-//--- Return true if the current time is between the start and end times, otherwise return false
    return TimeHelper::IsIn(brokerDateTime, startDateTime, endDateTime);
   }
 
-//--- Function to return a string comment based on the result of the section time check
 //+------------------------------------------------------------------+
-string            SectionTime::EnumCheckSectionTimeToString(ENUM_CHECK_SECTION_TIME enum_result)
+string SectionTime::EnumCheckSectionTimeToString(ENUM_CHECK_SECTION_TIME enum_result)
   {
    string result;
 
-//--- Switch case based on the result of the section time check
    switch(enum_result)
      {
       case CHECK_ARG_SECTION_TIME_PASSED:
@@ -115,7 +141,8 @@ string            SectionTime::EnumCheckSectionTimeToString(ENUM_CHECK_SECTION_T
          result = StringFormat(
                      "%s: Start Time %s is equal to End Time %s.",
                      EnumToString(enum_result),
-                     StringFormat("%02d:%02d:%02d", startDateTime.hour, startDateTime.min, startDateTime.sec), StringFormat("%02d:%02d:%02d", endDateTime.hour, endDateTime.min, endDateTime.sec)
+                     StringFormat("%02d:%02d:%02d", startDateTime.hour, startDateTime.min, startDateTime.sec),
+                     StringFormat("%02d:%02d:%02d", endDateTime.hour, endDateTime.min, endDateTime.sec)
                   );
          break;
       case ERR_CURRENT_OVER_END:
@@ -126,7 +153,6 @@ string            SectionTime::EnumCheckSectionTimeToString(ENUM_CHECK_SECTION_T
                      StringFormat("%02d:%02d:%02d", endDateTime.hour, endDateTime.min, endDateTime.sec)
                   );
          break;
-      //--- Default case when an unknown error occurred
       default:
          result = "Unknown error.";
          break;
@@ -135,9 +161,8 @@ string            SectionTime::EnumCheckSectionTimeToString(ENUM_CHECK_SECTION_T
    return(result);
   }
 
-//--- Return formated comment
 //+------------------------------------------------------------------+
-string              SectionTime::CommentToShow()
+string SectionTime::CommentToShow()
   {
    return StringFormat(
              "\n Section Time from %s to %s - BrokerDateTime %s %s\n",
