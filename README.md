@@ -6,39 +6,40 @@ The AtingMQL5 is a library created by Ating to simplify any tasks in the develop
 
 This demo mainly uses the modules transaction, single lapse time, profit protection and trailing stop.
 
-### Transaction (Enhanced CTrade Class)
+### Enhanced CTrade Class
 
-- **Automatic Filling Mode Selection:** Automatically chooses the best filling method based on market conditions and symbol requirements.
-- **Invalid Input Alerts:** Provides warnings for invalid inputs to ensure smooth order execution.
-- **Pending Order Handling:** Automatically determines the type of pending order (limits or stops) based on market logic.
-- **Stop Calculation & Volume Rounding:** Calculates stop levels and rounds order volumes to meet symbol requirements.
+- **Transaction Class:**
+- Automatic Filling Mode Selection: Automatically chooses the best filling method based on market conditions and symbol requirements.
+- Invalid Input Alerts: Provides warnings for invalid inputs to ensure smooth order execution.
+- Pending Order Handling: Automatically determines the type of pending order (limits or stops) based on market logic.
+- Stop Calculation & Volume Rounding: Calculates stop levels and rounds order volumes to meet symbol requirements.
 
 ### Order and Position Detection
 
-- **By Magic Number and Symbol:** Efficiently manage and identify orders and positions using magic numbers and symbols.
+- **DetectOrders & DetectPositions Classes:** Efficiently manage and identify orders and positions using magic numbers and symbols.
 
 ### Operational Day and Date Filtering
 
-- **Day of the Week Filtering:** Operate only on specified days of the week.
-- **CSV-based Date Filtering:** For backtesting, filter operational dates based on a CSV file for precise historical testing.
+- **FilterByDayWeek Class:** Operate only on specified days of the week.
+- **FilterByCSVFile Class:** For backtesting, filter operational dates based on a CSV file for precise historical testing.
 
 ### Institutional Arithmetic Price Generation
 
-- **Price Calculation:** Generate institutional arithmetic prices to aid in decision-making based on key market levels.
+- **InstitutionalArithmeticPrices Class:** Generate institutional arithmetic prices to aid in decision-making based on key market levels.
 
 ### Signal Generation
 
-- **Time Range Limits:** Create trading signals based on price limits within specific time ranges.
-- **Index-Based Limits:** Generate signals based on predefined market indices.
+- **LimitsByIndex Class:** Create trading signals based on price limits within specific time ranges.
+- **LimitsByTimeRange Class:** Generate signals based on predefined market indices.
 
 ### Profit Protection
 
-- **Breakeven:** Automatically adjust stop loss to breakeven once a certain profit level is reached.
-- **Trailing Stop:** Dynamically move the stop loss to protect profits as the price moves favorably.
+- **BreakEven Class:** Automatically adjust stop loss to breakeven once a certain profit level is reached.
+- **TrailingStop Class:** Dynamically move the stop loss to protect profits as the price moves favorably.
 
 ### Order Removal
 
-- **By Magic Number and Symbol:** Easily cancel specific orders using magic numbers and symbols for streamlined order management.
+- **Remove Class:** Easily cancel specific orders using magic numbers and symbols for streamlined order management.
 
 ### Time Range Definition
 
@@ -48,7 +49,7 @@ This demo mainly uses the modules transaction, single lapse time, profit protect
 
 ### Experimental Task Manager
 
-- **OnTimer Event Implementation:** Execute all library modules periodically using the OnTimer event for organized and scheduled task execution.
+- **TaskManager Class:** Execute all library modules periodically using the OnTimer event for organized and scheduled task execution.
 
 # Documentation
 
