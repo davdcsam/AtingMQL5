@@ -5,29 +5,59 @@
 //+------------------------------------------------------------------+
 
 //+------------------------------------------------------------------+
-//| TestTime                                                         |
-//+------------------------------------------------------------------+
+/**
+ * @class TestTime
+ * @brief Class for measuring and printing the execution time of code.
+ */
 class TestTime
-  {
+{
 public:
-   uint              start;
-   uint              end;
+   /**
+    * @brief Start time of the measurement.
+    */
+   uint start;
 
-                     TestTime(void) {};
+   /**
+    * @brief End time of the measurement.
+    */
+   uint end;
 
-   void              Start()
-     { start =       GetTickCount(); }
+   /**
+    * @brief Default constructor for TestTime.
+    */
+   TestTime(void) {};
 
-   void              End()
-     {
-      end = GetTickCount() - start;
-      PrintFormat(
-         "\nCalculating backtest took %d ms or %s\n",
-         end,
-         TimeToString(datetime(end) / 1000, TIME_SECONDS)
-      );
-     }
+   /**
+    * @brief Starts the time measurement.
+    */
+   void Start();
 
-                    ~TestTime(void) {};
-  };
+   /**
+    * @brief Ends the time measurement and prints the elapsed time.
+    */
+   void End();
+
+   /**
+    * @brief Default destructor for TestTime.
+    */
+   ~TestTime(void) {};
+};
+
+//+------------------------------------------------------------------+
+void TestTime::Start()
+{
+   start = GetTickCount();
+}
+
+//+------------------------------------------------------------------+
+void TestTime::End()
+{
+   end = GetTickCount() - start;
+   PrintFormat(
+      "\nCalculating backtest took %d ms or %s\n",
+      end,
+      TimeToString(datetime(end) / 1000, TIME_SECONDS)
+   );
+}
+
 //+------------------------------------------------------------------+
