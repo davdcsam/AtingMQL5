@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['magic_5fnumber_0',['MAGIC_NUMBER',['../class_request.html#a0a8d6d44e3e2fadac6905749310d2383a0abb3d22a382c3be93e7f85b717a3044',1,'Request']]],
-  ['mode_5fremove_5fopposite_5ftype_1',['MODE_REMOVE_OPPOSITE_TYPE',['../class_remove_by_order_type.html#ae70e1ab832afd1b2fa11ed5853d09041a4ee89e707460a88dd1aa543449cb6115',1,'RemoveByOrderType']]],
-  ['mode_5fremove_5fsame_5ftype_2',['MODE_REMOVE_SAME_TYPE',['../class_remove_by_order_type.html#ae70e1ab832afd1b2fa11ed5853d09041a01658449a63149ff7337c3078484c84b',1,'RemoveByOrderType']]]
+  ['start_5fequal_5fend_0',['START_EQUAL_END',['../class_limits_by_time_range.html#a090647121ac42e67d2e40fce9867581ea8b70d2321b396a7bbb5d4a29320cb2f7',1,'LimitsByTimeRange']]],
+  ['start_5fover_5fend_1',['START_OVER_END',['../class_limits_by_time_range.html#a090647121ac42e67d2e40fce9867581eabe08ccf6a35b9fca0ab7ea3711e0d636',1,'LimitsByTimeRange']]],
+  ['stop_5floss_2',['STOP_LOSS',['../class_calc_stop.html#a2e8b4b6c15a03e46abe98c92088db0e7a90f03822eacdaafb57a0677afd5361a3',1,'CalcStop']]]
 ];

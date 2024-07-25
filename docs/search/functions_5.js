@@ -10,7 +10,8 @@ var searchData=
   ['getnodesbyidentifiercarr_7',['GetNodesByIdentifierCArr',['../class_time_lapse_tree.html#aa8bf0e35eafbcb8e47dced9cb210a8e7',1,'TimeLapseTree']]],
   ['getnodesinrange_8',['GetNodesInRange',['../class_time_lapse_tree.html#a05423de9ed171efa878b906a4afb8392',1,'TimeLapseTree']]],
   ['getpricesstruct_9',['GetPricesStruct',['../class_limits_by_index.html#add644ee229afd2bf607b65b7c9457d1f',1,'LimitsByIndex::GetPricesStruct()'],['../class_limits_by_time_range.html#a348ae55943fa09a6b9670a5190339215',1,'LimitsByTimeRange::GetPricesStruct()']]],
-  ['getsetting_10',['GetSetting',['../class_institutional_arithmetic_prices.html#a94125328ca76953141bf1cd4f513e42d',1,'InstitutionalArithmeticPrices::GetSetting()'],['../class_institutional_arithmetic_prices.html#a68575398665ef8b281d6c187b80a0104',1,'InstitutionalArithmeticPrices::GetSetting(Setting &amp;param)']]],
-  ['gettimerange_11',['GetTimeRange',['../class_limits_by_time_range.html#ad33cad45822883a332553e13e769a793',1,'LimitsByTimeRange']]],
-  ['gettimerangestruct_12',['GetTimeRangeStruct',['../class_limits_by_time_range.html#a009a21f2511762615d17d40756e298ba',1,'LimitsByTimeRange']]]
+  ['getprivateatr_10',['GetPrivateAtr',['../class_request.html#a984651cd4f734d9718f293238d627b06',1,'Request::GetPrivateAtr(ENUM_PRIVATE_ATR_STRING atr)'],['../class_request.html#af5a8205343b6935db15e29ea0ea75373',1,'Request::GetPrivateAtr(ENUM_PRIVATE_ATR_DOUBLE atr)'],['../class_request.html#a4c049810782bf1a978d874eac2fe6783',1,'Request::GetPrivateAtr(ENUM_PRIVATE_ATR_ULONG atr)']]],
+  ['getsetting_11',['GetSetting',['../class_institutional_arithmetic_prices.html#a94125328ca76953141bf1cd4f513e42d',1,'InstitutionalArithmeticPrices::GetSetting()'],['../class_institutional_arithmetic_prices.html#a68575398665ef8b281d6c187b80a0104',1,'InstitutionalArithmeticPrices::GetSetting(Setting &amp;param)']]],
+  ['gettimerange_12',['GetTimeRange',['../class_limits_by_time_range.html#ad33cad45822883a332553e13e769a793',1,'LimitsByTimeRange']]],
+  ['gettimerangestruct_13',['GetTimeRangeStruct',['../class_limits_by_time_range.html#a009a21f2511762615d17d40756e298ba',1,'LimitsByTimeRange']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['incorrect_5fformatting_0',['INCORRECT_FORMATTING',['../class_limits_by_time_range.html#a090647121ac42e67d2e40fce9867581ea5025c23e98b13dbfefedfbea2d01381f',1,'LimitsByTimeRange']]]
+  ['filling_5fmode_5ffound_0',['FILLING_MODE_FOUND',['../class_transaction.html#a868ff80d7ceff3f4bf04c17046abc9f1ac8e6e3a010e1b30aa4f8b685bebc0d5c',1,'Transaction']]]
 ];

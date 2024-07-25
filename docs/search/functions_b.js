@@ -8,7 +8,8 @@ var searchData=
   ['removependingorders_5',['RemovePendingOrders',['../class_remove.html#af7f887717fe37d6b37d5d284c3f9ff94',1,'Remove']]],
   ['removepositions_6',['RemovePositions',['../class_remove.html#aeb797e1bd34fed7f418a2007abd576d6',1,'Remove']]],
   ['removepositionsfromcarray_7',['RemovePositionsFromCArray',['../class_remove.html#a99c5ebeed7ca29717ab796fb90a08e29',1,'Remove']]],
-  ['roundvolume_8',['RoundVolume',['../class_round_volume.html#a4c044a5d141e3b261e7fcc10d540e42a',1,'RoundVolume']]],
-  ['run_9',['Run',['../class_calc_stop.html#a48df6835c86088711aef2fd9e433dc2f',1,'CalcStop::Run()'],['../class_round_volume.html#a45f0beb3cb5bb2ee36f21a9d47fb018c',1,'RoundVolume::Run()']]],
-  ['runalltasks_10',['RunAllTasks',['../class_task_manager.html#a5ba6371e63ae60b6c8bd3c4f551215a9',1,'TaskManager']]]
+  ['request_8',['Request',['../class_request.html#afaf8d8928de7ffff8a3767589489bd33',1,'Request']]],
+  ['roundvolume_9',['RoundVolume',['../class_round_volume.html#a4c044a5d141e3b261e7fcc10d540e42a',1,'RoundVolume']]],
+  ['run_10',['Run',['../class_calc_stop.html#a48df6835c86088711aef2fd9e433dc2f',1,'CalcStop::Run()'],['../class_round_volume.html#a45f0beb3cb5bb2ee36f21a9d47fb018c',1,'RoundVolume::Run()']]],
+  ['runalltasks_11',['RunAllTasks',['../class_task_manager.html#a5ba6371e63ae60b6c8bd3c4f551215a9',1,'TaskManager']]]
 ];

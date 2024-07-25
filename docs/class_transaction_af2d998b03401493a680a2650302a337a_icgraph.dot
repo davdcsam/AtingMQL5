@@ -5,11 +5,11 @@ digraph "Transaction::failSendingOrder"
   edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
   node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
   rankdir="RL";
-  Node1 [id="Node000001",label="Transaction::failSending\lOrder",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
+  Node1 [id="Node000001",label="Transaction::failSending\lOrder",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Returns a formatted string describing the failure of sending an order."];
   Node1 -> Node2 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
-  Node2 [id="Node000002",label="Transaction::SendPending\lDefault",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_transaction.html#ae41321646ca73a773f030439d4370369",tooltip=" "];
+  Node2 [id="Node000002",label="Transaction::SendPending\lDefault",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_transaction.html#adee407f1aed820b1f9b59abe011b9ae3",tooltip="Sends a pending order with default parameters for the transaction."];
   Node1 -> Node3 [id="edge2_Node000001_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
-  Node3 [id="Node000003",label="Transaction::SendPending\lOrPosition",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_transaction.html#a87b0d4eb28a9367696a05547643769f2",tooltip=" "];
+  Node3 [id="Node000003",label="Transaction::SendPending\lOrPosition",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_transaction.html#aa92a542cfb82f2c49d0b34124fde5444",tooltip="Sends a pending or position order for the transaction."];
   Node1 -> Node4 [id="edge3_Node000001_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
-  Node4 [id="Node000004",label="Transaction::SendPosition",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_transaction.html#ade5565bcef23b653da94782969621119",tooltip=" "];
+  Node4 [id="Node000004",label="Transaction::SendPosition",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_transaction.html#a24d77a22b48ae106e774efb0af19f268",tooltip="Sends a position order for the transaction."];
 }

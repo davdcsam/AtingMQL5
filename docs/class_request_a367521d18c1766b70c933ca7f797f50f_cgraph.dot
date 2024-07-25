@@ -1,0 +1,21 @@
+digraph "Request::BuildPendingOrPosition"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="Request::BuildPendingOrPosition",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Builds a pending order or position."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="Request::BuildPending",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_request.html#a2713db694f975e5a362423a33c9bbf47",tooltip="Builds a pending order."];
+  Node2 -> Node3 [id="edge2_Node000002_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="CalcStop::Run",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_calc_stop.html#a48df6835c86088711aef2fd9e433dc2f",tooltip="Calculates the stop price based on provided parameters."];
+  Node3 -> Node4 [id="edge3_Node000003_Node000004",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="CalcStop::internal",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_calc_stop.html#a341995d46452013451d87f5cac5c7f82",tooltip="Internal function to calculate stop loss or take profit prices."];
+  Node2 -> Node5 [id="edge4_Node000002_Node000005",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="RoundVolume::Run",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_round_volume.html#a45f0beb3cb5bb2ee36f21a9d47fb018c",tooltip="Rounds the given volume to the nearest volume step."];
+  Node1 -> Node6 [id="edge5_Node000001_Node000006",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="Request::BuildPosition",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_request.html#af63417ff74f594bc7f098421e32e3320",tooltip="Builds a position."];
+  Node6 -> Node3 [id="edge6_Node000006_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node6 -> Node5 [id="edge7_Node000006_Node000005",color="steelblue1",style="solid",tooltip=" "];
+}

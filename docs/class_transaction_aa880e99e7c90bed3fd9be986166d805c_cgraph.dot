@@ -1,0 +1,17 @@
+digraph "Transaction::FixFillingMode"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="Transaction::FixFillingMode",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Fixes the filling mode for the transaction."];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="Request::BuildCheckPosition",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_request.html#a708a65c7383e5d98bfe3bc8ac0e052af",tooltip="Builds a check position."];
+  Node2 -> Node3 [id="edge2_Node000002_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="CalcStop::Run",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_calc_stop.html#a48df6835c86088711aef2fd9e433dc2f",tooltip="Calculates the stop price based on provided parameters."];
+  Node3 -> Node4 [id="edge3_Node000003_Node000004",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="CalcStop::internal",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_calc_stop.html#a341995d46452013451d87f5cac5c7f82",tooltip="Internal function to calculate stop loss or take profit prices."];
+  Node1 -> Node5 [id="edge4_Node000001_Node000005",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="Transaction::Update",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_transaction.html#a69519bea53c8855a75d3d7a786365b7d",tooltip="Updates the transaction parameters."];
+}

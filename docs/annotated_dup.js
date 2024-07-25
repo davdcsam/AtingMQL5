@@ -15,7 +15,7 @@ var annotated_dup =
     [ "Remove", "class_remove.html", "class_remove" ],
     [ "RemoveByLocationPrice", "class_remove_by_location_price.html", "class_remove_by_location_price" ],
     [ "RemoveByOrderType", "class_remove_by_order_type.html", "class_remove_by_order_type" ],
-    [ "Request", "class_request.html", null ],
+    [ "Request", "class_request.html", "class_request" ],
     [ "RoundVolume", "class_round_volume.html", "class_round_volume" ],
     [ "SectionTime", "class_section_time.html", "class_section_time" ],
     [ "TaskManager", "class_task_manager.html", "class_task_manager" ],
@@ -24,5 +24,5 @@ var annotated_dup =
     [ "TimeLapseTree", "class_time_lapse_tree.html", "class_time_lapse_tree" ],
     [ "TimeLapseTreeNode", "class_time_lapse_tree_node.html", "class_time_lapse_tree_node" ],
     [ "TrailingStop", "class_trailing_stop.html", "class_trailing_stop" ],
-    [ "Transaction", "class_transaction.html", null ]
+    [ "Transaction", "class_transaction.html", "class_transaction" ]
 ];

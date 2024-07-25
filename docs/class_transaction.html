@@ -109,6 +109,9 @@ $(function(){initNavTree('class_transaction.html',''); initResizable(true); });
   <div class="headertitle"><div class="title">Transaction Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Class to handle trading transactions, inheriting from <a class="el" href="class_request.html" title="Class to handle trade requests.">Request</a>.  
+ <a href="#details">More...</a></p>
 <div id="dynsection-0" onclick="return dynsection.toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for Transaction:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -126,53 +129,109 @@ $(function(){initNavTree('class_transaction.html',''); initResizable(true); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a03374bd326c2d78225df6767debd176c" id="r_a03374bd326c2d78225df6767debd176c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><b>ENUM_CHECK</b> { <b>CHECK_ARG_TRANSACTION_PASSED</b>
-, <b>ERR_SYMBOL_NOT_AVAILABLE</b>
-, <b>ERR_INVALID_LOT_SIZE</b>
-, <b>ERR_DEVIATION_INSUFFICIENT</b>
+<tr class="memitem:a03374bd326c2d78225df6767debd176c" id="r_a03374bd326c2d78225df6767debd176c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a03374bd326c2d78225df6767debd176c">ENUM_CHECK</a> { <a class="el" href="#a03374bd326c2d78225df6767debd176caaeb35dccb391a098b64c29fe709a5778">CHECK_ARG_TRANSACTION_PASSED</a>
+, <a class="el" href="#a03374bd326c2d78225df6767debd176cae714701ee4d16571fb8464263b48c23f">ERR_SYMBOL_NOT_AVAILABLE</a>
+, <a class="el" href="#a03374bd326c2d78225df6767debd176caa49f735a07bbef04a11e3b5cd8848f56">ERR_INVALID_LOT_SIZE</a>
+, <a class="el" href="#a03374bd326c2d78225df6767debd176ca4abf94887f880946a21053d012e7a018">ERR_DEVIATION_INSUFFICIENT</a>
  }</td></tr>
+<tr class="memdesc:a03374bd326c2d78225df6767debd176c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum to handle different types of check transactions.  <a href="#a03374bd326c2d78225df6767debd176c">More...</a><br /></td></tr>
 <tr class="separator:a03374bd326c2d78225df6767debd176c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6cd7ba61cced2fa7079e664191289322" id="r_a6cd7ba61cced2fa7079e664191289322"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><b>ENUM_ORDER_TRANSACTION</b> { <b>ORDER_PLACED_SUCCESSFULLY</b> = 1
-, <b>ERR_SEND_FAILED</b> = 0
+<tr class="memitem:a6cd7ba61cced2fa7079e664191289322" id="r_a6cd7ba61cced2fa7079e664191289322"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6cd7ba61cced2fa7079e664191289322">ENUM_ORDER_TRANSACTION</a> { <a class="el" href="#a6cd7ba61cced2fa7079e664191289322a28de2bfd385721460b16ac1a024e016b">ORDER_PLACED_SUCCESSFULLY</a> = 1
+, <a class="el" href="#a6cd7ba61cced2fa7079e664191289322a5585afd9925c900a7fd5b022f001e3c8">ERR_SEND_FAILED</a> = 0
  }</td></tr>
+<tr class="memdesc:a6cd7ba61cced2fa7079e664191289322"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum to handle different types of order transactions.  <a href="#a6cd7ba61cced2fa7079e664191289322">More...</a><br /></td></tr>
 <tr class="separator:a6cd7ba61cced2fa7079e664191289322"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a868ff80d7ceff3f4bf04c17046abc9f1" id="r_a868ff80d7ceff3f4bf04c17046abc9f1"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><b>ENUM_FIX_FILLING_MODE</b> { <b>FILLING_MODE_FOUND</b>
-, <b>ERR_FILLING_MODE_NO_FOUND</b>
-, <b>ERR_INVALID_REQUEST</b>
+<tr class="memitem:a868ff80d7ceff3f4bf04c17046abc9f1" id="r_a868ff80d7ceff3f4bf04c17046abc9f1"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a868ff80d7ceff3f4bf04c17046abc9f1">ENUM_FIX_FILLING_MODE</a> { <a class="el" href="#a868ff80d7ceff3f4bf04c17046abc9f1ac8e6e3a010e1b30aa4f8b685bebc0d5c">FILLING_MODE_FOUND</a>
+, <a class="el" href="#a868ff80d7ceff3f4bf04c17046abc9f1a26f2ab2d6bddebcf5151afde8a63710f">ERR_FILLING_MODE_NO_FOUND</a>
+, <a class="el" href="#a868ff80d7ceff3f4bf04c17046abc9f1a8744fcfa3eca0812fb9262d7cec8e689">ERR_INVALID_REQUEST</a>
  }</td></tr>
+<tr class="memdesc:a868ff80d7ceff3f4bf04c17046abc9f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum to handle different types of fix filling modes.  <a href="#a868ff80d7ceff3f4bf04c17046abc9f1">More...</a><br /></td></tr>
 <tr class="separator:a868ff80d7ceff3f4bf04c17046abc9f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_class_request"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_types_class_request')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="class_request.html">Request</a></td></tr>
+<tr class="memitem:a25592b34884db4d3335c5272249cfb04 inherit pub_types_class_request" id="r_a25592b34884db4d3335c5272249cfb04"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#a25592b34884db4d3335c5272249cfb04">ENUM_ORDER_PENDING_TYPE</a> { <a class="el" href="class_request.html#a25592b34884db4d3335c5272249cfb04a2a31b7b2e8a30eb03215dccca0bdcc8a">ORDER_PENDING_TYPE_BUY</a> = POSITION_TYPE_BUY
+, <a class="el" href="class_request.html#a25592b34884db4d3335c5272249cfb04a030d492c0a11f6d3500eb036f712aee3">ORDER_PENDING_TYPE_SELL</a> = POSITION_TYPE_SELL
+ }</td></tr>
+<tr class="memdesc:a25592b34884db4d3335c5272249cfb04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum for pending order types.  <a href="class_request.html#a25592b34884db4d3335c5272249cfb04">More...</a><br /></td></tr>
+<tr class="separator:a25592b34884db4d3335c5272249cfb04 inherit pub_types_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ff56148cf8789eeb94fb8e6c5853d4a inherit pub_types_class_request" id="r_a4ff56148cf8789eeb94fb8e6c5853d4a"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#a4ff56148cf8789eeb94fb8e6c5853d4a">ENUM_PRIVATE_ATR_STRING</a> { <b>SYMBOL</b>
+ }</td></tr>
+<tr class="memdesc:a4ff56148cf8789eeb94fb8e6c5853d4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum for private string attributes.  <a href="class_request.html#a4ff56148cf8789eeb94fb8e6c5853d4a">More...</a><br /></td></tr>
+<tr class="separator:a4ff56148cf8789eeb94fb8e6c5853d4a inherit pub_types_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61ac9d9538449005b9f34f68a54dcae6 inherit pub_types_class_request" id="r_a61ac9d9538449005b9f34f68a54dcae6"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#a61ac9d9538449005b9f34f68a54dcae6">ENUM_PRIVATE_ATR_DOUBLE</a> { <b>LOT_SIZE</b>
+ }</td></tr>
+<tr class="memdesc:a61ac9d9538449005b9f34f68a54dcae6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum for private double attributes.  <a href="class_request.html#a61ac9d9538449005b9f34f68a54dcae6">More...</a><br /></td></tr>
+<tr class="separator:a61ac9d9538449005b9f34f68a54dcae6 inherit pub_types_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a8d6d44e3e2fadac6905749310d2383 inherit pub_types_class_request" id="r_a0a8d6d44e3e2fadac6905749310d2383"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#a0a8d6d44e3e2fadac6905749310d2383">ENUM_PRIVATE_ATR_ULONG</a> { <b>TAKE_PROFIT</b>
+, <b>STOP_LOSS</b>
+, <b>DEVIATION_TRADE</b>
+, <b>MAGIC_NUMBER</b>
+ }</td></tr>
+<tr class="memdesc:a0a8d6d44e3e2fadac6905749310d2383"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum for private ulong attributes.  <a href="class_request.html#a0a8d6d44e3e2fadac6905749310d2383">More...</a><br /></td></tr>
+<tr class="separator:a0a8d6d44e3e2fadac6905749310d2383 inherit pub_types_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a35910808274a7ae6afb6a59e032454da" id="r_a35910808274a7ae6afb6a59e032454da"><td class="memItemLeft" align="right" valign="top">ENUM_CHECK&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a35910808274a7ae6afb6a59e032454da">CheckArg</a> ()</td></tr>
-<tr class="separator:a35910808274a7ae6afb6a59e032454da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1788daccda7df2d6bb281a2ccf79efb3" id="r_a1788daccda7df2d6bb281a2ccf79efb3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1788daccda7df2d6bb281a2ccf79efb3">Transaction</a> (void)</td></tr>
+<tr class="memdesc:a1788daccda7df2d6bb281a2ccf79efb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for the <a class="el" href="class_transaction.html" title="Class to handle trading transactions, inheriting from Request.">Transaction</a> class.  <br /></td></tr>
+<tr class="separator:a1788daccda7df2d6bb281a2ccf79efb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac60ae367f12015ebeeb155f2fc49064d" id="r_ac60ae367f12015ebeeb155f2fc49064d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a03374bd326c2d78225df6767debd176c">ENUM_CHECK</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac60ae367f12015ebeeb155f2fc49064d">CheckArg</a> ()</td></tr>
+<tr class="memdesc:ac60ae367f12015ebeeb155f2fc49064d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks the arguments for the transaction.  <br /></td></tr>
+<tr class="separator:ac60ae367f12015ebeeb155f2fc49064d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69519bea53c8855a75d3d7a786365b7d" id="r_a69519bea53c8855a75d3d7a786365b7d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a69519bea53c8855a75d3d7a786365b7d">Update</a> ()</td></tr>
+<tr class="memdesc:a69519bea53c8855a75d3d7a786365b7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the transaction parameters.  <br /></td></tr>
 <tr class="separator:a69519bea53c8855a75d3d7a786365b7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a821369bf232f5bcf77c8f709a8d1f1b1" id="r_a821369bf232f5bcf77c8f709a8d1f1b1"><td class="memItemLeft" align="right" valign="top">ENUM_FIX_FILLING_MODE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a821369bf232f5bcf77c8f709a8d1f1b1">FixFillingMode</a> ()</td></tr>
-<tr class="separator:a821369bf232f5bcf77c8f709a8d1f1b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade5565bcef23b653da94782969621119" id="r_ade5565bcef23b653da94782969621119"><td class="memItemLeft" align="right" valign="top">ENUM_ORDER_TRANSACTION&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ade5565bcef23b653da94782969621119">SendPosition</a> (ENUM_POSITION_TYPE order_type)</td></tr>
-<tr class="separator:ade5565bcef23b653da94782969621119"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae41321646ca73a773f030439d4370369" id="r_ae41321646ca73a773f030439d4370369"><td class="memItemLeft" align="right" valign="top">ENUM_ORDER_TRANSACTION&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae41321646ca73a773f030439d4370369">SendPendingDefault</a> (double open_price, ENUM_ORDER_PENDING_TYPE order_type)</td></tr>
-<tr class="separator:ae41321646ca73a773f030439d4370369"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a87b0d4eb28a9367696a05547643769f2" id="r_a87b0d4eb28a9367696a05547643769f2"><td class="memItemLeft" align="right" valign="top">ENUM_ORDER_TRANSACTION&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a87b0d4eb28a9367696a05547643769f2">SendPendingOrPosition</a> (double open_price, double comparative_price, ENUM_ORDER_PENDING_TYPE order_type)</td></tr>
-<tr class="separator:a87b0d4eb28a9367696a05547643769f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aafaa0676a4c73fb4d3d64f34c03ba289" id="r_aafaa0676a4c73fb4d3d64f34c03ba289"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aafaa0676a4c73fb4d3d64f34c03ba289">EnumCheckTransactionToString</a> (ENUM_CHECK enum_result)</td></tr>
+<tr class="memitem:aa880e99e7c90bed3fd9be986166d805c" id="r_aa880e99e7c90bed3fd9be986166d805c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a868ff80d7ceff3f4bf04c17046abc9f1">ENUM_FIX_FILLING_MODE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa880e99e7c90bed3fd9be986166d805c">FixFillingMode</a> ()</td></tr>
+<tr class="memdesc:aa880e99e7c90bed3fd9be986166d805c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fixes the filling mode for the transaction.  <br /></td></tr>
+<tr class="separator:aa880e99e7c90bed3fd9be986166d805c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24d77a22b48ae106e774efb0af19f268" id="r_a24d77a22b48ae106e774efb0af19f268"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a6cd7ba61cced2fa7079e664191289322">ENUM_ORDER_TRANSACTION</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a24d77a22b48ae106e774efb0af19f268">SendPosition</a> (ENUM_POSITION_TYPE order_type)</td></tr>
+<tr class="memdesc:a24d77a22b48ae106e774efb0af19f268"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends a position order for the transaction.  <br /></td></tr>
+<tr class="separator:a24d77a22b48ae106e774efb0af19f268"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adee407f1aed820b1f9b59abe011b9ae3" id="r_adee407f1aed820b1f9b59abe011b9ae3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a6cd7ba61cced2fa7079e664191289322">ENUM_ORDER_TRANSACTION</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adee407f1aed820b1f9b59abe011b9ae3">SendPendingDefault</a> (double open_price, <a class="el" href="class_request.html#a25592b34884db4d3335c5272249cfb04">ENUM_ORDER_PENDING_TYPE</a> order_type)</td></tr>
+<tr class="memdesc:adee407f1aed820b1f9b59abe011b9ae3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends a pending order with default parameters for the transaction.  <br /></td></tr>
+<tr class="separator:adee407f1aed820b1f9b59abe011b9ae3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa92a542cfb82f2c49d0b34124fde5444" id="r_aa92a542cfb82f2c49d0b34124fde5444"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a6cd7ba61cced2fa7079e664191289322">ENUM_ORDER_TRANSACTION</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa92a542cfb82f2c49d0b34124fde5444">SendPendingOrPosition</a> (double open_price, double comparative_price, <a class="el" href="class_request.html#a25592b34884db4d3335c5272249cfb04">ENUM_ORDER_PENDING_TYPE</a> order_type)</td></tr>
+<tr class="memdesc:aa92a542cfb82f2c49d0b34124fde5444"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends a pending or position order for the transaction.  <br /></td></tr>
+<tr class="separator:aa92a542cfb82f2c49d0b34124fde5444"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafaa0676a4c73fb4d3d64f34c03ba289" id="r_aafaa0676a4c73fb4d3d64f34c03ba289"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aafaa0676a4c73fb4d3d64f34c03ba289">EnumCheckTransactionToString</a> (<a class="el" href="#a03374bd326c2d78225df6767debd176c">ENUM_CHECK</a> enum_result)</td></tr>
+<tr class="memdesc:aafaa0676a4c73fb4d3d64f34c03ba289"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the check transaction result to a string.  <br /></td></tr>
 <tr class="separator:aafaa0676a4c73fb4d3d64f34c03ba289"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89891c8306ab2ce58ca74950fb213011" id="r_a89891c8306ab2ce58ca74950fb213011"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a89891c8306ab2ce58ca74950fb213011">EnumOrderTransactionToString</a> (ENUM_ORDER_TRANSACTION enum_result)</td></tr>
+<tr class="memitem:a89891c8306ab2ce58ca74950fb213011" id="r_a89891c8306ab2ce58ca74950fb213011"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a89891c8306ab2ce58ca74950fb213011">EnumOrderTransactionToString</a> (<a class="el" href="#a6cd7ba61cced2fa7079e664191289322">ENUM_ORDER_TRANSACTION</a> enum_result)</td></tr>
+<tr class="memdesc:a89891c8306ab2ce58ca74950fb213011"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the order transaction result to a string.  <br /></td></tr>
 <tr class="separator:a89891c8306ab2ce58ca74950fb213011"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad012816e8e4386e212069a77634b0b76" id="r_ad012816e8e4386e212069a77634b0b76"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad012816e8e4386e212069a77634b0b76">EnumFixFillingModeToString</a> (ENUM_FIX_FILLING_MODE enum_result)</td></tr>
+<tr class="memitem:ad012816e8e4386e212069a77634b0b76" id="r_ad012816e8e4386e212069a77634b0b76"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad012816e8e4386e212069a77634b0b76">EnumFixFillingModeToString</a> (<a class="el" href="#a868ff80d7ceff3f4bf04c17046abc9f1">ENUM_FIX_FILLING_MODE</a> enum_result)</td></tr>
+<tr class="memdesc:ad012816e8e4386e212069a77634b0b76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the fix filling mode result to a string.  <br /></td></tr>
 <tr class="separator:ad012816e8e4386e212069a77634b0b76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a302dce4b5ece752571a0df8993e69d0a" id="r_a302dce4b5ece752571a0df8993e69d0a"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a302dce4b5ece752571a0df8993e69d0a">CommentToShow</a> ()</td></tr>
+<tr class="memdesc:a302dce4b5ece752571a0df8993e69d0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a formatted string with details of the transaction.  <br /></td></tr>
 <tr class="separator:a302dce4b5ece752571a0df8993e69d0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_request"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_class_request')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_request.html">Request</a></td></tr>
+<tr class="memitem:afaf8d8928de7ffff8a3767589489bd33 inherit pub_methods_class_request" id="r_afaf8d8928de7ffff8a3767589489bd33"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#afaf8d8928de7ffff8a3767589489bd33">Request</a> ()</td></tr>
+<tr class="memdesc:afaf8d8928de7ffff8a3767589489bd33 inherit pub_methods_class_request"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor for the <a class="el" href="class_request.html" title="Class to handle trade requests.">Request</a> class.  <br /></td></tr>
+<tr class="separator:afaf8d8928de7ffff8a3767589489bd33 inherit pub_methods_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1cb0796c7df60c4347b42de16b4cdd16 inherit pub_methods_class_request" id="r_a1cb0796c7df60c4347b42de16b4cdd16"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#a1cb0796c7df60c4347b42de16b4cdd16">UpdateAtr</a> (string symbol_arg, double lot_size_arg, uint take_profit_arg, uint stop_loss_arg, uint deviation_trade_arg, ulong magic_number_arg)</td></tr>
+<tr class="memdesc:a1cb0796c7df60c4347b42de16b4cdd16 inherit pub_methods_class_request"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the attributes of the request.  <br /></td></tr>
 <tr class="separator:a1cb0796c7df60c4347b42de16b4cdd16 inherit pub_methods_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a984651cd4f734d9718f293238d627b06 inherit pub_methods_class_request" id="r_a984651cd4f734d9718f293238d627b06"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#a984651cd4f734d9718f293238d627b06">GetPrivateAtr</a> (ENUM_PRIVATE_ATR_STRING atr)</td></tr>
+<tr class="memitem:a984651cd4f734d9718f293238d627b06 inherit pub_methods_class_request" id="r_a984651cd4f734d9718f293238d627b06"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#a984651cd4f734d9718f293238d627b06">GetPrivateAtr</a> (<a class="el" href="class_request.html#a4ff56148cf8789eeb94fb8e6c5853d4a">ENUM_PRIVATE_ATR_STRING</a> atr)</td></tr>
+<tr class="memdesc:a984651cd4f734d9718f293238d627b06 inherit pub_methods_class_request"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the private string attribute.  <br /></td></tr>
 <tr class="separator:a984651cd4f734d9718f293238d627b06 inherit pub_methods_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5a8205343b6935db15e29ea0ea75373 inherit pub_methods_class_request" id="r_af5a8205343b6935db15e29ea0ea75373"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#af5a8205343b6935db15e29ea0ea75373">GetPrivateAtr</a> (ENUM_PRIVATE_ATR_DOUBLE atr)</td></tr>
+<tr class="memitem:af5a8205343b6935db15e29ea0ea75373 inherit pub_methods_class_request" id="r_af5a8205343b6935db15e29ea0ea75373"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#af5a8205343b6935db15e29ea0ea75373">GetPrivateAtr</a> (<a class="el" href="class_request.html#a61ac9d9538449005b9f34f68a54dcae6">ENUM_PRIVATE_ATR_DOUBLE</a> atr)</td></tr>
+<tr class="memdesc:af5a8205343b6935db15e29ea0ea75373 inherit pub_methods_class_request"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the private double attribute.  <br /></td></tr>
 <tr class="separator:af5a8205343b6935db15e29ea0ea75373 inherit pub_methods_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c049810782bf1a978d874eac2fe6783 inherit pub_methods_class_request" id="r_a4c049810782bf1a978d874eac2fe6783"><td class="memItemLeft" align="right" valign="top">ulong&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#a4c049810782bf1a978d874eac2fe6783">GetPrivateAtr</a> (ENUM_PRIVATE_ATR_ULONG atr)</td></tr>
+<tr class="memitem:a4c049810782bf1a978d874eac2fe6783 inherit pub_methods_class_request" id="r_a4c049810782bf1a978d874eac2fe6783"><td class="memItemLeft" align="right" valign="top">ulong&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#a4c049810782bf1a978d874eac2fe6783">GetPrivateAtr</a> (<a class="el" href="class_request.html#a0a8d6d44e3e2fadac6905749310d2383">ENUM_PRIVATE_ATR_ULONG</a> atr)</td></tr>
+<tr class="memdesc:a4c049810782bf1a978d874eac2fe6783 inherit pub_methods_class_request"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the private ulong attribute.  <br /></td></tr>
 <tr class="separator:a4c049810782bf1a978d874eac2fe6783 inherit pub_methods_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a708a65c7383e5d98bfe3bc8ac0e052af inherit pub_methods_class_request" id="r_a708a65c7383e5d98bfe3bc8ac0e052af"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#a708a65c7383e5d98bfe3bc8ac0e052af">BuildCheckPosition</a> (MqlTradeRequest &amp;request, ENUM_POSITION_TYPE type, ENUM_ORDER_TYPE_FILLING filling)</td></tr>
+<tr class="memdesc:a708a65c7383e5d98bfe3bc8ac0e052af inherit pub_methods_class_request"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds a check position.  <br /></td></tr>
+<tr class="separator:a708a65c7383e5d98bfe3bc8ac0e052af inherit pub_methods_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af63417ff74f594bc7f098421e32e3320 inherit pub_methods_class_request" id="r_af63417ff74f594bc7f098421e32e3320"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#af63417ff74f594bc7f098421e32e3320">BuildPosition</a> (MqlTradeRequest &amp;request, ENUM_POSITION_TYPE type, ENUM_ORDER_TYPE_FILLING filling)</td></tr>
+<tr class="memdesc:af63417ff74f594bc7f098421e32e3320 inherit pub_methods_class_request"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds a position.  <br /></td></tr>
+<tr class="separator:af63417ff74f594bc7f098421e32e3320 inherit pub_methods_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2713db694f975e5a362423a33c9bbf47 inherit pub_methods_class_request" id="r_a2713db694f975e5a362423a33c9bbf47"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#a2713db694f975e5a362423a33c9bbf47">BuildPending</a> (MqlTradeRequest &amp;request, <a class="el" href="class_request.html#a25592b34884db4d3335c5272249cfb04">ENUM_ORDER_PENDING_TYPE</a> type, ENUM_ORDER_TYPE_FILLING filling, double price)</td></tr>
+<tr class="memdesc:a2713db694f975e5a362423a33c9bbf47 inherit pub_methods_class_request"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds a pending order.  <br /></td></tr>
+<tr class="separator:a2713db694f975e5a362423a33c9bbf47 inherit pub_methods_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a367521d18c1766b70c933ca7f797f50f inherit pub_methods_class_request" id="r_a367521d18c1766b70c933ca7f797f50f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#a367521d18c1766b70c933ca7f797f50f">BuildPendingOrPosition</a> (MqlTradeRequest &amp;request, <a class="el" href="class_request.html#a25592b34884db4d3335c5272249cfb04">ENUM_ORDER_PENDING_TYPE</a> type, ENUM_ORDER_TYPE_FILLING filling, double price)</td></tr>
+<tr class="memdesc:a367521d18c1766b70c933ca7f797f50f inherit pub_methods_class_request"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds a pending order or position.  <br /></td></tr>
+<tr class="separator:a367521d18c1766b70c933ca7f797f50f inherit pub_methods_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -182,20 +241,29 @@ Public Attributes</h2></td></tr>
 <tr class="separator:ad38fabda0e47ef4e7debe30be2ff2d36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a34bb940ad9e348337342b18cd78ff2f1" id="r_a34bb940ad9e348337342b18cd78ff2f1"><td class="memItemLeft" align="right" valign="top">MqlTradeCheckResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a34bb940ad9e348337342b18cd78ff2f1">tradeCheckResult</a></td></tr>
 <tr class="separator:a34bb940ad9e348337342b18cd78ff2f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_attribs_class_request"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_attribs_class_request')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="class_request.html">Request</a></td></tr>
+<tr class="memitem:a3eeda741c82978d1143de1d4957fa9d1 inherit pub_attribs_class_request" id="r_a3eeda741c82978d1143de1d4957fa9d1"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#a3eeda741c82978d1143de1d4957fa9d1">symbol</a></td></tr>
+<tr class="separator:a3eeda741c82978d1143de1d4957fa9d1 inherit pub_attribs_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30fff3117cd4d0edccaf8572dad98e77 inherit pub_attribs_class_request" id="r_a30fff3117cd4d0edccaf8572dad98e77"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#a30fff3117cd4d0edccaf8572dad98e77">lotSize</a></td></tr>
+<tr class="separator:a30fff3117cd4d0edccaf8572dad98e77 inherit pub_attribs_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa90a7e19a1a0a5ec0d96d7c14838aa47 inherit pub_attribs_class_request" id="r_aa90a7e19a1a0a5ec0d96d7c14838aa47"><td class="memItemLeft" align="right" valign="top">ulong&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#aa90a7e19a1a0a5ec0d96d7c14838aa47">takeProfit</a></td></tr>
+<tr class="separator:aa90a7e19a1a0a5ec0d96d7c14838aa47 inherit pub_attribs_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2cae6d0b68e5bbce482d94eb00edafc0 inherit pub_attribs_class_request" id="r_a2cae6d0b68e5bbce482d94eb00edafc0"><td class="memItemLeft" align="right" valign="top">ulong&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#a2cae6d0b68e5bbce482d94eb00edafc0">stopLoss</a></td></tr>
+<tr class="separator:a2cae6d0b68e5bbce482d94eb00edafc0 inherit pub_attribs_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a716212df870a18ccf450ea1b38739809 inherit pub_attribs_class_request" id="r_a716212df870a18ccf450ea1b38739809"><td class="memItemLeft" align="right" valign="top">ulong&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#a716212df870a18ccf450ea1b38739809">deviationTrade</a></td></tr>
+<tr class="separator:a716212df870a18ccf450ea1b38739809 inherit pub_attribs_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3830b076f01740db9ce850a21966d1c inherit pub_attribs_class_request" id="r_af3830b076f01740db9ce850a21966d1c"><td class="memItemLeft" align="right" valign="top">ulong&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#af3830b076f01740db9ce850a21966d1c">magicNumber</a></td></tr>
+<tr class="separator:af3830b076f01740db9ce850a21966d1c inherit pub_attribs_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af76bc4fb9df940665ed180495463c01b inherit pub_attribs_class_request" id="r_af76bc4fb9df940665ed180495463c01b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_round_volume.html">RoundVolume</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#af76bc4fb9df940665ed180495463c01b">roundVolume</a></td></tr>
+<tr class="separator:af76bc4fb9df940665ed180495463c01b inherit pub_attribs_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d66785a4b25f38dcd9e8ac996b2dcda inherit pub_attribs_class_request" id="r_a5d66785a4b25f38dcd9e8ac996b2dcda"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_calc_stop.html">CalcStop</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#a5d66785a4b25f38dcd9e8ac996b2dcda">calcStop</a></td></tr>
+<tr class="separator:a5d66785a4b25f38dcd9e8ac996b2dcda inherit pub_attribs_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:af2d998b03401493a680a2650302a337a" id="r_af2d998b03401493a680a2650302a337a"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af2d998b03401493a680a2650302a337a">failSendingOrder</a> ()</td></tr>
+<tr class="memdesc:af2d998b03401493a680a2650302a337a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a formatted string describing the failure of sending an order.  <br /></td></tr>
 <tr class="separator:af2d998b03401493a680a2650302a337a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_methods_class_request"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_methods_class_request')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_request.html">Request</a></td></tr>
-<tr class="memitem:abbecb328234923e7b0805ebdf176e564 inherit pro_methods_class_request" id="r_abbecb328234923e7b0805ebdf176e564"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#abbecb328234923e7b0805ebdf176e564">BuildCheckPosition</a> (MqlTradeRequest &amp;request, ENUM_POSITION_TYPE type, ENUM_ORDER_TYPE_FILLING filling_mode, double &amp;price_ask, double &amp;price_bid)</td></tr>
-<tr class="separator:abbecb328234923e7b0805ebdf176e564 inherit pro_methods_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba60d3071821060752c4687108a3a3ca inherit pro_methods_class_request" id="r_aba60d3071821060752c4687108a3a3ca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#aba60d3071821060752c4687108a3a3ca">BuildPosition</a> (MqlTradeRequest &amp;request, ENUM_POSITION_TYPE type, ENUM_ORDER_TYPE_FILLING filling_mode)</td></tr>
-<tr class="separator:aba60d3071821060752c4687108a3a3ca inherit pro_methods_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac313ab11ae5a0b7f39ac1fac4bc6bd34 inherit pro_methods_class_request" id="r_ac313ab11ae5a0b7f39ac1fac4bc6bd34"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#ac313ab11ae5a0b7f39ac1fac4bc6bd34">BuildPending</a> (MqlTradeRequest &amp;request, ENUM_ORDER_PENDING_TYPE order_pending_type, ENUM_ORDER_TYPE_FILLING filling_mode, double open_price, double price_ask, double price_bid)</td></tr>
-<tr class="separator:ac313ab11ae5a0b7f39ac1fac4bc6bd34 inherit pro_methods_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a023eac82e99291a6cc1f222e462b8bae inherit pro_methods_class_request" id="r_a023eac82e99291a6cc1f222e462b8bae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#a023eac82e99291a6cc1f222e462b8bae">BuildPendingOrPosition</a> (MqlTradeRequest &amp;request, ENUM_ORDER_PENDING_TYPE order_pending_type, ENUM_ORDER_TYPE_FILLING filling_mode, double open_price, double comparative_price)</td></tr>
-<tr class="separator:a023eac82e99291a6cc1f222e462b8bae inherit pro_methods_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -207,46 +275,10 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a3178665ef6fb094ac9bf1bae7c06b664"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2221b7d82dda430a7882aff811c8104" id="r_ae2221b7d82dda430a7882aff811c8104"><td class="memItemLeft" align="right" valign="top">ENUM_ORDER_TYPE_FILLING&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae2221b7d82dda430a7882aff811c8104">typeFilliingMode</a></td></tr>
 <tr class="separator:ae2221b7d82dda430a7882aff811c8104"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_attribs_class_request"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_attribs_class_request')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="class_request.html">Request</a></td></tr>
-<tr class="memitem:a3eeda741c82978d1143de1d4957fa9d1 inherit pro_attribs_class_request" id="r_a3eeda741c82978d1143de1d4957fa9d1"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#a3eeda741c82978d1143de1d4957fa9d1">symbol</a></td></tr>
-<tr class="separator:a3eeda741c82978d1143de1d4957fa9d1 inherit pro_attribs_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30fff3117cd4d0edccaf8572dad98e77 inherit pro_attribs_class_request" id="r_a30fff3117cd4d0edccaf8572dad98e77"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#a30fff3117cd4d0edccaf8572dad98e77">lotSize</a></td></tr>
-<tr class="separator:a30fff3117cd4d0edccaf8572dad98e77 inherit pro_attribs_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa90a7e19a1a0a5ec0d96d7c14838aa47 inherit pro_attribs_class_request" id="r_aa90a7e19a1a0a5ec0d96d7c14838aa47"><td class="memItemLeft" align="right" valign="top">ulong&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#aa90a7e19a1a0a5ec0d96d7c14838aa47">takeProfit</a></td></tr>
-<tr class="separator:aa90a7e19a1a0a5ec0d96d7c14838aa47 inherit pro_attribs_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2cae6d0b68e5bbce482d94eb00edafc0 inherit pro_attribs_class_request" id="r_a2cae6d0b68e5bbce482d94eb00edafc0"><td class="memItemLeft" align="right" valign="top">ulong&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#a2cae6d0b68e5bbce482d94eb00edafc0">stopLoss</a></td></tr>
-<tr class="separator:a2cae6d0b68e5bbce482d94eb00edafc0 inherit pro_attribs_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a716212df870a18ccf450ea1b38739809 inherit pro_attribs_class_request" id="r_a716212df870a18ccf450ea1b38739809"><td class="memItemLeft" align="right" valign="top">ulong&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#a716212df870a18ccf450ea1b38739809">deviationTrade</a></td></tr>
-<tr class="separator:a716212df870a18ccf450ea1b38739809 inherit pro_attribs_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3830b076f01740db9ce850a21966d1c inherit pro_attribs_class_request" id="r_af3830b076f01740db9ce850a21966d1c"><td class="memItemLeft" align="right" valign="top">ulong&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#af3830b076f01740db9ce850a21966d1c">magicNumber</a></td></tr>
-<tr class="separator:af3830b076f01740db9ce850a21966d1c inherit pro_attribs_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af76bc4fb9df940665ed180495463c01b inherit pro_attribs_class_request" id="r_af76bc4fb9df940665ed180495463c01b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_round_volume.html">RoundVolume</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#af76bc4fb9df940665ed180495463c01b">roundVolume</a></td></tr>
-<tr class="separator:af76bc4fb9df940665ed180495463c01b inherit pro_attribs_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d66785a4b25f38dcd9e8ac996b2dcda inherit pro_attribs_class_request" id="r_a5d66785a4b25f38dcd9e8ac996b2dcda"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_calc_stop.html">CalcStop</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_request.html#a5d66785a4b25f38dcd9e8ac996b2dcda">calcStop</a></td></tr>
-<tr class="separator:a5d66785a4b25f38dcd9e8ac996b2dcda inherit pro_attribs_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pro_types_class_request"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_types_class_request')"><img src="closed.png" alt="-"/>&#160;Protected Types inherited from <a class="el" href="class_request.html">Request</a></td></tr>
-<tr class="memitem:a25592b34884db4d3335c5272249cfb04 inherit pro_types_class_request" id="r_a25592b34884db4d3335c5272249cfb04"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><b>ENUM_ORDER_PENDING_TYPE</b> { <b>ORDER_PENDING_TYPE_BUY</b> = POSITION_TYPE_BUY
-, <b>ORDER_PENDING_TYPE_SELL</b> = POSITION_TYPE_SELL
- }</td></tr>
-<tr class="separator:a25592b34884db4d3335c5272249cfb04 inherit pro_types_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ff56148cf8789eeb94fb8e6c5853d4a inherit pro_types_class_request" id="r_a4ff56148cf8789eeb94fb8e6c5853d4a"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><b>ENUM_PRIVATE_ATR_STRING</b> { <b>SYMBOL</b>
- }</td></tr>
-<tr class="separator:a4ff56148cf8789eeb94fb8e6c5853d4a inherit pro_types_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a61ac9d9538449005b9f34f68a54dcae6 inherit pro_types_class_request" id="r_a61ac9d9538449005b9f34f68a54dcae6"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><b>ENUM_PRIVATE_ATR_DOUBLE</b> { <b>LOT_SIZE</b>
- }</td></tr>
-<tr class="separator:a61ac9d9538449005b9f34f68a54dcae6 inherit pro_types_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a8d6d44e3e2fadac6905749310d2383 inherit pro_types_class_request" id="r_a0a8d6d44e3e2fadac6905749310d2383"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><b>ENUM_PRIVATE_ATR_ULONG</b> { <b>TAKE_PROFIT</b>
-, <b>STOP_LOSS</b>
-, <b>DEVIATION_TRADE</b>
-, <b>MAGIC_NUMBER</b>
- }</td></tr>
-<tr class="separator:a0a8d6d44e3e2fadac6905749310d2383 inherit pro_types_class_request"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"></div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<div class="textblock"><p>Class to handle trading transactions, inheriting from <a class="el" href="class_request.html" title="Class to handle trade requests.">Request</a>. </p>
+</div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="a03374bd326c2d78225df6767debd176c" name="a03374bd326c2d78225df6767debd176c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a03374bd326c2d78225df6767debd176c">&#9670;&#160;</a></span>ENUM_CHECK</h2>
 
@@ -254,10 +286,22 @@ Additional Inherited Members</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">enum Transaction::ENUM_CHECK</td>
+          <td class="memname">enum <a class="el" href="#a03374bd326c2d78225df6767debd176c">Transaction::ENUM_CHECK</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Enum to handle different types of check transactions. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a03374bd326c2d78225df6767debd176caaeb35dccb391a098b64c29fe709a5778" name="a03374bd326c2d78225df6767debd176caaeb35dccb391a098b64c29fe709a5778"></a>CHECK_ARG_TRANSACTION_PASSED&#160;</td><td class="fielddoc"><p>Check transaction passed </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a03374bd326c2d78225df6767debd176cae714701ee4d16571fb8464263b48c23f" name="a03374bd326c2d78225df6767debd176cae714701ee4d16571fb8464263b48c23f"></a>ERR_SYMBOL_NOT_AVAILABLE&#160;</td><td class="fielddoc"><p>Error: Symbol not available </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a03374bd326c2d78225df6767debd176caa49f735a07bbef04a11e3b5cd8848f56" name="a03374bd326c2d78225df6767debd176caa49f735a07bbef04a11e3b5cd8848f56"></a>ERR_INVALID_LOT_SIZE&#160;</td><td class="fielddoc"><p>Error: Invalid lot size </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a03374bd326c2d78225df6767debd176ca4abf94887f880946a21053d012e7a018" name="a03374bd326c2d78225df6767debd176ca4abf94887f880946a21053d012e7a018"></a>ERR_DEVIATION_INSUFFICIENT&#160;</td><td class="fielddoc"><p>Error: Insufficient deviation </p>
+</td></tr>
+</table>
 
 </div>
 </div>
@@ -268,10 +312,20 @@ Additional Inherited Members</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">enum Transaction::ENUM_FIX_FILLING_MODE</td>
+          <td class="memname">enum <a class="el" href="#a868ff80d7ceff3f4bf04c17046abc9f1">Transaction::ENUM_FIX_FILLING_MODE</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Enum to handle different types of fix filling modes. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a868ff80d7ceff3f4bf04c17046abc9f1ac8e6e3a010e1b30aa4f8b685bebc0d5c" name="a868ff80d7ceff3f4bf04c17046abc9f1ac8e6e3a010e1b30aa4f8b685bebc0d5c"></a>FILLING_MODE_FOUND&#160;</td><td class="fielddoc"><p>Filling mode found </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a868ff80d7ceff3f4bf04c17046abc9f1a26f2ab2d6bddebcf5151afde8a63710f" name="a868ff80d7ceff3f4bf04c17046abc9f1a26f2ab2d6bddebcf5151afde8a63710f"></a>ERR_FILLING_MODE_NO_FOUND&#160;</td><td class="fielddoc"><p>Error: Filling mode not found </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a868ff80d7ceff3f4bf04c17046abc9f1a8744fcfa3eca0812fb9262d7cec8e689" name="a868ff80d7ceff3f4bf04c17046abc9f1a8744fcfa3eca0812fb9262d7cec8e689"></a>ERR_INVALID_REQUEST&#160;</td><td class="fielddoc"><p>Error: Invalid request </p>
+</td></tr>
+</table>
 
 </div>
 </div>
@@ -282,10 +336,18 @@ Additional Inherited Members</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">enum Transaction::ENUM_ORDER_TRANSACTION</td>
+          <td class="memname">enum <a class="el" href="#a6cd7ba61cced2fa7079e664191289322">Transaction::ENUM_ORDER_TRANSACTION</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Enum to handle different types of order transactions. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a6cd7ba61cced2fa7079e664191289322a28de2bfd385721460b16ac1a024e016b" name="a6cd7ba61cced2fa7079e664191289322a28de2bfd385721460b16ac1a024e016b"></a>ORDER_PLACED_SUCCESSFULLY&#160;</td><td class="fielddoc"><p>Order placed successfully </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a6cd7ba61cced2fa7079e664191289322a5585afd9925c900a7fd5b022f001e3c8" name="a6cd7ba61cced2fa7079e664191289322a5585afd9925c900a7fd5b022f001e3c8"></a>ERR_SEND_FAILED&#160;</td><td class="fielddoc"><p>Error: Send failed </p>
+</td></tr>
+</table>
 
 </div>
 </div>
@@ -313,31 +375,28 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Constructor for the <a class="el" href="class_transaction.html" title="Class to handle trading transactions, inheriting from Request.">Transaction</a> class. </p>
+
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a35910808274a7ae6afb6a59e032454da" name="a35910808274a7ae6afb6a59e032454da"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a35910808274a7ae6afb6a59e032454da">&#9670;&#160;</a></span>CheckArg()</h2>
+<a id="ac60ae367f12015ebeeb155f2fc49064d" name="ac60ae367f12015ebeeb155f2fc49064d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac60ae367f12015ebeeb155f2fc49064d">&#9670;&#160;</a></span>CheckArg()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">ENUM_CHECK Transaction::CheckArg </td>
+          <td class="memname"><a class="el" href="#a03374bd326c2d78225df6767debd176c">Transaction::ENUM_CHECK</a> Transaction::CheckArg </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+
+<p>Checks the arguments for the transaction. </p>
+<dl class="section return"><dt>Returns</dt><dd>The result of the check as ENUM_CHECK. </dd></dl>
 
 </div>
 </div>
@@ -346,9 +405,6 @@ Additional Inherited Members</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">string Transaction::CommentToShow </td>
@@ -357,12 +413,10 @@ Additional Inherited Members</h2></td></tr>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+
+<p>Returns a formatted string with details of the transaction. </p>
+<dl class="section return"><dt>Returns</dt><dd>A string with details of the transaction. </dd></dl>
 
 </div>
 </div>
@@ -371,23 +425,24 @@ Additional Inherited Members</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">string Transaction::EnumCheckTransactionToString </td>
           <td>(</td>
-          <td class="paramtype">ENUM_CHECK</td>          <td class="paramname"><span class="paramname"><em>enum_result</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="#a03374bd326c2d78225df6767debd176c">ENUM_CHECK</a></td>          <td class="paramname"><span class="paramname"><em>enum_result</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+
+<p>Converts the check transaction result to a string. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enum_result</td><td>The result of the check transaction. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A string representing the check transaction result. </dd></dl>
 
 </div>
 </div>
@@ -396,23 +451,24 @@ Additional Inherited Members</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">string Transaction::EnumFixFillingModeToString </td>
           <td>(</td>
-          <td class="paramtype">ENUM_FIX_FILLING_MODE</td>          <td class="paramname"><span class="paramname"><em>enum_result</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="#a868ff80d7ceff3f4bf04c17046abc9f1">ENUM_FIX_FILLING_MODE</a></td>          <td class="paramname"><span class="paramname"><em>enum_result</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+
+<p>Converts the fix filling mode result to a string. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enum_result</td><td>The result of the fix filling mode. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A string representing the fix filling mode result. </dd></dl>
 
 </div>
 </div>
@@ -421,23 +477,24 @@ Additional Inherited Members</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">string Transaction::EnumOrderTransactionToString </td>
           <td>(</td>
-          <td class="paramtype">ENUM_ORDER_TRANSACTION</td>          <td class="paramname"><span class="paramname"><em>enum_result</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="#a6cd7ba61cced2fa7079e664191289322">ENUM_ORDER_TRANSACTION</a></td>          <td class="paramname"><span class="paramname"><em>enum_result</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+
+<p>Converts the order transaction result to a string. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enum_result</td><td>The result of the order transaction. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A string representing the order transaction result. </dd></dl>
 
 </div>
 </div>
@@ -459,78 +516,96 @@ Additional Inherited Members</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p>Returns a formatted string describing the failure of sending an order. </p>
+<dl class="section return"><dt>Returns</dt><dd>A string with details of the failed order. </dd></dl>
+<div id="dynsection-2" onclick="return dynsection.toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-2-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-2-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="class_transaction_af2d998b03401493a680a2650302a337a_icgraph.png" border="0" usemap="#aclass_transaction_af2d998b03401493a680a2650302a337a_icgraph" alt=""/></div>
+</div>
+
 </div>
 </div>
-<a id="a821369bf232f5bcf77c8f709a8d1f1b1" name="a821369bf232f5bcf77c8f709a8d1f1b1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a821369bf232f5bcf77c8f709a8d1f1b1">&#9670;&#160;</a></span>FixFillingMode()</h2>
+<a id="aa880e99e7c90bed3fd9be986166d805c" name="aa880e99e7c90bed3fd9be986166d805c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa880e99e7c90bed3fd9be986166d805c">&#9670;&#160;</a></span>FixFillingMode()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">ENUM_FIX_FILLING_MODE Transaction::FixFillingMode </td>
+          <td class="memname"><a class="el" href="#a868ff80d7ceff3f4bf04c17046abc9f1">Transaction::ENUM_FIX_FILLING_MODE</a> Transaction::FixFillingMode </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+
+<p>Fixes the filling mode for the transaction. </p>
+<dl class="section return"><dt>Returns</dt><dd>The result of fixing the filling mode as ENUM_FIX_FILLING_MODE. </dd></dl>
+<div id="dynsection-3" onclick="return dynsection.toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-3-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-3-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="class_transaction_aa880e99e7c90bed3fd9be986166d805c_cgraph.png" border="0" usemap="#aclass_transaction_aa880e99e7c90bed3fd9be986166d805c_cgraph" alt=""/></div>
+</div>
 
 </div>
 </div>
-<a id="ae41321646ca73a773f030439d4370369" name="ae41321646ca73a773f030439d4370369"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae41321646ca73a773f030439d4370369">&#9670;&#160;</a></span>SendPendingDefault()</h2>
+<a id="adee407f1aed820b1f9b59abe011b9ae3" name="adee407f1aed820b1f9b59abe011b9ae3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adee407f1aed820b1f9b59abe011b9ae3">&#9670;&#160;</a></span>SendPendingDefault()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">ENUM_ORDER_TRANSACTION Transaction::SendPendingDefault </td>
+          <td class="memname"><a class="el" href="#a6cd7ba61cced2fa7079e664191289322">Transaction::ENUM_ORDER_TRANSACTION</a> Transaction::SendPendingDefault </td>
           <td>(</td>
           <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>open_price</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">ENUM_ORDER_PENDING_TYPE</td>          <td class="paramname"><span class="paramname"><em>order_type</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="class_request.html#a25592b34884db4d3335c5272249cfb04">ENUM_ORDER_PENDING_TYPE</a></td>          <td class="paramname"><span class="paramname"><em>order_type</em></span>&#160;)</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+
+<p>Sends a pending order with default parameters for the transaction. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">open_price</td><td>The price at which the pending order will open. </td></tr>
+    <tr><td class="paramname">order_type</td><td>The type of pending order. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The result of sending the order as ENUM_ORDER_TRANSACTION. </dd></dl>
+<div id="dynsection-4" onclick="return dynsection.toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-4-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-4-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="class_transaction_adee407f1aed820b1f9b59abe011b9ae3_cgraph.png" border="0" usemap="#aclass_transaction_adee407f1aed820b1f9b59abe011b9ae3_cgraph" alt=""/></div>
+</div>
 
 </div>
 </div>
-<a id="a87b0d4eb28a9367696a05547643769f2" name="a87b0d4eb28a9367696a05547643769f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a87b0d4eb28a9367696a05547643769f2">&#9670;&#160;</a></span>SendPendingOrPosition()</h2>
+<a id="aa92a542cfb82f2c49d0b34124fde5444" name="aa92a542cfb82f2c49d0b34124fde5444"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa92a542cfb82f2c49d0b34124fde5444">&#9670;&#160;</a></span>SendPendingOrPosition()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">ENUM_ORDER_TRANSACTION Transaction::SendPendingOrPosition </td>
+          <td class="memname"><a class="el" href="#a6cd7ba61cced2fa7079e664191289322">Transaction::ENUM_ORDER_TRANSACTION</a> Transaction::SendPendingOrPosition </td>
           <td>(</td>
           <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>open_price</em></span>, </td>
         </tr>
@@ -542,40 +617,61 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">ENUM_ORDER_PENDING_TYPE</td>          <td class="paramname"><span class="paramname"><em>order_type</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="class_request.html#a25592b34884db4d3335c5272249cfb04">ENUM_ORDER_PENDING_TYPE</a></td>          <td class="paramname"><span class="paramname"><em>order_type</em></span>&#160;)</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+
+<p>Sends a pending or position order for the transaction. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">open_price</td><td>The price at which the order will open. </td></tr>
+    <tr><td class="paramname">comparative_price</td><td>The comparative price for the order. </td></tr>
+    <tr><td class="paramname">order_type</td><td>The type of pending order. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The result of sending the order as ENUM_ORDER_TRANSACTION. </dd></dl>
+<div id="dynsection-5" onclick="return dynsection.toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-5-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-5-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="class_transaction_aa92a542cfb82f2c49d0b34124fde5444_cgraph.png" border="0" usemap="#aclass_transaction_aa92a542cfb82f2c49d0b34124fde5444_cgraph" alt=""/></div>
+</div>
 
 </div>
 </div>
-<a id="ade5565bcef23b653da94782969621119" name="ade5565bcef23b653da94782969621119"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ade5565bcef23b653da94782969621119">&#9670;&#160;</a></span>SendPosition()</h2>
+<a id="a24d77a22b48ae106e774efb0af19f268" name="a24d77a22b48ae106e774efb0af19f268"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24d77a22b48ae106e774efb0af19f268">&#9670;&#160;</a></span>SendPosition()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">ENUM_ORDER_TRANSACTION Transaction::SendPosition </td>
+          <td class="memname"><a class="el" href="#a6cd7ba61cced2fa7079e664191289322">Transaction::ENUM_ORDER_TRANSACTION</a> Transaction::SendPosition </td>
           <td>(</td>
           <td class="paramtype">ENUM_POSITION_TYPE</td>          <td class="paramname"><span class="paramname"><em>order_type</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+
+<p>Sends a position order for the transaction. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">order_type</td><td>The type of position order. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The result of sending the order as ENUM_ORDER_TRANSACTION. </dd></dl>
+<div id="dynsection-6" onclick="return dynsection.toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-6-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-6-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="class_transaction_a24d77a22b48ae106e774efb0af19f268_cgraph.png" border="0" usemap="#aclass_transaction_a24d77a22b48ae106e774efb0af19f268_cgraph" alt=""/></div>
+</div>
 
 </div>
 </div>
@@ -584,9 +680,6 @@ Additional Inherited Members</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void Transaction::Update </td>
@@ -595,12 +688,16 @@ Additional Inherited Members</h2></td></tr>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+
+<p>Updates the transaction parameters. </p>
+<div id="dynsection-7" onclick="return dynsection.toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-7-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-7-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-7-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="class_transaction_a69519bea53c8855a75d3d7a786365b7d_icgraph.png" border="0" usemap="#aclass_transaction_a69519bea53c8855a75d3d7a786365b7d_icgraph" alt=""/></div>
+</div>
 
 </div>
 </div>
@@ -668,6 +765,7 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Ask price, Bid price, and Tick size for the transaction </p>
 
 </div>
 </div>
@@ -682,6 +780,7 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Trade check result for the transaction </p>
 
 </div>
 </div>
@@ -696,6 +795,7 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Trade request for the transaction </p>
 
 </div>
 </div>
@@ -710,6 +810,7 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Trade result for the transaction </p>
 
 </div>
 </div>
@@ -732,6 +833,7 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Filling mode for the transaction </p>
 
 </div>
 </div>

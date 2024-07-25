@@ -8,4 +8,21 @@ digraph "CalcStop::internal"
   Node1 [id="Node000001",label="CalcStop::internal",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Internal function to calculate stop loss or take profit prices."];
   Node1 -> Node2 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
   Node2 [id="Node000002",label="CalcStop::Run",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_calc_stop.html#a48df6835c86088711aef2fd9e433dc2f",tooltip="Calculates the stop price based on provided parameters."];
+  Node2 -> Node3 [id="edge2_Node000002_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="Request::BuildCheckPosition",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_request.html#a708a65c7383e5d98bfe3bc8ac0e052af",tooltip="Builds a check position."];
+  Node3 -> Node4 [id="edge3_Node000003_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="Transaction::FixFillingMode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_transaction.html#aa880e99e7c90bed3fd9be986166d805c",tooltip="Fixes the filling mode for the transaction."];
+  Node2 -> Node5 [id="edge4_Node000002_Node000005",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="Request::BuildPending",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_request.html#a2713db694f975e5a362423a33c9bbf47",tooltip="Builds a pending order."];
+  Node5 -> Node6 [id="edge5_Node000005_Node000006",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="Request::BuildPendingOrPosition",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_request.html#a367521d18c1766b70c933ca7f797f50f",tooltip="Builds a pending order or position."];
+  Node6 -> Node7 [id="edge6_Node000006_Node000007",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node7 [id="Node000007",label="Transaction::SendPending\lOrPosition",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_transaction.html#aa92a542cfb82f2c49d0b34124fde5444",tooltip="Sends a pending or position order for the transaction."];
+  Node5 -> Node8 [id="edge7_Node000005_Node000008",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node8 [id="Node000008",label="Transaction::SendPending\lDefault",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_transaction.html#adee407f1aed820b1f9b59abe011b9ae3",tooltip="Sends a pending order with default parameters for the transaction."];
+  Node2 -> Node9 [id="edge8_Node000002_Node000009",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node9 [id="Node000009",label="Request::BuildPosition",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_request.html#af63417ff74f594bc7f098421e32e3320",tooltip="Builds a position."];
+  Node9 -> Node6 [id="edge9_Node000009_Node000006",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node9 -> Node10 [id="edge10_Node000009_Node000010",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node10 [id="Node000010",label="Transaction::SendPosition",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_transaction.html#a24d77a22b48ae106e774efb0af19f268",tooltip="Sends a position order for the transaction."];
 }
