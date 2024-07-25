@@ -20,8 +20,8 @@ public:
     */
    enum ENUM_PROFIT_PROTECTION_TYPE
      {
-      TRAILING_STOP, ///< Trailing Stop protection
-      BREAK_EVEN ///< Break Even protection
+      TRAILING_STOP, ///Trailing Stop
+      BREAK_EVEN ///Break Even
      };
 
    double            activationPercent; ///< Activation percentage for profit protection
