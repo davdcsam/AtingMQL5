@@ -14,7 +14,6 @@ class Transaction : public Request
   {
 protected:
    double            priceAsk, priceBid, tickSize; /**< Ask price, Bid price, and Tick size for the transaction */
-   ENUM_ORDER_TYPE_FILLING typeFilliingMode; /**< Filling mode for the transaction */
 
    /**
     * @brief Returns a formatted string describing the failure of sending an order.
@@ -64,6 +63,7 @@ public:
    MqlTradeRequest   tradeRequest; /**< Trade request for the transaction */
    MqlTradeResult    tradeResult; /**< Trade result for the transaction */
    MqlTradeCheckResult tradeCheckResult; /**< Trade check result for the transaction */
+   ENUM_ORDER_TYPE_FILLING typeFillingMode; /**< Filling mode for the transaction */
 
    /**
     * @brief Checks the arguments for the transaction.
@@ -189,7 +189,7 @@ Transaction::ENUM_FIX_FILLING_MODE Transaction::FixFillingMode()
 
       if(tradeCheckResult.retcode == 0)
         {
-         typeFilliingMode = tradeRequest.type_filling;
+         typeFillingMode = tradeRequest.type_filling;
          return FILLING_MODE_FOUND;
         }
      }
@@ -200,7 +200,7 @@ Transaction::ENUM_FIX_FILLING_MODE Transaction::FixFillingMode()
 //+------------------------------------------------------------------+
 Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPosition(ENUM_POSITION_TYPE order_type)
   {
-   BuildPosition(tradeRequest, order_type, typeFilliingMode);
+   BuildPosition(tradeRequest, order_type, typeFillingMode);
 
    double stops[] = {tradeRequest.sl, tradeRequest.tp, tradeRequest.price};
 
@@ -216,7 +216,7 @@ Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPosition(ENUM_POSITION_TYPE
 //+------------------------------------------------------------------+
 Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPendingDefault(double open_price, ENUM_ORDER_PENDING_TYPE order_type)
   {
-   BuildPending(tradeRequest, order_type, typeFilliingMode, open_price);
+   BuildPending(tradeRequest, order_type, typeFillingMode, open_price);
 
    double stops[] = {tradeRequest.sl, tradeRequest.tp, tradeRequest.price};
 
@@ -232,7 +232,7 @@ Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPendingDefault(double open_
 //+------------------------------------------------------------------+
 Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPendingOrPosition(double open_price, double comparative_price, ENUM_ORDER_PENDING_TYPE order_type)
   {
-   BuildPendingOrPosition(tradeRequest, order_type, typeFilliingMode, open_price);
+   BuildPendingOrPosition(tradeRequest, order_type, typeFillingMode, open_price);
 
    double stops[] = {tradeRequest.sl, tradeRequest.tp, tradeRequest.price};
 
