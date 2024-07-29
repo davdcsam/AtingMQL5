@@ -40,7 +40,7 @@ protected:
     * @brief Processes an position based on its ticket and mode.
     * @param ticket Ticket number of the position.
     */
-   void              ProcessOrder(ulong &ticket);
+   void              ProcessPosition(ulong &ticket);
 
    /**
     * @brief Handles the removal of positions based on the specified type.
@@ -73,6 +73,11 @@ public:
     * @brief Verifies positions and removes positions based on their type.
     */
    void              TriggerPositionNotInArray();
+
+   /**
+    * @brief Remove positions by type
+    */
+   void              Run(ENUM_POSITION_TYPE type);
   };
 
 //+------------------------------------------------------------------+
@@ -124,7 +129,7 @@ void RemPositionByType::UpdatePositions()
   }
 
 //+------------------------------------------------------------------+
-void RemPositionByType::ProcessOrder(ulong &ticket)
+void RemPositionByType::ProcessPosition(ulong &ticket)
   {
    if(sellTickets.SearchLinear(ticket) != -1)
      {
@@ -187,7 +192,19 @@ void RemPositionByType::TriggerPositionNotInArray()
       if(!detectPositions.IsValidPosition(ticket))
          continue;
 
-      ProcessOrder(ticket);
+      ProcessPosition(ticket);
      }
+  }
+
+//+------------------------------------------------------------------+
+void RemPositionByType::Run(ENUM_POSITION_TYPE type)
+  {
+   UpdatePositions();
+
+   Print(
+      RemovePositionsFromCArray(type == POSITION_TYPE_BUY ? buyTickets : sellTickets) ?
+      StringFormat("Removing position type %s", EnumToString(type)) :
+      "Failed removing positions"
+   );
   }
 //+------------------------------------------------------------------+
