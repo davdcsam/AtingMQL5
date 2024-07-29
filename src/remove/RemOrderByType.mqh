@@ -7,10 +7,10 @@
 
 //+------------------------------------------------------------------+
 /**
- * @class RemoveByOrderType
+ * @class RemOrderByType
  * @brief Class to handle the removal of orders based on their type relative to positions.
  */
-class RemoveByOrderType : public Remove
+class RemOrderByType : public Remove
   {
 public:
    /**
@@ -53,10 +53,10 @@ protected:
 
 public:
    /**
-    * @brief Constructor for the RemoveByOrderType class.
+    * @brief Constructor for the RemOrderByType class.
     * @param mode_arg Mode of removal.
     */
-                     RemoveByOrderType(ENUM_MODES mode_arg = MODE_REMOVE_SAME_TYPE);
+                     RemOrderByType(ENUM_MODES mode_arg = MODE_REMOVE_SAME_TYPE);
 
    /**
     * @brief Arrays to store order tickets for buy and sell orders.
@@ -72,17 +72,17 @@ public:
    /**
     * @brief Verifies positions and removes orders based on their type.
     */
-   void              VerifyPositionAndRemove();
+   void              TriggerPositionNotInArray();
   };
 
 //+------------------------------------------------------------------+
-RemoveByOrderType::RemoveByOrderType(ENUM_MODES mode_arg)
+RemOrderByType::RemOrderByType(ENUM_MODES mode_arg)
    : Remove(), mode(mode_arg)
   {
   }
 
 //+------------------------------------------------------------------+
-void RemoveByOrderType::UpdateOrders()
+void RemOrderByType::UpdateOrders()
   {
 // Clear the order tickets arrays
    detectOrders.orderTickets.Shutdown();
@@ -126,7 +126,7 @@ void RemoveByOrderType::UpdateOrders()
   }
 
 //+------------------------------------------------------------------+
-void RemoveByOrderType::ProcessOrder(ulong &ticket)
+void RemOrderByType::ProcessOrder(ulong &ticket)
   {
    if(sell_order_tickets.SearchLinear(ticket) != -1)
      {
@@ -156,7 +156,7 @@ void RemoveByOrderType::ProcessOrder(ulong &ticket)
   }
 
 //+------------------------------------------------------------------+
-void RemoveByOrderType::HandleOrder(ulong ticket, string orderType, CArrayLong &primaryTickets, CArrayLong &secondaryTickets)
+void RemOrderByType::HandleOrder(ulong ticket, string orderType, CArrayLong &primaryTickets, CArrayLong &secondaryTickets)
   {
    UpdateOrders();
 
@@ -170,7 +170,7 @@ void RemoveByOrderType::HandleOrder(ulong ticket, string orderType, CArrayLong &
   }
 
 //+------------------------------------------------------------------+
-void RemoveByOrderType::VerifyPositionAndRemove()
+void RemOrderByType::TriggerPositionNotInArray()
   {
 // If neither internal flag is set, return
    if(!internal_flag_buy && !internal_flag_sell)

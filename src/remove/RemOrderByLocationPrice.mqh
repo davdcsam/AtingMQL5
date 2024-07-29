@@ -7,10 +7,10 @@
 
 //+------------------------------------------------------------------+
 /**
- * @class RemoveByLocationPrice
+ * @class RemOrderByLocationPrice
  * @brief Class to handle the removal of orders based on their location relative to a middle value.
  */
-class RemoveByLocationPrice : public Remove
+class RemOrderByLocationPrice : public Remove
   {
 private:
    /**
@@ -31,12 +31,12 @@ private:
 
 public:
    /**
-    * @brief Default constructor for the RemoveByLocationPrice class.
+    * @brief Default constructor for the RemOrderByLocationPrice class.
     */
-                     RemoveByLocationPrice(void) : Remove() {};
+                     RemOrderByLocationPrice(void) : Remove() {};
 
    /**
-    * @brief Updates attributes for the RemoveByLocationPrice class.
+    * @brief Updates attributes for the RemOrderByLocationPrice class.
     * @param upper_line_arg Upper boundary for categorizing orders.
     * @param lower_line_arg Lower boundary for categorizing orders.
     * @param magic_arg Magic number for trade operations.
@@ -52,11 +52,11 @@ public:
    /**
     * @brief Verifies positions and removes orders from the opposite array based on the position location.
     */
-   void              VerifyPositionAndRemove();
+   void              TriggerPositionNotInArray();
   };
 
 //+------------------------------------------------------------------+
-void RemoveByLocationPrice::UpdateAtr(double upper_line_arg, double lower_line_arg, ulong magic_arg, string symbol_arg)
+void RemOrderByLocationPrice::UpdateAtr(double upper_line_arg, double lower_line_arg, ulong magic_arg, string symbol_arg)
   {
    middle = (upper_line_arg + lower_line_arg) / 2;
    magic = magic_arg;
@@ -65,7 +65,7 @@ void RemoveByLocationPrice::UpdateAtr(double upper_line_arg, double lower_line_a
   }
 
 //+------------------------------------------------------------------+
-void RemoveByLocationPrice::UpdateOrders()
+void RemOrderByLocationPrice::UpdateOrders()
   {
 // Clear the order tickets arrays
    detectOrders.orderTickets.Shutdown();
@@ -101,7 +101,7 @@ void RemoveByLocationPrice::UpdateOrders()
   }
 
 //+------------------------------------------------------------------+
-void RemoveByLocationPrice::VerifyPositionAndRemove()
+void RemOrderByLocationPrice::TriggerPositionNotInArray()
   {
 // If the internal flag is not set, return
    if(!internal_flag)

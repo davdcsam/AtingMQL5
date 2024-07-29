@@ -23,8 +23,9 @@
 #include "src//profitProtection//BreakEven.mqh"
 #include "src//profitProtection//TrailingStop.mqh"
 
-#include "src//remove//RemoveByLocationPrice.mqh"
-#include "src//remove//RemoveByOrderType.mqh"
+#include "src//remove//RemOrderByLocationPrice.mqh"
+#include "src//remove//RemOrderByType.mqh"
+#include "src//remove//RemPositionByType.mqh"
 
 #include "src//time//SectionTime.mqh"
 #include "src//time//TimeHelper.mqh"
