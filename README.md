@@ -37,9 +37,12 @@ This demo mainly uses the modules transaction, single lapse time, profit protect
 - **BreakEven Class:** Automatically adjust stop loss to breakeven once a certain profit level is reached.
 - **TrailingStop Class:** Dynamically move the stop loss to protect profits as the price moves favorably.
 
-### Order Removal
+### Removal
 
 - **Remove Class:** Easily cancel specific orders using magic numbers and symbols for streamlined order management.
+- **RemPositionByType Class:** Remove positions from type, and functionalities inherited from Remove Class.
+- **RemOrderByType Class:** Remove order from the order type, and functionalities inherited from Remove Class.
+- **RemOrderByLocationPrice**: Remove orders based on their location relative to a middle value.
 
 ### Time Range Definition
 
