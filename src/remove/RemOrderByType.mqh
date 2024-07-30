@@ -61,8 +61,8 @@ public:
    /**
     * @brief Arrays to store order tickets for buy and sell orders.
     */
-   CArrayLong        buy_order_tickets;
-   CArrayLong        sell_order_tickets;
+   CArrayLong        buyTickets;
+   CArrayLong        sellTickets;
 
    /**
     * @brief Updates the order arrays based on their types.
@@ -73,6 +73,12 @@ public:
     * @brief Verifies positions and removes orders based on their type.
     */
    void              TriggerPositionNotInArray();
+   
+
+   /**
+    * @brief Remove order by type
+    */   
+   void Run(ENUM_POSITION_TYPE type);
   };
 
 //+------------------------------------------------------------------+
@@ -86,8 +92,8 @@ void RemOrderByType::UpdateOrders()
   {
 // Clear the order tickets arrays
    detectOrders.orderTickets.Shutdown();
-   buy_order_tickets.Shutdown();
-   sell_order_tickets.Shutdown();
+   buyTickets.Shutdown();
+   sellTickets.Shutdown();
 
    int orders_total = OrdersTotal();
    if(orders_total == 0)
@@ -111,11 +117,11 @@ void RemOrderByType::UpdateOrders()
         {
          case ORDER_TYPE_BUY_STOP:
          case ORDER_TYPE_BUY_LIMIT:
-            buy_order_tickets.Add(ticket);
+            buyTickets.Add(ticket);
             break;
          case ORDER_TYPE_SELL_LIMIT:
          case ORDER_TYPE_SELL_STOP:
-            sell_order_tickets.Add(ticket);
+            sellTickets.Add(ticket);
             break;
         }
 
@@ -128,29 +134,29 @@ void RemOrderByType::UpdateOrders()
 //+------------------------------------------------------------------+
 void RemOrderByType::ProcessOrder(ulong &ticket)
   {
-   if(sell_order_tickets.SearchLinear(ticket) != -1)
+   if(sellTickets.SearchLinear(ticket) != -1)
      {
       if(mode == MODE_REMOVE_SAME_TYPE)
         {
-         HandleOrder(ticket, "sell_order_tickets", sell_order_tickets, buy_order_tickets);
+         HandleOrder(ticket, "sellTickets", sellTickets, buyTickets);
          internal_flag_sell = false;
          return;
         }
 
-      HandleOrder(ticket, "buy_order_tickets", sell_order_tickets, buy_order_tickets);
+      HandleOrder(ticket, "buyTickets", sellTickets, buyTickets);
       internal_flag_sell = false;
      }
 
-   if(buy_order_tickets.SearchLinear(ticket) != -1)
+   if(buyTickets.SearchLinear(ticket) != -1)
      {
       if(mode == MODE_REMOVE_SAME_TYPE)
         {
-         HandleOrder(ticket, "buy_order_tickets", buy_order_tickets, sell_order_tickets);
+         HandleOrder(ticket, "buyTickets", buyTickets, sellTickets);
          internal_flag_buy = false;
          return;
         }
 
-      HandleOrder(ticket, "sell_order_tickets", buy_order_tickets, sell_order_tickets);
+      HandleOrder(ticket, "sellTickets", buyTickets, sellTickets);
       internal_flag_buy = false;
      }
   }
@@ -192,4 +198,14 @@ void RemOrderByType::TriggerPositionNotInArray()
       ProcessOrder(ticket);
      }
   }
+
 //+------------------------------------------------------------------+
+void RemOrderByType::Run(ENUM_POSITION_TYPE type)
+  {
+   UpdateOrders();
+
+   if(RemoveOrdersFromCArray(type == POSITION_TYPE_BUY ? buyTickets : sellTickets))
+      PrintFormat("Removing orders type %s", EnumToString(type));
+  }
+//+------------------------------------------------------------------+
+

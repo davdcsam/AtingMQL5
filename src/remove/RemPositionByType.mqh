@@ -201,10 +201,7 @@ void RemPositionByType::Run(ENUM_POSITION_TYPE type)
   {
    UpdatePositions();
 
-   Print(
-      RemovePositionsFromCArray(type == POSITION_TYPE_BUY ? buyTickets : sellTickets) ?
-      StringFormat("Removing position type %s", EnumToString(type)) :
-      "Failed removing positions"
-   );
+   if(RemovePositionsFromCArray(type == POSITION_TYPE_BUY ? buyTickets : sellTickets))
+      PrintFormat("Removing position type %s", EnumToString(type));
   }
 //+------------------------------------------------------------------+
