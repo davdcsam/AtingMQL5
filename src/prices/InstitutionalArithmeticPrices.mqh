@@ -56,7 +56,7 @@ public:
     */
    struct Setting
      {
-      double         startAdd; ///< Start value for addition
+      double         init; ///< Start value for addition
       double         step; ///< Step size for arithmetic sequence
       double         add; ///< Additional value for adjustment
      };
@@ -81,11 +81,11 @@ public:
 
    /**
     * @brief Updates the settings for arithmetic sequence.
-    * @param startAdd Start value for addition
+    * @param init Start value for addition
     * @param step Step size for arithmetic sequence
     * @param add Additional value for adjustment
     */
-   void              UpdateSetting(double startAdd, double step, double add);
+   void              UpdateSetting(double init, double step, double add);
 
    /**
     * @brief Retrieves the current settings.
@@ -110,7 +110,7 @@ public:
     * @param enum_result The ENUM_CHECK result to convert
     * @return A string representation of the enum result
     */
-   string            EnumCheckLinesGeneratorToString(ENUM_CHECK enum_result);
+   string            EnumCheckToString(ENUM_CHECK enum_result);
 
    /**
     * @brief Generates price levels based on the given close price.
@@ -130,13 +130,13 @@ public:
 template<typename T>
 T InstitutionalArithmeticPrices::calcArithmeticSequenceTerm(T n)
   {
-   return setting.startAdd + (n) * setting.step - (MathMod(n, 2) == 0 ? 0 : setting.add);
+   return setting.init + (n) * setting.step - (MathMod(n, 2) == 0 ? 0 : setting.add);
   }
 
 //+------------------------------------------------------------------+
-void InstitutionalArithmeticPrices::UpdateSetting(double startAdd, double step, double add)
+void InstitutionalArithmeticPrices::UpdateSetting(double init, double step, double add)
   {
-   setting.startAdd = startAdd;
+   setting.init = init;
    setting.step = step;
    setting.add = add;
   }
@@ -163,7 +163,7 @@ InstitutionalArithmeticPrices::ENUM_CHECK InstitutionalArithmeticPrices::CheckAr
   }
 
 //+------------------------------------------------------------------+
-string InstitutionalArithmeticPrices::EnumCheckLinesGeneratorToString(ENUM_CHECK enum_result)
+string InstitutionalArithmeticPrices::EnumCheckToString(ENUM_CHECK enum_result)
   {
    string result;
 
@@ -194,7 +194,7 @@ string InstitutionalArithmeticPrices::EnumCheckLinesGeneratorToString(ENUM_CHECK
 //+------------------------------------------------------------------+
 InstitutionalArithmeticPrices::Prices InstitutionalArithmeticPrices::Generate(double closePrice)
   {
-   double n = MathFloor((closePrice - setting.startAdd) / setting.step) + 1;
+   double n = MathFloor((closePrice - setting.init) / setting.step) + 1;
 
    if(closePrice >= calcArithmeticSequenceTerm(n))
      {
