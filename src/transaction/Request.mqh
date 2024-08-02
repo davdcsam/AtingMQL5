@@ -234,7 +234,10 @@ void Request::BuildPendingOrPosition(MqlTradeRequest& request, ENUM_ORDER_PENDIN
    BuildPending(request, type, filling, price);
 
    MqlTradeCheckResult check_result;
-   if(OrderCheck(request, check_result) && check_result.retcode == TRADE_RETCODE_INVALID_PRICE)
+   if(
+      !OrderCheck(request, check_result)
+      || request.price ==  SymbolInfoDouble(_Symbol, SYMBOL_BID) // 'Cause if Buy Order, the ask could passed. Else Sell Order, Bid filled this one
+   )
       BuildPosition(request, ENUM_POSITION_TYPE(type), filling);
   }
 //+------------------------------------------------------------------+
