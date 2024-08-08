@@ -55,7 +55,7 @@ public:
    /**
     * @brief Calculates the upper and lower price limits based on index for the given symbol and timeframe.
     */
-   void              Get();
+   Prices              Get();
   };
 
 //+------------------------------------------------------------------+
@@ -68,7 +68,7 @@ void LimitsByIndex::UpdateAtr(string symbol_arg, ENUM_TIMEFRAMES timeframe_atr, 
   }
 
 //+------------------------------------------------------------------+
-void LimitsByIndex::Get()
+LimitsByIndex::Prices LimitsByIndex::Get()
   {
 // Find the highest value for the given symbol and timeframe.
    prices.upperIndex = iHighest(symbol, timeframe, MODE_HIGH, counter, shifter);
@@ -79,5 +79,7 @@ void LimitsByIndex::Get()
    prices.upper = iHigh(symbol, timeframe, prices.upperIndex);
 // Get the low value at the lower limit index.
    prices.lower = iLow(symbol, timeframe, prices.lowerIndex);
+
+   return prices;
   }
 //+------------------------------------------------------------------+

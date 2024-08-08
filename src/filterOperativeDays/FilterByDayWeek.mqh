@@ -3,7 +3,6 @@
 //|                                         Copyright 2024, davdcsam |
 //|                            https://github.com/davdcsam/AtingMQL5 |
 //+------------------------------------------------------------------+
-#include <Arrays/ArrayString.mqh>
 
 //+------------------------------------------------------------------+
 /**
@@ -67,7 +66,7 @@ void FilterByDayWeek::UpdateAtr(Frame &noOperationDays)
 //+------------------------------------------------------------------+
 bool FilterByDayWeek::IsOperativeDay(void)
   {
-   TimeCurrent(today);
+   TimeTradeServer(today);
 
    switch(today.day_of_week)
      {

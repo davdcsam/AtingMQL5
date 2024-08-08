@@ -162,14 +162,14 @@ void TimeHelper::UpdateDate(datetime &date, datetime &start, datetime &end)
 void TimeHelper::UpdateDate(MqlDateTime &start, MqlDateTime &end)
   {
    MqlDateTime temp;
-   TimeToStruct(TimeCurrent(), temp);
+   TimeToStruct(TimeTradeServer(), temp);
    UpdateDateHelper(temp, start, end);
   }
 
 //+------------------------------------------------------------------+
 void TimeHelper::UpdateDate(datetime &start, datetime &end)
   {
-   datetime temp = TimeCurrent();
+   datetime temp = TimeTradeServer();
    UpdateDateHelper(temp, start, end);
   }
 //+------------------------------------------------------------------+
