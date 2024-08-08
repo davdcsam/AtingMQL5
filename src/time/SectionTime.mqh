@@ -108,7 +108,7 @@ SectionTime::ENUM_CHECK_SECTION_TIME SectionTime::CheckArg()
 //+------------------------------------------------------------------+
 void SectionTime::Update()
   {
-   TimeToStruct(TimeCurrent(), brokerDateTime);
+   TimeToStruct(TimeTradeServer(), brokerDateTime);
 
    TimeHelper::UpdateDate(brokerDateTime, startDateTime, endDateTime);
    startDateTime.hour = startHour;

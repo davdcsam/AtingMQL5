@@ -106,7 +106,7 @@ bool FilterByCSVFile::IsOperativeDay(void)
 
    PrintFormat("Evaluating %s", datesString.At(0));
 
-   TimeCurrent(today);
+   TimeTradeServer(today);
 
    TimeToStruct(StringToTime(datesString.At(0)), nextDate);
 

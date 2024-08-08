@@ -67,7 +67,7 @@ void FilterByDayWeek::UpdateAtr(Frame &noOperationDays)
 //+------------------------------------------------------------------+
 bool FilterByDayWeek::IsOperativeDay(void)
   {
-   TimeCurrent(today);
+   TimeTradeServer(today);
 
    switch(today.day_of_week)
      {
@@ -136,8 +136,8 @@ public:
    void              UpdateAtr(Week &OperationDays);
 
    /**
-    * @brief Determines if today is an operative day based on the frame.
-    * @return True if today is an operative day according to the frame; otherwise, false.
+    * @brief Determines if today is an operative day based on the array.
+    * @return True if today is an operative day according to the array; otherwise, false.
     */
    bool              IsOperativeDay(void);
   };
@@ -166,6 +166,6 @@ void FilterByDayWeek1::UpdateAtr(Week &nonDays)
 bool FilterByDayWeek1::IsOperativeDay(void)
   {
    TimeTradeServer(today);
-   return weekOp.Search(today.day_of_week) != -1 ? true : false;
+   return (weekOp.SearchLinear(today.day_of_week) < 0) ? false : true;
   }
 //+------------------------------------------------------------------+

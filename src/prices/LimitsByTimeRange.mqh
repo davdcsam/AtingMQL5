@@ -138,7 +138,7 @@ public:
 //+------------------------------------------------------------------+
 void LimitsByTimeRange::Update()
   {
-   TimeCurrent(dt);
+   TimeTradeServer(dt);
 
    start_datetime.year = dt.year;
    start_datetime.mon = dt.mon;
