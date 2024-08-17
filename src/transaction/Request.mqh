@@ -108,7 +108,7 @@ public:
     * @param filling Order filling type.
     * @param price Price for the pending order.
     */
-   void              BuildPending(MqlTradeRequest& request, ENUM_ORDER_PENDING_TYPE type, ENUM_ORDER_TYPE_FILLING filling, double price);
+   void              BuildPending(MqlTradeRequest& request, ENUM_ORDER_PENDING_TYPE type, ENUM_ORDER_TYPE_FILLING filling, double price, datetime expiration = 0);
 
    /**
     * @brief Builds a pending order or position.
@@ -208,10 +208,9 @@ void Request::BuildPosition(MqlTradeRequest& request, ENUM_POSITION_TYPE type, E
   }
 
 //+------------------------------------------------------------------+
-void Request::BuildPending(MqlTradeRequest& request, ENUM_ORDER_PENDING_TYPE type, ENUM_ORDER_TYPE_FILLING filling, double price)
+void Request::BuildPending(MqlTradeRequest& request, ENUM_ORDER_PENDING_TYPE type, ENUM_ORDER_TYPE_FILLING filling, double price, datetime expiration = 0)
   {
    ZeroMemory(request);
-
    request.action = TRADE_ACTION_PENDING;
    request.symbol = symbol;
    request.type = (type == ORDER_PENDING_TYPE_BUY) ?
@@ -222,6 +221,12 @@ void Request::BuildPending(MqlTradeRequest& request, ENUM_ORDER_PENDING_TYPE typ
    request.magic = magicNumber;
    request.type_filling = filling;
    request.price = price;
+   if(expiration != 0 && TimeTradeServer() < expiration)
+     {
+      request.type_time = ORDER_TIME_SPECIFIED;
+      request.expiration = expiration;
+     }
+   
    if(takeProfit != 0)
       request.tp = calcStop.Run(request.price, takeProfit, (ENUM_POSITION_TYPE)type, CalcStop::TAKE_PROFIT);
    if(stopLoss != 0)
@@ -236,7 +241,50 @@ void Request::BuildPendingOrPosition(MqlTradeRequest& request, ENUM_ORDER_PENDIN
    MqlTradeCheckResult check_result;
    if(
       !OrderCheck(request, check_result)
-      || request.price ==  SymbolInfoDouble(_Symbol, SYMBOL_BID) // 'Cause if Buy Order, the ask could passed. Else Sell Order, Bid filled this one
+      /*
+      Test logic: price is passed from request.price on any type of order
+
+      || (request.type == ORDER_TYPE_BUY_STOP || request.type == request.type == ORDER_TYPE_SELL_LIMIT) // Price is over request.price by this::BuildPending() logic
+      ? (
+         SymbolInfoDouble(symbol, SYMBOL_ASK) >= request.price
+      ) // Code if true
+      : (
+         SymbolInfoDouble(symbol, SYMBOL_BID) <= request.price
+      ) // Code if prices is inder request.price
+      */
+
+      /*
+      Test logic 2 : current price passed request.type on any order type
+      It seems illogical as all the following statements should be false, 
+      but in a higher dalay could cause request.type inside this::BuildPending
+      to assign an incorrect request.type.
+      
+      Another way to understand it is that at the moment of sending the order, 
+      as there is a delay, in UTC-6 with respect to the US NewYork UTC-4 server 
+      it is approximately 100 ms. If within this delay there is a tick with a far 
+      quote that is passed to the request.price, this::BuildPending should assign 
+      a request::type different from the real one.
+      */
+      || (request.type == ORDER_TYPE_BUY_LIMIT) // if statement
+      ? (SymbolInfoDouble(symbol, SYMBOL_ASK) <= request.price)
+      : false // else
+
+      || (request.type == ORDER_TYPE_BUY_STOP) // if statement
+      ? (SymbolInfoDouble(symbol, SYMBOL_ASK) >= request.price)
+      : false // else
+
+      || (request.type == ORDER_TYPE_SELL_LIMIT) // if statement
+      ? (SymbolInfoDouble(symbol, SYMBOL_BID) >= request.price)
+      : false // else
+
+      || (request.type == ORDER_TYPE_SELL_STOP) // if statement
+      ? (SymbolInfoDouble(symbol, SYMBOL_BID) <= request.price)
+      : false // else
+
+      /*
+      'Cause if Buy Order, the ask could passed. Else Sell Order, Bid filled this one
+      */
+      || request.price ==  SymbolInfoDouble(_Symbol, SYMBOL_BID)
    )
       BuildPosition(request, ENUM_POSITION_TYPE(type), filling);
   }
