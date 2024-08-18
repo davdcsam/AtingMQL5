@@ -84,48 +84,47 @@ public:
 
    /**
     * @brief Sends a position order for the transaction.
-    * @param order_type The type of position order.
+    * @param type The type of position order.
     * @return The result of sending the order as ENUM_ORDER_TRANSACTION.
     */
-   ENUM_ORDER_TRANSACTION SendPosition(ENUM_POSITION_TYPE order_type);
+   ENUM_ORDER_TRANSACTION SendPosition(ENUM_POSITION_TYPE type);
 
    /**
     * @brief Sends a pending order with default parameters for the transaction.
-    * @param open_price The price at which the pending order will open.
-    * @param order_type The type of pending order.
+    * @param price The price at which the pending order will open.
+    * @param type The type of pending order.
     * @return The result of sending the order as ENUM_ORDER_TRANSACTION.
     */
-   ENUM_ORDER_TRANSACTION SendPendingDefault(double open_price, ENUM_ORDER_PENDING_TYPE order_type);
+   ENUM_ORDER_TRANSACTION SendPendingDefault(double price, ENUM_ORDER_TYPE_BASE type);
 
    /**
     * @brief Sends a pending or position order for the transaction.
-    * @param open_price The price at which the order will open.
-    * @param comparative_price The comparative price for the order.
-    * @param order_type The type of pending order.
+    * @param price The price at which the order will open.
+    * @param type The type of pending order.
     * @return The result of sending the order as ENUM_ORDER_TRANSACTION.
     */
-   ENUM_ORDER_TRANSACTION SendPendingOrPosition(double open_price, double comparative_price, ENUM_ORDER_PENDING_TYPE order_type);
+   ENUM_ORDER_TRANSACTION SendPendingOrPosition(double price, ENUM_ORDER_TYPE_AVAILABLE type);
 
    /**
     * @brief Converts the check transaction result to a string.
-    * @param enum_result The result of the check transaction.
+    * @param enumResult The result of the check transaction.
     * @return A string representing the check transaction result.
     */
-   string            EnumCheckTransactionToString(ENUM_CHECK enum_result);
+   string            EnumCheckTransactionToString(ENUM_CHECK enumResult);
 
    /**
     * @brief Converts the order transaction result to a string.
-    * @param enum_result The result of the order transaction.
+    * @param enumResult The result of the order transaction.
     * @return A string representing the order transaction result.
     */
-   string            EnumOrderTransactionToString(ENUM_ORDER_TRANSACTION enum_result);
+   string            EnumOrderTransactionToString(ENUM_ORDER_TRANSACTION enumResult);
 
    /**
     * @brief Converts the fix filling mode result to a string.
-    * @param enum_result The result of the fix filling mode.
+    * @param enumResult The result of the fix filling mode.
     * @return A string representing the fix filling mode result.
     */
-   string            EnumFixFillingModeToString(ENUM_FIX_FILLING_MODE enum_result);
+   string            EnumFixFillingModeToString(ENUM_FIX_FILLING_MODE enumResult);
 
    /**
     * @brief Returns a formatted string with details of the transaction.
@@ -137,7 +136,7 @@ public:
 //+------------------------------------------------------------------+
 string Transaction::failSendingOrder()
   {
-   return StringFormat("Fail with order Type s%, Lot %s, Sl %s, Tp %s, Op %s",
+   return StringFormat("Fail with order Type %s, Lot %s, Sl %s, Tp %s, Op %s",
                        EnumToString(tradeRequest.type),
                        DoubleToString(tradeRequest.volume, _Digits),
                        DoubleToString(tradeRequest.sl, _Digits),
@@ -174,12 +173,12 @@ void Transaction::Update()
 //+------------------------------------------------------------------+
 Transaction::ENUM_FIX_FILLING_MODE Transaction::FixFillingMode()
   {
-   ENUM_ORDER_TYPE_FILLING list_order_type_filling[] = {ORDER_FILLING_FOK, ORDER_FILLING_IOC, ORDER_FILLING_RETURN, ORDER_FILLING_BOC};
+   ENUM_ORDER_TYPE_FILLING list_type_filling[] = {ORDER_FILLING_FOK, ORDER_FILLING_IOC, ORDER_FILLING_RETURN, ORDER_FILLING_BOC};
 
-   for(int i = 0; i < ArraySize(list_order_type_filling); i++)
+   for(int i = 0; i < ArraySize(list_type_filling); i++)
      {
       Update();
-      BuildCheckPosition(tradeRequest, POSITION_TYPE_BUY, list_order_type_filling[i]);
+      BuildCheckPosition(tradeRequest, POSITION_TYPE_BUY, list_type_filling[i]);
 
       if(!OrderCheck(tradeRequest, tradeCheckResult) && tradeCheckResult.retcode != TRADE_RETCODE_INVALID_FILL)
         {
@@ -198,9 +197,9 @@ Transaction::ENUM_FIX_FILLING_MODE Transaction::FixFillingMode()
   }
 
 //+------------------------------------------------------------------+
-Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPosition(ENUM_POSITION_TYPE order_type)
+Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPosition(ENUM_POSITION_TYPE type)
   {
-   BuildPosition(tradeRequest, order_type, typeFillingMode);
+   BuildPosition(tradeRequest, type, typeFillingMode);
 
    double stops[] = {tradeRequest.sl, tradeRequest.tp, tradeRequest.price};
 
@@ -214,9 +213,9 @@ Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPosition(ENUM_POSITION_TYPE
   }
 
 //+------------------------------------------------------------------+
-Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPendingDefault(double open_price, ENUM_ORDER_PENDING_TYPE order_type)
+Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPendingDefault(double price, ENUM_ORDER_TYPE_BASE type)
   {
-   BuildPending(tradeRequest, order_type, typeFillingMode, open_price);
+   BuildPending(tradeRequest, type, typeFillingMode, price);
 
    double stops[] = {tradeRequest.sl, tradeRequest.tp, tradeRequest.price};
 
@@ -230,9 +229,9 @@ Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPendingDefault(double open_
   }
 
 //+------------------------------------------------------------------+
-Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPendingOrPosition(double open_price, double comparative_price, ENUM_ORDER_PENDING_TYPE order_type)
+Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPendingOrPosition(double price, ENUM_ORDER_TYPE_AVAILABLE type)
   {
-   BuildPendingOrPosition(tradeRequest, order_type, typeFillingMode, open_price);
+   BuildPendingOrPosition(tradeRequest, type, typeFillingMode, price);
 
    double stops[] = {tradeRequest.sl, tradeRequest.tp, tradeRequest.price};
 
@@ -241,27 +240,26 @@ Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPendingOrPosition(double op
       Print(failSendingOrder());
       return ERR_SEND_FAILED;
      }
-
    return ORDER_PLACED_SUCCESSFULLY;
   }
 
 //+------------------------------------------------------------------+
-string Transaction::EnumCheckTransactionToString(ENUM_CHECK enum_result)
+string Transaction::EnumCheckTransactionToString(ENUM_CHECK enumResult)
   {
    string result;
-   switch(enum_result)
+   switch(enumResult)
      {
       case CHECK_ARG_TRANSACTION_PASSED:
-         result = StringFormat("%s: Arguments passed the check.", EnumToString(enum_result));
+         result = StringFormat("%s: Arguments passed the check.", EnumToString(enumResult));
          break;
       case ERR_SYMBOL_NOT_AVAILABLE:
-         result = StringFormat("%s: Symbol %s not available.", EnumToString(enum_result), _Symbol);
+         result = StringFormat("%s: Symbol %s not available.", EnumToString(enumResult), _Symbol);
          break;
       case ERR_INVALID_LOT_SIZE:
-         result = StringFormat("%s: Lot Size %.2f invalied.", EnumToString(enum_result), lotSize);
+         result = StringFormat("%s: Lot Size %.2f invalid.", EnumToString(enumResult), lotSize);
          break;
       case ERR_DEVIATION_INSUFFICIENT:
-         result = StringFormat("%s: Deviation %d may not sufficient. Position couldn't place.", EnumToString(enum_result), deviationTrade);
+         result = StringFormat("%s: Deviation %d may not sufficient. Position couldn't place.", EnumToString(enumResult), deviationTrade);
          break;
       default:
          result = "Unknown error.";
@@ -271,16 +269,16 @@ string Transaction::EnumCheckTransactionToString(ENUM_CHECK enum_result)
   }
 
 //+------------------------------------------------------------------+
-string Transaction::EnumOrderTransactionToString(ENUM_ORDER_TRANSACTION enum_result)
+string Transaction::EnumOrderTransactionToString(ENUM_ORDER_TRANSACTION enumResult)
   {
    string result;
-   switch(enum_result)
+   switch(enumResult)
      {
       case ORDER_PLACED_SUCCESSFULLY:
-         result = StringFormat("%s: Pending order placed successfully", EnumToString(enum_result));
+         result = StringFormat("%s: Pending order placed successfully", EnumToString(enumResult));
          break;
       case ERR_SEND_FAILED:
-         result = StringFormat("%s: Send Failed. Err: %d %s", EnumToString(enum_result), tradeResult.retcode, tradeResult.comment);
+         result = StringFormat("%s: Send Failed. Err: %d %s", EnumToString(enumResult), tradeResult.retcode, tradeResult.comment);
          break;
       default:
          result = "Unknown error.";
@@ -290,19 +288,19 @@ string Transaction::EnumOrderTransactionToString(ENUM_ORDER_TRANSACTION enum_res
   }
 
 //+------------------------------------------------------------------+
-string Transaction::EnumFixFillingModeToString(ENUM_FIX_FILLING_MODE enum_result)
+string Transaction::EnumFixFillingModeToString(ENUM_FIX_FILLING_MODE enumResult)
   {
    string result;
-   switch(enum_result)
+   switch(enumResult)
      {
       case FILLING_MODE_FOUND:
-         result = StringFormat("%s: Filling mode %s found and setted.", EnumToString(enum_result), EnumToString(tradeRequest.type_filling));
+         result = StringFormat("%s: Filling mode %s found and setted.", EnumToString(enumResult), EnumToString(tradeRequest.type_filling));
          break;
       case ERR_FILLING_MODE_NO_FOUND:
-         result = StringFormat("%s: Filling mode no found.", EnumToString(enum_result));
+         result = StringFormat("%s: Filling mode no found.", EnumToString(enumResult));
          break;
       case ERR_INVALID_REQUEST:
-         result = StringFormat("%s: Imposible find filling mode with the current request.", EnumToString(enum_result));
+         result = StringFormat("%s: Impossible find filling mode with the current request.", EnumToString(enumResult));
          break;
       default:
          result = "Unknown error.";
@@ -314,7 +312,7 @@ string Transaction::EnumFixFillingModeToString(ENUM_FIX_FILLING_MODE enum_result
 //+------------------------------------------------------------------+
 string Transaction::CommentToShow()
   {
-   return StringFormat("\n Lot Size: %.2f \n Stop Loss: %d\n Take Profit: %d\n Devation: %d\n Magic: %d\n Correct Filling: %s\n",
+   return StringFormat("\n Lot Size: %.2f \n Stop Loss: %d\n Take Profit: %d\n Deviation: %d\n Magic: %d\n Correct Filling: %s\n",
                        lotSize, stopLoss, takeProfit, deviationTrade, magicNumber, EnumToString(tradeRequest.type_filling));
   }
 //+------------------------------------------------------------------+
