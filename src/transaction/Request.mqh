@@ -1,4 +1,4 @@
-//+------------------------------------------------------------------+
+//+------------------------------------------------------------------+//+------------------------------------------------------------------+
 //|                                                        AtingMQL5 |
 //|                                         Copyright 2024, davdcsam |
 //|                            https://github.com/davdcsam/AtingMQL5 |
@@ -15,36 +15,48 @@ class Request
   {
 public:
    /**
-    * @enum ENUM_ORDER_PENDING_TYPE
-    * @brief Enum for pending order types.
+    * @enum ENUM_ORDER_TYPE_BASE
+    * @brief Enum for base order types.
     */
-   enum ENUM_ORDER_PENDING_TYPE
+   enum ENUM_ORDER_TYPE_BASE
      {
-      ORDER_PENDING_TYPE_BUY = POSITION_TYPE_BUY, /**< Buy pending order type */
-      ORDER_PENDING_TYPE_SELL = POSITION_TYPE_SELL /**< Sell pending order type */
+      ORDER_TYPE_BUY = POSITION_TYPE_BUY, /**< Buy order type */
+      ORDER_TYPE_SELL = POSITION_TYPE_SELL /**< Sell order type */
+     };
+
+   /**
+    * @enum ENUM_ORDER_TYPE_AVAILABLE
+    * @brief Enum for available order types.
+    */
+   enum ENUM_ORDER_TYPE_AVAILABLE
+     {
+      ORDER_TYPE_BUY_LIMIT = ENUM_ORDER_TYPE::ORDER_TYPE_BUY_LIMIT, /**< Buy limit order type */
+      ORDER_TYPE_BUY_STOP = ENUM_ORDER_TYPE::ORDER_TYPE_BUY_STOP, /**< Buy stop order type */
+      ORDER_TYPE_SELL_LIMIT = ENUM_ORDER_TYPE::ORDER_TYPE_SELL_LIMIT, /**< Sell limit order type */
+      ORDER_TYPE_SELL_STOP = ENUM_ORDER_TYPE::ORDER_TYPE_SELL_STOP /**< Sell stop order type */
      };
 
    /**
     * @enum ENUM_PRIVATE_ATR_STRING
     * @brief Enum for private string attributes.
     */
-   enum ENUM_PRIVATE_ATR_STRING { SYMBOL };
+   enum ENUM_PRIVATE_ATR_STRING { SYMBOL }; /**< Symbol attribute */
 
    /**
     * @enum ENUM_PRIVATE_ATR_DOUBLE
     * @brief Enum for private double attributes.
     */
-   enum ENUM_PRIVATE_ATR_DOUBLE { LOT_SIZE };
+   enum ENUM_PRIVATE_ATR_DOUBLE { LOT_SIZE }; /**< Lot size attribute */
 
    /**
     * @enum ENUM_PRIVATE_ATR_ULONG
     * @brief Enum for private ulong attributes.
     */
-   enum ENUM_PRIVATE_ATR_ULONG { TAKE_PROFIT, STOP_LOSS, DEVIATION_TRADE, MAGIC_NUMBER };
+   enum ENUM_PRIVATE_ATR_ULONG { TAKE_PROFIT, STOP_LOSS, DEVIATION_TRADE, MAGIC_NUMBER }; /**< Various ulong attributes */
 
    string            symbol; /**< Symbol of the asset */
    double            lotSize; /**< Lot size for the order */
-   ulong             takeProfit, stopLoss, deviationTrade, magicNumber; /**< Various parameters for the order */
+   ulong             takeProfit, stopLoss, deviationTrade, magicNumber; /**< Order parameters */
    RoundVolume       roundVolume; /**< Instance of RoundVolume class */
    CalcStop          calcStop; /**< Instance of CalcStop class */
 
@@ -55,14 +67,14 @@ public:
 
    /**
     * @brief Updates the attributes of the request.
-    * @param symbol_arg Symbol of the asset.
-    * @param lot_size_arg Lot size.
-    * @param take_profit_arg Take profit value.
-    * @param stop_loss_arg Stop loss value.
-    * @param deviation_trade_arg Deviation trade value.
-    * @param magic_number_arg Magic number for the order.
+    * @param symbolArg Symbol of the asset.
+    * @param lotSizeArg Lot size.
+    * @param takeProfitArg Take profit value.
+    * @param stopLossArg Stop loss value.
+    * @param deviationTradeArg Deviation trade value.
+    * @param magicNumberArg Magic number for the order.
     */
-   void              UpdateAtr(string symbol_arg, double lot_size_arg, uint take_profit_arg, uint stop_loss_arg, uint deviation_trade_arg, ulong magic_number_arg);
+   void              UpdateAtr(string symbolArg, double lotSizeArg, uint takeProfitArg, uint stopLossArg, uint deviationTradeArg, ulong magicNumberArg);
 
    /**
     * @brief Gets the private string attribute.
@@ -107,8 +119,9 @@ public:
     * @param type Pending order type.
     * @param filling Order filling type.
     * @param price Price for the pending order.
+    * @param expiration Expiration time for the pending order (default is 0).
     */
-   void              BuildPending(MqlTradeRequest& request, ENUM_ORDER_PENDING_TYPE type, ENUM_ORDER_TYPE_FILLING filling, double price, datetime expiration = 0);
+   void              BuildPending(MqlTradeRequest& request, ENUM_ORDER_TYPE_BASE type, ENUM_ORDER_TYPE_FILLING filling, double price, datetime expiration = 0);
 
    /**
     * @brief Builds a pending order or position.
@@ -116,19 +129,20 @@ public:
     * @param type Pending order type.
     * @param filling Order filling type.
     * @param price Price for the pending order.
+    * @param expiration Expiration time for the pending order (default is 0).
     */
-   void              BuildPendingOrPosition(MqlTradeRequest& request, ENUM_ORDER_PENDING_TYPE type, ENUM_ORDER_TYPE_FILLING filling, double price);
+   void              BuildPendingOrPosition(MqlTradeRequest& request, ENUM_ORDER_TYPE_AVAILABLE type, ENUM_ORDER_TYPE_FILLING filling, double price, datetime expiration = 0);
   };
 
 //+------------------------------------------------------------------+
-void Request::UpdateAtr(string symbol_arg, double lot_size_arg, uint take_profit_arg, uint stop_loss_arg, uint deviation_trade_arg, ulong magic_number_arg)
+void Request::UpdateAtr(string symbolArg, double lotSizeArg, uint takeProfitArg, uint stopLossArg, uint deviationTradeArg, ulong magicNumberArg)
   {
-   symbol = symbol_arg;
-   lotSize = lot_size_arg;
-   takeProfit = take_profit_arg;
-   stopLoss = stop_loss_arg;
-   deviationTrade = deviation_trade_arg;
-   magicNumber = magic_number_arg;
+   symbol = symbolArg;
+   lotSize = lotSizeArg;
+   takeProfit = takeProfitArg;
+   stopLoss = stopLossArg;
+   deviationTrade = deviationTradeArg;
+   magicNumber = magicNumberArg;
 
    roundVolume.SetSymbol(symbol);
    calcStop.SetSymbol(symbol);
@@ -208,14 +222,39 @@ void Request::BuildPosition(MqlTradeRequest& request, ENUM_POSITION_TYPE type, E
   }
 
 //+------------------------------------------------------------------+
-void Request::BuildPending(MqlTradeRequest& request, ENUM_ORDER_PENDING_TYPE type, ENUM_ORDER_TYPE_FILLING filling, double price, datetime expiration = 0)
+void Request::BuildPending(MqlTradeRequest& request, ENUM_ORDER_TYPE_BASE type, ENUM_ORDER_TYPE_FILLING filling, double price, datetime expiration = 0)
   {
+   double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
+   double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
+   /*
+   If price filled order
+   */
+   if(
+      (type == ENUM_ORDER_TYPE_BASE::ORDER_TYPE_BUY && price == ask)
+      ||
+      (type == ENUM_ORDER_TYPE_BASE::ORDER_TYPE_SELL && price == bid)
+   )
+     {
+      BuildPosition(request, ENUM_POSITION_TYPE(type), filling);
+      return;
+     }
+
    ZeroMemory(request);
    request.action = TRADE_ACTION_PENDING;
    request.symbol = symbol;
-   request.type = (type == ORDER_PENDING_TYPE_BUY) ?
-                  ((SymbolInfoDouble(symbol, SYMBOL_ASK) > price) ? ORDER_TYPE_BUY_LIMIT : ORDER_TYPE_BUY_STOP) :
-                  ((SymbolInfoDouble(symbol, SYMBOL_BID) > price) ? ORDER_TYPE_SELL_STOP : ORDER_TYPE_SELL_LIMIT);
+   switch(type)
+     {
+      case ORDER_TYPE_BUY:
+         request.type = ask > price ?
+                        ENUM_ORDER_TYPE::ORDER_TYPE_BUY_LIMIT :
+                        ENUM_ORDER_TYPE::ORDER_TYPE_BUY_STOP;
+         break;
+      case ORDER_TYPE_SELL:
+         request.type = bid > price ?
+                        ENUM_ORDER_TYPE::ORDER_TYPE_SELL_STOP :
+                        ENUM_ORDER_TYPE::ORDER_TYPE_SELL_LIMIT;
+         break;
+     }
    request.volume = roundVolume.Run(lotSize);
    request.deviation = deviationTrade;
    request.magic = magicNumber;
@@ -226,7 +265,6 @@ void Request::BuildPending(MqlTradeRequest& request, ENUM_ORDER_PENDING_TYPE typ
       request.type_time = ORDER_TIME_SPECIFIED;
       request.expiration = expiration;
      }
-   
    if(takeProfit != 0)
       request.tp = calcStop.Run(request.price, takeProfit, (ENUM_POSITION_TYPE)type, CalcStop::TAKE_PROFIT);
    if(stopLoss != 0)
@@ -234,58 +272,56 @@ void Request::BuildPending(MqlTradeRequest& request, ENUM_ORDER_PENDING_TYPE typ
   }
 
 //+------------------------------------------------------------------+
-void Request::BuildPendingOrPosition(MqlTradeRequest& request, ENUM_ORDER_PENDING_TYPE type, ENUM_ORDER_TYPE_FILLING filling, double price)
+void Request::BuildPendingOrPosition(MqlTradeRequest& request, ENUM_ORDER_TYPE_AVAILABLE type, ENUM_ORDER_TYPE_FILLING filling, double price, datetime expiration = 0)
   {
-   BuildPending(request, type, filling, price);
-
-   MqlTradeCheckResult check_result;
+   double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
+   double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
+   /*
+   Current price passed type on any order type
+   It seems illogical as all the following statements should be false,
+   but in a higher delay could cause param type was assign an incorrect type.
+   */
    if(
-      !OrderCheck(request, check_result)
-      /*
-      Test logic: price is passed from request.price on any type of order
-
-      || (request.type == ORDER_TYPE_BUY_STOP || request.type == request.type == ORDER_TYPE_SELL_LIMIT) // Price is over request.price by this::BuildPending() logic
-      ? (
-         SymbolInfoDouble(symbol, SYMBOL_ASK) >= request.price
-      ) // Code if true
-      : (
-         SymbolInfoDouble(symbol, SYMBOL_BID) <= request.price
-      ) // Code if prices is inder request.price
-      */
-
-      /*
-      Test logic 2 : current price passed request.type on any order type
-      It seems illogical as all the following statements should be false, 
-      but in a higher dalay could cause request.type inside this::BuildPending
-      to assign an incorrect request.type.
-      
-      Another way to understand it is that at the moment of sending the order, 
-      as there is a delay, in UTC-6 with respect to the US NewYork UTC-4 server 
-      it is approximately 100 ms. If within this delay there is a tick with a far 
-      quote that is passed to the request.price, this::BuildPending should assign 
-      a request::type different from the real one.
-      */
-      || (request.type == ORDER_TYPE_BUY_LIMIT) // if statement
-      ? (SymbolInfoDouble(symbol, SYMBOL_ASK) <= request.price)
-      : false // else
-
-      || (request.type == ORDER_TYPE_BUY_STOP) // if statement
-      ? (SymbolInfoDouble(symbol, SYMBOL_ASK) >= request.price)
-      : false // else
-
-      || (request.type == ORDER_TYPE_SELL_LIMIT) // if statement
-      ? (SymbolInfoDouble(symbol, SYMBOL_BID) >= request.price)
-      : false // else
-
-      || (request.type == ORDER_TYPE_SELL_STOP) // if statement
-      ? (SymbolInfoDouble(symbol, SYMBOL_BID) <= request.price)
-      : false // else
-
-      /*
-      'Cause if Buy Order, the ask could passed. Else Sell Order, Bid filled this one
-      */
-      || request.price ==  SymbolInfoDouble(_Symbol, SYMBOL_BID)
+      (type == ENUM_ORDER_TYPE_AVAILABLE::ORDER_TYPE_SELL_LIMIT && bid >= price)
+      ||
+      (type == ENUM_ORDER_TYPE_AVAILABLE::ORDER_TYPE_BUY_STOP && ask >= price)
+      ||
+      (type == ENUM_ORDER_TYPE_AVAILABLE::ORDER_TYPE_BUY_LIMIT && ask <= price)
+      ||
+      (type == ENUM_ORDER_TYPE_AVAILABLE::ORDER_TYPE_SELL_STOP && bid <= price)
    )
-      BuildPosition(request, ENUM_POSITION_TYPE(type), filling);
+     {
+      BuildPosition(request, (type == ENUM_ORDER_TYPE_AVAILABLE::ORDER_TYPE_BUY_LIMIT || type == ENUM_ORDER_TYPE_AVAILABLE::ORDER_TYPE_BUY_STOP ? POSITION_TYPE_BUY : POSITION_TYPE_SELL), filling);
+      return;
+     }
+
+   ZeroMemory(request);
+   request.action = TRADE_ACTION_PENDING;
+   request.symbol = symbol;
+   request.type = (ENUM_ORDER_TYPE)type;
+   request.volume = roundVolume.Run(lotSize);
+   request.deviation = deviationTrade;
+   request.magic = magicNumber;
+   request.type_filling = filling;
+   request.price = price;
+   if(expiration != 0 && TimeTradeServer() < expiration)
+     {
+      request.type_time = ORDER_TIME_SPECIFIED;
+      request.expiration = expiration;
+     }
+   if(takeProfit != 0)
+      request.tp = calcStop.Run(
+                      request.price,
+                      takeProfit,
+                      (type == ENUM_ORDER_TYPE_AVAILABLE::ORDER_TYPE_BUY_LIMIT || type == ENUM_ORDER_TYPE_AVAILABLE::ORDER_TYPE_BUY_STOP ? POSITION_TYPE_BUY : POSITION_TYPE_SELL),
+                      CalcStop::TAKE_PROFIT
+                   );
+   if(stopLoss != 0)
+      request.sl = calcStop.Run(
+                      request.price,
+                      stopLoss,
+                      (type == ENUM_ORDER_TYPE_AVAILABLE::ORDER_TYPE_BUY_LIMIT || type == ENUM_ORDER_TYPE_AVAILABLE::ORDER_TYPE_BUY_STOP ? POSITION_TYPE_BUY : POSITION_TYPE_SELL),
+                      CalcStop::STOP_LOSS
+                   );
   }
 //+------------------------------------------------------------------+
