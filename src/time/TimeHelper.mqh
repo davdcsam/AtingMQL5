@@ -4,6 +4,13 @@
 //|                            https://github.com/davdcsam/AtingMQL5 |
 //+------------------------------------------------------------------+
 
+struct Time
+  {
+   int               Hour;
+   int               Min;
+   int               Sec;
+  };
+
 //+------------------------------------------------------------------+
 /**
  * @brief A utility class for handling date and time operations.
@@ -91,6 +98,29 @@ public:
     * @param end End date to update
     */
    static void       UpdateDate(datetime &start, datetime &end);
+
+   /**
+    * @brief Converts a `datetime` value to a `Time` structure.
+    * @param dt The `datetime` value to convert.
+    * @return A `Time` structure representing the hour, minute, and second components.
+    */
+   static Time       DateTimeToTimeStruct(datetime &dt);
+
+   /**
+    * @brief Fills a `Time` structure with the hour, minute, and second components of a `datetime` value.
+    * @param time A reference to the `Time` structure to fill.
+    * @param dt The `datetime` value to convert.
+    */
+   static void       DateTimeToTimeStruct(Time &time, datetime dt);
+
+   /**
+    * @brief Creates a `datetime` value from individual hour, minute, and second components.
+    * @param h The hour component (0-23).
+    * @param m The minute component (0-59).
+    * @param s The second component (0-59).
+    * @return A `datetime` value representing the specified time on the server's current date.
+    */
+   static datetime   IntegerToDateTime(int h, int m, int s);
   };
 
 //+------------------------------------------------------------------+
@@ -171,5 +201,34 @@ void TimeHelper::UpdateDate(datetime &start, datetime &end)
   {
    datetime temp = TimeTradeServer();
    UpdateDateHelper(temp, start, end);
+  }
+
+//+------------------------------------------------------------------+
+Time TimeHelper::DateTimeToTimeStruct(datetime &dt)
+  {
+   Time time;
+   DateTimeToTimeStruct(time, dt);
+   return time;
+  }
+
+//+------------------------------------------------------------------+
+void TimeHelper::DateTimeToTimeStruct(Time &time, datetime dt)
+  {
+   MqlDateTime mdt;
+   TimeToStruct(dt, mdt);
+   time.Hour = mdt.hour;
+   time.Min = mdt.min;
+   time.Sec = mdt.sec;
+  }
+
+//+------------------------------------------------------------------+
+datetime TimeHelper::IntegerToDateTime(int h, int m, int s)
+  {
+   MqlDateTime temp;
+   TimeTradeServer(temp);
+   temp.hour = h;
+   temp.min = m;
+   temp.sec = s;
+   return StructToTime(temp);
   }
 //+------------------------------------------------------------------+
