@@ -27,7 +27,10 @@
 #include "src//remove//RemOrderByType.mqh"
 #include "src//remove//RemPositionByType.mqh"
 
+#include "src//thirdParty//MarketOpenHours.mqh"
+
 #include "src//time//SectionTime.mqh"
+#include "src//time//SessionTrade.mqh"
 #include "src//time//TimeHelper.mqh"
 #include "src//time//TimeLapseTree.mqh"
 
