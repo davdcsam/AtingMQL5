@@ -93,17 +93,19 @@ public:
     * @brief Sends a pending order with default parameters for the transaction.
     * @param price The price at which the pending order will open.
     * @param type The type of pending order.
+    * @param expiration The expiration order.
     * @return The result of sending the order as ENUM_ORDER_TRANSACTION.
     */
-   ENUM_ORDER_TRANSACTION SendPendingDefault(double price, ENUM_ORDER_TYPE_BASE type);
+   ENUM_ORDER_TRANSACTION SendPendingDefault(double price, ENUM_ORDER_TYPE_BASE type, datetime expiration);
 
    /**
     * @brief Sends a pending or position order for the transaction.
     * @param price The price at which the order will open.
     * @param type The type of pending order.
+    * @param expiration The expiration order.
     * @return The result of sending the order as ENUM_ORDER_TRANSACTION.
     */
-   ENUM_ORDER_TRANSACTION SendPendingOrPosition(double price, ENUM_ORDER_TYPE_AVAILABLE type);
+   ENUM_ORDER_TRANSACTION SendPendingOrPosition(double price, ENUM_ORDER_TYPE_AVAILABLE type, datetime expiration);
 
    /**
     * @brief Converts the check transaction result to a string.
@@ -213,9 +215,9 @@ Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPosition(ENUM_POSITION_TYPE
   }
 
 //+------------------------------------------------------------------+
-Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPendingDefault(double price, ENUM_ORDER_TYPE_BASE type)
+Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPendingDefault(double price, ENUM_ORDER_TYPE_BASE type, datetime expiration = 0)
   {
-   BuildPending(tradeRequest, type, typeFillingMode, price);
+   BuildPending(tradeRequest, type, typeFillingMode, price, expiration);
 
    double stops[] = {tradeRequest.sl, tradeRequest.tp, tradeRequest.price};
 
@@ -229,9 +231,9 @@ Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPendingDefault(double price
   }
 
 //+------------------------------------------------------------------+
-Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPendingOrPosition(double price, ENUM_ORDER_TYPE_AVAILABLE type)
+Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPendingOrPosition(double price, ENUM_ORDER_TYPE_AVAILABLE type, datetime expiration = 0)
   {
-   BuildPendingOrPosition(tradeRequest, type, typeFillingMode, price);
+   BuildPendingOrPosition(tradeRequest, type, typeFillingMode, price, expiration);
 
    double stops[] = {tradeRequest.sl, tradeRequest.tp, tradeRequest.price};
 
