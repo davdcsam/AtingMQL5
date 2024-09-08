@@ -9,177 +9,191 @@
 #include <Arrays/ArrayFloat.mqh>
 #include <Arrays/ArrayLong.mqh>
 #include <Arrays/ArrayShort.mqh>
+#include <Arrays/ArrayString.mqh>
 #include "AtingErr.mqh"
 
-/*
-      Verify Zero Values
-      ---------------------------------------------------------
-*/
-
 //+------------------------------------------------------------------+
-template <typename numbers>
-bool ZeroValue(numbers &value)
+class ZeroProcessor
   {
-   return (!value) ? true : false;
-  }
-
-//+------------------------------------------------------------------+
-template <typename numbers>
-bool ZeroValues(numbers &values[], numbers &result[], bool returnIndex = false)
-  {
-   ArrayFree(result);
-   if(!ArraySize(values))
-      return;
-
-   for(int i=0;i<ArraySize(values);i++)
+public:
+   template <typename Numbers>
+   static bool       IsZero(Numbers value)
      {
-      if(!values[i])
+      return (value == 0);
+     }
+
+   template <typename Numbers>
+   static bool       Run(Numbers &values[], Numbers &result[], bool returnIndex = false)
+     {
+      ArrayFree(result);
+      if(ArraySize(values) == 0)
+         return false;
+
+      for(int i = 0; i < ArraySize(values); i++)
         {
-         ArrayResize(result, ArraySize(result) + 1);
-         result[ArraySize(result) - 1] = (returnIndex ? i : values[i]);
+         if(IsZero(values[i]))
+           {
+            ArrayResize(result, ArraySize(result) + 1);
+            result[ArraySize(result) - 1] = (returnIndex ? i : values[i]);
+           }
         }
+
+      return ArraySize(result) > 0;
      }
-  }
 
-//+------------------------------------------------------------------+
-template <typename CArrNumbers>
-bool ZeroValues(CArrNumbers &values, CArrNumbers &result, bool returnIndex = false)
-  {
-   switch(values.Type())
+   template <typename CArrNumbers>
+   static bool       Run(CArrNumbers &values, CArrNumbers &result, bool returnIndex = false)
      {
-      case  TYPE_CHAR:
-         break;
-      case TYPE_SHORT:
-         break;
-      case TYPE_INT;
-         break;
-      case TYPE_LONG:
-         break;
-      case TYPE_DATETIME;
-         break;
-      case TYPE_FLOAT:
-         break;
-      case TYPE_DOUBLE:
-         break;
-      default:
-         SetLastAtingErr(ATING_ERR_INVALID_TYPE_VALUE);
-         return false;
-     }
-   switch(result.Type())
-     {
-      case  TYPE_CHAR:
-         break;
-      case TYPE_SHORT:
-         break;
-      case TYPE_INT;
-         break;
-      case TYPE_LONG:
-         break;
-      case TYPE_DATETIME;
-         break;
-      case TYPE_FLOAT:
-         break;
-      case TYPE_DOUBLE:
-         break;
-      default:
-         SetLastAtingErr(ATING_ERR_INVALID_TYPE_VALUE);
-         return false;
-     }
-   result.Shutdown();
-   if(!values.Total())
-      return;
-
-   for(int i=0; i<values.Total(); i++)
-     {
-      if(!values.At(i))
-         result.Add((returnIndex) ? i : values.At(i));
-     }
-  }
-
-
-/*
-      Verify Negative Values
-      ---------------------------------------------------------
-*/
-
-//+------------------------------------------------------------------+
-template <typename numbers>
-bool NegativeValue(numbers &value)
-  { return (value < 0) ? true : false; }
-
-
-//+------------------------------------------------------------------+
-template <typename numbers>
-void NegativeValues(numbers &values[], numbers &result[], bool returnIndex = false)
-  {
-   ArrayFree(result);
-   if(!ArraySize(values))
-      return;
-
-   for(int i = 0; i < ArraySize(values); i++)
-     {
-      if(values[i] < 0)
+      switch(values.Type())
         {
-         ArrayResize(result, ArraySize(result) + 1);
-         result[ArraySize(result) - 1] = (returnIndex ? i : values[i]);
+         case TYPE_CHAR:
+         case TYPE_SHORT:
+         case TYPE_INT:
+         case TYPE_LONG:
+         case TYPE_DATETIME:
+         case TYPE_FLOAT:
+         case TYPE_DOUBLE:
+            break;
+         default:
+            SetLastAtingErr(ATING_ERR_INVALID_TYPE_VALUE);
+            return false;
         }
+
+      result.Shutdown();
+      if(values.Total() == 0)
+         return false;
+
+      for(int i = 0; i < values.Total(); i++)
+        {
+         if(IsZero(values.At(i)))
+            result.Add(returnIndex ? i : values.At(i));
+        }
+
+      return result.Total() > 0;
      }
-  }
+  };
 
 //+------------------------------------------------------------------+
-template <typename CArrNumbers>
-bool NegativeValuesCArray(CArrNumbers &values, CArrNumbers &result, bool returnIndex = false)
+class NegativeProcessor
   {
-   switch(values.Type())
-     {
-      case  TYPE_CHAR:
-         break;
-      case TYPE_SHORT:
-         break;
-      case TYPE_INT;
-         break;
-      case TYPE_LONG:
-         break;
-      case TYPE_DATETIME;
-         break;
-      case TYPE_FLOAT:
-         break;
-      case TYPE_DOUBLE:
-         break;
-      default:
-         SetLastAtingErr(ATING_ERR_INVALID_TYPE_VALUE);
-         return false;
-     }
-   switch(result.Type())
-     {
-      case  TYPE_CHAR:
-         break;
-      case TYPE_SHORT:
-         break;
-      case TYPE_INT;
-         break;
-      case TYPE_LONG:
-         break;
-      case TYPE_DATETIME;
-         break;
-      case TYPE_FLOAT:
-         break;
-      case TYPE_DOUBLE:
-         break;
-      default:
-         SetLastAtingErr(ATING_ERR_INVALID_TYPE_VALUE);
-         return false;
-     }
-   result.Shutdown();
-   if(!values.Total())
-      return false;
+public:
+   template <typename Numbers>
+   static bool       IsNegative(Numbers value)
+     { return (value < 0); }
 
-   for(int i = 0; i < values.Total(); i++)
+   template <typename Numbers>
+   static bool       Run(Numbers &values[], Numbers &result[], bool returnIndex = false)
      {
-      if(values.At(i) < 0)
-         result.Add((returnIndex) ? i : values.At(i));
+      ArrayFree(result);
+      if(ArraySize(values) == 0)
+         return false;
+
+      for(int i = 0; i < ArraySize(values); i++)
+        {
+         if(IsNegative(values[i]))
+           {
+            ArrayResize(result, ArraySize(result) + 1);
+            result[ArraySize(result) - 1] = (returnIndex ? i : values[i]);
+           }
+        }
+
+      return ArraySize(result) > 0;
      }
 
-   return result.Total() > 0 ? true : false;
-  }
+   template <typename CArrNumbers>
+   static bool       Run(CArrNumbers &values, CArrNumbers &result, bool returnIndex = false)
+     {
+      switch(values.Type())
+        {
+         case TYPE_CHAR:
+         case TYPE_SHORT:
+         case TYPE_INT:
+         case TYPE_LONG:
+         case TYPE_DATETIME:
+         case TYPE_FLOAT:
+         case TYPE_DOUBLE:
+            break;
+         default:
+            SetLastAtingErr(ATING_ERR_INVALID_TYPE_VALUE);
+            return false;
+        }
+
+      result.Shutdown();
+      if(values.Total() == 0)
+         return false;
+
+      for(int i = 0; i < values.Total(); i++)
+        {
+         if(IsNegative(values.At(i)))
+            result.Add(returnIndex ? i : values.At(i));
+        }
+
+      return result.Total() > 0;
+     }
+  };
+
+//+------------------------------------------------------------------+
+class NoEmptyProcessor
+  {
+public:
+   static bool       Run(string value)
+     {
+      return (StringLen(value) > 0);
+     }
+
+   static bool       Run(CObject *obj)
+     {
+      return obj != NULL;
+     }
+
+   static bool       Run(string &values[], string &result[], bool returnIndex = false)
+     {
+      ArrayFree(result);
+      if(ArraySize(values) == 0)
+         return false;
+
+      for(int i = 0; i < ArraySize(values); i++)
+        {
+         if(Run(values[i]))
+           {
+            ArrayResize(result, ArraySize(result) + 1);
+            result[ArraySize(result) - 1] = (returnIndex ? IntegerToString(i) : values[i]);
+           }
+        }
+
+      return ArraySize(result) > 0;
+     }
+
+   static bool       Run(CArrayString &values, CArrayString &result, bool returnIndex = false)
+     {
+      result.Shutdown();
+      if(values.Total() == 0)
+         return false;
+
+      for(int i = 0; i < values.Total(); i++)
+        {
+         if(Run(values.At(i)))
+            result.Add(returnIndex ? IntegerToString(i) : values.At(i));
+        }
+
+      return result.Total() > 0;
+     }
+
+   static bool       Run(CObject *&values[], CObject *&result[], bool returnIndex = false)
+     {
+      ArrayFree(result);
+      if(ArraySize(values) == 0)
+         return false;
+
+      for(int i = 0; i < ArraySize(values); i++)
+        {
+         if(Run(values[i]))
+           {
+            ArrayResize(result, ArraySize(result) + 1);
+            result[ArraySize(result) - 1] = (returnIndex ? values[i] : values[i]);
+           }
+        }
+      return ArraySize(result) > 0;
+     }
+  };
 //+------------------------------------------------------------------+
