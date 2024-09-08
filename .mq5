@@ -5,8 +5,9 @@
 //+------------------------------------------------------------------+
 
 // Reference
-
 #include "src//BooleanEnums.mqh"
+#include "src//CheckCommonSetting.mqh"
+#include "src//SystemRequirements.mqh"
 
 #include "src//baseOnTask//TaskManager.mqh"
 
@@ -37,3 +38,4 @@
 #include "src//transaction//Transaction.mqh"
 
 #include "test/TimeExecution.mqh"
+//+------------------------------------------------------------------+
