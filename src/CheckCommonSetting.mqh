@@ -17,7 +17,7 @@ class ZeroProcessor
   {
 public:
    template <typename Numbers>
-   static bool       IsZero(Numbers value)
+   static bool       Run(Numbers value)
      {
       return (value == 0);
      }
@@ -31,7 +31,7 @@ public:
 
       for(int i = 0; i < ArraySize(values); i++)
         {
-         if(IsZero(values[i]))
+         if(Run(values[i]))
            {
             ArrayResize(result, ArraySize(result) + 1);
             result[ArraySize(result) - 1] = (returnIndex ? i : values[i]);
@@ -65,7 +65,7 @@ public:
 
       for(int i = 0; i < values.Total(); i++)
         {
-         if(IsZero(values.At(i)))
+         if(Run(values.At(i)))
             result.Add(returnIndex ? i : values.At(i));
         }
 
