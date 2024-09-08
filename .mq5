@@ -37,5 +37,7 @@
 
 #include "src//transaction//Transaction.mqh"
 
+// Testing
 #include "test/TimeExecution.mqh"
+#include "test/src.CheckCommonSetting.mqh"
 //+------------------------------------------------------------------+

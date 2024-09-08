@@ -6,7 +6,7 @@
 #include <AtingMQL5/.mqh>
 
 //+------------------------------------------------------------------+
-void OnStart()
+void src_CheckCommonSetting()
   {
    TestTime tt;
 
