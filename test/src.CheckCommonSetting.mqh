@@ -37,7 +37,7 @@ void src_CheckCommonSetting()
   }
 
 //+------------------------------------------------------------------+
-void PrintTestResult(string testName, bool result)
+void PrintTestResultCheckCommonSetting(string testName, bool result)
   {
    Print(testName, " - Passed: ", result);
   }
@@ -49,7 +49,7 @@ bool TestZeroProcessorIsZero()
    bool test2 = ZeroProcessor::Run(1);   // Expected: false
 
    bool result = (test1 == true) && (test2 == false);
-   PrintTestResult("TestZeroProcessorIsZero", result);
+   PrintTestResultCheckCommonSetting("TestZeroProcessorIsZero", result);
    return result;
   }
 
@@ -80,7 +80,7 @@ bool TestZeroProcessorRunArray()
      }
 
    bool resultStatus = res && indicesMatch;
-   PrintTestResult("TestZeroProcessorRunArray", resultStatus);
+   PrintTestResultCheckCommonSetting("TestZeroProcessorRunArray", resultStatus);
    return resultStatus;
   }
 
@@ -119,7 +119,7 @@ bool TestZeroProcessorRunArrayType()
      }
 
    bool resultStatus = res && indicesMatch;
-   PrintTestResult("TestZeroProcessorRunArrayType", resultStatus);
+   PrintTestResultCheckCommonSetting("TestZeroProcessorRunArrayType", resultStatus);
    return resultStatus;
   }
 
@@ -131,7 +131,7 @@ bool TestNegativeProcessorIsNegative()
    bool test3 = NegativeProcessor::IsNegative(1);   // Expected: false
 
    bool result = (test1 == true) && (test2 == false) && (test3 == false);
-   PrintTestResult("TestNegativeProcessorIsNegative", result);
+   PrintTestResultCheckCommonSetting("TestNegativeProcessorIsNegative", result);
    return result;
   }
 
@@ -162,7 +162,7 @@ bool TestNegativeProcessorRunArray()
      }
 
    bool resultStatus = res && indicesMatch;
-   PrintTestResult("TestNegativeProcessorRunArray", resultStatus);
+   PrintTestResultCheckCommonSetting("TestNegativeProcessorRunArray", resultStatus);
    return resultStatus;
   }
 
@@ -201,7 +201,7 @@ bool TestNegativeProcessorRunArrayType()
      }
 
    bool resultStatus = res && indicesMatch;
-   PrintTestResult("TestNegativeProcessorRunArrayType", resultStatus);
+   PrintTestResultCheckCommonSetting("TestNegativeProcessorRunArrayType", resultStatus);
    return resultStatus;
   }
 
@@ -212,7 +212,7 @@ bool TestNoEmptyProcessorRunString()
    bool test2 = NoEmptyProcessor::Run("");       // Expected: false
 
    bool result = (test1 == true) && (test2 == false);
-   PrintTestResult("TestNoEmptyProcessorRunString", result);
+   PrintTestResultCheckCommonSetting("TestNoEmptyProcessorRunString", result);
    return result;
   }
 
@@ -226,7 +226,7 @@ bool TestNoEmptyProcessorRunCObject()
    bool test2 = NoEmptyProcessor::Run(obj2);  // Expected: false
 
    bool result = (test1 == true) && (test2 == false);
-   PrintTestResult("TestNoEmptyProcessorRunCObject", result);
+   PrintTestResultCheckCommonSetting("TestNoEmptyProcessorRunCObject", result);
 
    delete obj1;  // Cleanup
    return result;
@@ -259,7 +259,7 @@ bool TestNoEmptyProcessorRunStringArray()
      }
 
    bool resultStatus = res && indicesMatch;
-   PrintTestResult("TestNoEmptyProcessorRunStringArray", resultStatus);
+   PrintTestResultCheckCommonSetting("TestNoEmptyProcessorRunStringArray", resultStatus);
    return resultStatus;
   }
 
@@ -299,7 +299,7 @@ bool TestNoEmptyProcessorRunCArrayString()
      }
 
    bool resultStatus = res && indicesMatch;
-   PrintTestResult("TestNoEmptyProcessorRunCArrayString", resultStatus);
+   PrintTestResultCheckCommonSetting("TestNoEmptyProcessorRunCArrayString", resultStatus);
    return resultStatus;
   }
 
@@ -331,7 +331,7 @@ bool TestNoEmptyProcessorRunCObjectArray()
      }
 
    bool resultStatus = res && objectsMatch;
-   PrintTestResult("TestNoEmptyProcessorRunCObjectArray", resultStatus);
+   PrintTestResultCheckCommonSetting("TestNoEmptyProcessorRunCObjectArray", resultStatus);
 
    for(int i = 0; i < ArraySize(values); i++)    // Cleanup
      {
