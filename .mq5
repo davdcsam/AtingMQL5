@@ -40,4 +40,6 @@
 // Testing
 #include "test/TimeExecution.mqh"
 #include "test/src.CheckCommonSetting.mqh"
+#include "test/src.SystemRequirements.mqh"
+
 //+------------------------------------------------------------------+
