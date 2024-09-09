@@ -18,23 +18,23 @@ class IDetectEntity
 public:
    /**
     * @struct Setting
-    * @brief Structure to hold the entity's settings such as symbol and magic number.
+    * @brief Structure to hold the entity's settings such as commonString and commonLong.
     */
    struct Setting
      {
-      string         symbol; ///< The symbol associated with the entity.
-      ulong          magic;  ///< The magic number used to identify the entity.
+      string         identifierString; ///< The identifierString associated with the entity.
+      ulong          identifierLong;  ///< The identifierLong used to identify the entity.
      };
 
    /**
-    * @brief Updates the symbol and magic number for the entity.
-    * @param sym The symbol for the entity.
-    * @param magic The magic number for the entity.
+    * @brief Updates the commonString and commonLong number for the entity.
+    * @param sym The commonString for the entity.
+    * @param commonLong The commonLong number for the entity.
     */
-   virtual void      UpdateSetting(string sym, ulong magic) = 0;
+   virtual void      UpdateSetting(string identifierString, ulong identifierLong) = 0;
 
    /**
-    * @brief Gets the current settings (symbol and magic number) for the entity.
+    * @brief Gets the current settings (identifierString and identifierLong) for the entity.
     * @return The current Setting structure.
     */
    virtual Setting   GetSetting(void) = 0;
@@ -59,7 +59,7 @@ public:
 
    virtual bool      UpdateEntities(void) = 0;
 
-   virtual bool      UpdateEntities(CObject &param) = 0;
+   virtual bool      UpdateEntities(CArrayLong &entities) = 0;
 
    /**
     * @brief Deletes all entities from the collection.
@@ -67,9 +67,9 @@ public:
     */
    virtual bool      DeleteEntities(void) = 0;
 
-   virtual bool      GetEntities(CObject &param) = 0;
+   virtual bool      GetEntities(CArrayLong &entities) = 0;
 
-   virtual CObject*   GetEntities(void) = 0;
+   virtual CArrayLong*   GetEntities(void) = 0;
 
    /**
     * @brief Destructor for the interface.

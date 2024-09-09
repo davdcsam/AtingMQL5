@@ -13,7 +13,7 @@ class DetectPositions : public IDetectEntity
   {
 protected:
    Setting           setting; ///< Current settings for the position.
-   CArrayLong        entities; ///< Array to store position tickets.
+   CArrayLong        positions; ///< Array to store position tickets.
 
 public:
    // Constructor
@@ -23,33 +23,33 @@ public:
 
    virtual void      UpdateSetting(string sym, ulong magic) override
      {
-      setting.symbol = sym;
-      setting.magic = magic;
+      this.setting.identifierString = sym;
+      this.setting.identifierLong = magic;
      }
 
    virtual Setting   GetSetting() override
-     {
-      return setting;
-     }
+     { return this.setting; }
 
    virtual bool      CheckSetting() override
      {
-      return (ZeroProcessor::Run(setting.magic) &&
-              SystemRequirements::SymbolCommon(setting.symbol));
+      return (
+                ZeroProcessor::Run(this.setting.identifierLong) &&
+                SystemRequirements::SymbolCommon(this.setting.identifierString)
+             );
      }
 
    virtual bool      IsValid(ulong ticket) override
      {
       return (
                 PositionSelectByTicket(ticket) &&
-                PositionGetInteger(POSITION_MAGIC) == setting.magic &&
-                PositionGetString(POSITION_SYMBOL) == setting.symbol
+                PositionGetInteger(POSITION_MAGIC) == this.setting.identifierLong &&
+                PositionGetString(POSITION_SYMBOL) == this.setting.identifierString
              );
      }
 
    virtual bool      UpdateEntities() override
      {
-      entities.Shutdown();
+      this.positions.Shutdown();
       int totalPositions = PositionsTotal();
 
       if(totalPositions == 0)
@@ -60,35 +60,27 @@ public:
          ulong ticket = PositionGetTicket(i);
          if(!IsValid(ticket))
             continue;
-         entities.Add(ticket);
+         this.positions.Add(ticket);
         }
-      return entities.Total() > 0;
+      return this.positions.Total() > 0;
      }
 
-   virtual bool      UpdateEntities(CObject &param) override
+   virtual bool      UpdateEntities(CArrayLong &entities) override
      {
-      if(param.Type() != entities.Type())
-         return false;
-
-      entities = param;
+      this.positions = entities;
       return true;
      }
 
    virtual bool      DeleteEntities(void) override
-     { return        entities.Shutdown(); }
+     { return        this.positions.Shutdown(); }
 
-   virtual bool      GetEntities(CObject &param) override
+   virtual bool              GetEntities(CArrayLong &entities) override
      {
-      if(entities.Total())
-        {
-         param = entities;
-         return true;
-        }
-      else
-         return false;
+      entities = this.positions;
+      return entities.Total() > 0;
      }
 
-   virtual CObject*  GetEntities(void) override
-     { return &entities; }
+   CArrayLong*       GetEntities(void)
+     { return &this.positions; }
   };
 //+------------------------------------------------------------------+
