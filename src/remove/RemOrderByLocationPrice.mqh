@@ -68,26 +68,24 @@ void RemOrderByLocationPrice::UpdateAtr(double upper_line_arg, double lower_line
 void RemOrderByLocationPrice::UpdateOrders()
   {
 // Clear the order tickets arrays
-   detectOrders.orderTickets.Shutdown();
+   detectOrders.DeleteEntities();
    upper_order_tickets.Shutdown();
    lower_order_tickets.Shutdown();
 
-   int orders_total = OrdersTotal();
-   if(orders_total == 0)
+   if(!detectOrders.UpdateEntities())
       return;
 
+   CArrayLong entities;
+   detectOrders.GetEntities(entities);
+
 // Loop through each order
-   for(int i = 0; i < orders_total; i++)
+   for(int i = 0; i < entities.Total(); i++)
      {
       // Get the ticket for the order
-      ulong ticket = OrderGetTicket(i);
+      ulong ticket = entities.At(i);
 
-      // If the order is not valid, skip it
-      if(!detectOrders.IsValidOrder(ticket))
-         continue;
-
-      // Add the ticket to the order tickets array
-      detectOrders.orderTickets.Add(ticket);
+      if(!OrderSelect(ticket))
+         return;
 
       // Categorize the order based on its open price
       if(OrderGetDouble(ORDER_PRICE_OPEN) > middle)
@@ -118,7 +116,7 @@ void RemOrderByLocationPrice::TriggerPositionNotInArray()
       ulong ticket = PositionGetTicket(i);
 
       // If the position is not valid, skip it
-      if(!detectPositions.IsValidPosition(ticket))
+      if(!detectPositions.IsValid(ticket))
          continue;
 
       // Check if the position ticket is in the upper or lower order tickets array

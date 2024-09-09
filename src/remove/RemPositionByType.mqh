@@ -89,8 +89,6 @@ RemPositionByType::RemPositionByType(ENUM_MODES mode_arg)
 //+------------------------------------------------------------------+
 void RemPositionByType::UpdatePositions()
   {
-// Clear the position tickets arrays
-   detectPositions.positionsTickets.Shutdown();
    buyTickets.Shutdown();
    sellTickets.Shutdown();
 
@@ -105,11 +103,8 @@ void RemPositionByType::UpdatePositions()
       ulong ticket = PositionGetTicket(i);
 
       // If the position is not valid, skip it
-      if(!detectPositions.IsValidPosition(ticket))
+      if(!detectPositions.IsValid(ticket))
          continue;
-
-      // Add the ticket to the position tickets array
-      detectPositions.positionsTickets.Add(ticket);
 
       // Filter the positions to buys and sells
       switch((int)PositionGetInteger(POSITION_TYPE))
@@ -189,7 +184,7 @@ void RemPositionByType::TriggerPositionNotInArray()
       ulong ticket = PositionGetTicket(i);
 
       // If the position is not valid, skip it
-      if(!detectPositions.IsValidPosition(ticket))
+      if(!detectPositions.IsValid(ticket))
          continue;
 
       ProcessPosition(ticket);

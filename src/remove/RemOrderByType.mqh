@@ -27,8 +27,8 @@ private:
    /**
     * @brief Flags to indicate whether there are orders of a specific type to be removed.
     */
-   bool              internal_flag_buy;
-   bool              internal_flag_sell;
+   bool              internalFlagBuy;
+   bool              internalFlagSell;
 
    /**
     * @brief Mode of removal.
@@ -90,8 +90,6 @@ RemOrderByType::RemOrderByType(ENUM_MODES mode_arg)
 //+------------------------------------------------------------------+
 void RemOrderByType::UpdateOrders()
   {
-// Clear the order tickets arrays
-   detectOrders.orderTickets.Shutdown();
    buyTickets.Shutdown();
    sellTickets.Shutdown();
 
@@ -106,11 +104,8 @@ void RemOrderByType::UpdateOrders()
       ulong ticket = OrderGetTicket(i);
 
       // If the order is not valid, skip it
-      if(!detectOrders.IsValidOrder(ticket))
+      if(!detectOrders.IsValid(ticket))
          continue;
-
-      // Add the ticket to the order tickets array
-      detectOrders.orderTickets.Add(ticket);
 
       // Filter the orders to buys and sells
       switch((int)OrderGetInteger(ORDER_TYPE))
@@ -126,8 +121,8 @@ void RemOrderByType::UpdateOrders()
         }
 
       // Set the internal flags
-      internal_flag_buy = true;
-      internal_flag_sell = true;
+      internalFlagBuy = true;
+      internalFlagSell = true;
      }
   }
 
@@ -139,12 +134,12 @@ void RemOrderByType::ProcessOrder(ulong &ticket)
       if(mode == MODE_REMOVE_SAME_TYPE)
         {
          HandleOrder(ticket, "sellTickets", sellTickets, buyTickets);
-         internal_flag_sell = false;
+         internalFlagSell = false;
          return;
         }
 
       HandleOrder(ticket, "buyTickets", sellTickets, buyTickets);
-      internal_flag_sell = false;
+      internalFlagSell = false;
      }
 
    if(buyTickets.SearchLinear(ticket) != -1)
@@ -152,12 +147,12 @@ void RemOrderByType::ProcessOrder(ulong &ticket)
       if(mode == MODE_REMOVE_SAME_TYPE)
         {
          HandleOrder(ticket, "buyTickets", buyTickets, sellTickets);
-         internal_flag_buy = false;
+         internalFlagBuy = false;
          return;
         }
 
       HandleOrder(ticket, "sellTickets", buyTickets, sellTickets);
-      internal_flag_buy = false;
+      internalFlagBuy = false;
      }
   }
 
@@ -179,7 +174,7 @@ void RemOrderByType::HandleOrder(ulong ticket, string orderType, CArrayLong &pri
 void RemOrderByType::TriggerPositionNotInArray()
   {
 // If neither internal flag is set, return
-   if(!internal_flag_buy && !internal_flag_sell)
+   if(!internalFlagBuy && !internalFlagSell)
       return;
 
    int positions_total = PositionsTotal();
@@ -192,7 +187,7 @@ void RemOrderByType::TriggerPositionNotInArray()
       ulong ticket = PositionGetTicket(i);
 
       // If the position is not valid, skip it
-      if(!detectPositions.IsValidPosition(ticket))
+      if(!detectPositions.IsValid(ticket))
          continue;
 
       ProcessOrder(ticket);

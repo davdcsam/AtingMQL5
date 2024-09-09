@@ -86,7 +86,7 @@ void ProfitProtection::UpdateAtr(
    deviationPercent = deviation_percent_arg;
    magic = magic_arg;
    symbol = symbol_arg;
-   detectPositions.UpdateAtr(symbol_arg, magic_arg);
+   detectPositions.UpdateSetting(symbol_arg, magic_arg);
   }
 
 //+------------------------------------------------------------------+

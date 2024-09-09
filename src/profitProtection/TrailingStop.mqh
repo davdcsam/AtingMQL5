@@ -41,7 +41,7 @@ void TrailingStop::Verify()
       ulong ticket = PositionGetTicket(i);
 
       // If the position is not valid, continue to the next position
-      if(!detectPositions.IsValidPosition(ticket))
+      if(!detectPositions.IsValid(ticket))
          continue;
 
       // If the position cannot be selected, continue to the next position
