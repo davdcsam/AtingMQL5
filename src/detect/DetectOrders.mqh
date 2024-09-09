@@ -33,7 +33,7 @@ public:
    virtual bool      CheckSetting() override
      {
       return (
-                ZeroProcessor::Run(this.setting.identifierLong) &&
+                !ZeroProcessor::Run(this.setting.identifierLong, true) &&
                 SystemRequirements::SymbolCommon(this.setting.identifierString)
              );
      }

@@ -17,9 +17,15 @@ class ZeroProcessor
   {
 public:
    template <typename Numbers>
-   static bool       Run(Numbers value)
+   static bool       Run(Numbers value, bool setAtingErr = false)
      {
-      return (value == 0);
+      if(value == 0)
+        {
+         if(setAtingErr)
+            SetLastAtingErr(ATING_ERR_SETTING_ZERO_VALUE);
+         return true;
+        }
+      return false;
      }
 
    template <typename Numbers>
