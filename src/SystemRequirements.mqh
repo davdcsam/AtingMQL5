@@ -48,7 +48,7 @@ public:
 
       if(!AccountInfoInteger(ACCOUNT_HEDGE_ALLOWED))
         {
-         SetLastAtingErr(ATING_ERR_ACCOUNT_PROHIBITED_HEGDE);
+         SetLastAtingErr(ATING_ERR_ACCOUNT_PROHIBITED_HEDGE);
          return false;
         }
       return true;

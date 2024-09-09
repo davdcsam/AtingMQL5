@@ -21,7 +21,7 @@ enum ENUM_ATING_ERR
    ATING_ERR_ACCOUNT_INVALID_LIMIT_ORDERS,
    ATING_ERR_ACCOUNT_PROHIBITED_BOT,
    ATING_ERR_ACCOUNT_PROHIBITED_TRADE,
-   ATING_ERR_ACCOUNT_PROHIBITED_HEGDE,
+   ATING_ERR_ACCOUNT_PROHIBITED_HEDGE,
 
 // Symbol
    ATING_ERR_SYMBOL_INVALID_EXPIRATION,
@@ -40,7 +40,7 @@ enum ENUM_ATING_ERR
 //+------------------------------------------------------------------+
 string DescriptionLastAtingError()
   {
-   string result = "Err code: ";
+   string result = "Err description: ";
    switch(_LastAtingErr)
      {
       case ATING_ERR_SETTING_ZERO_VALUE:
@@ -70,7 +70,7 @@ string DescriptionLastAtingError()
       case ATING_ERR_ACCOUNT_PROHIBITED_TRADE:
          result += "Trade operations are prohibited for this account";
          break;
-      case ATING_ERR_ACCOUNT_PROHIBITED_HEGDE:
+      case ATING_ERR_ACCOUNT_PROHIBITED_HEDGE:
          result += "Hedging is prohibited for this account";
          break;
       case ATING_ERR_SYMBOL_INVALID_EXPIRATION:
