@@ -11,9 +11,9 @@
  */
 class DetectPositions : public IDetectEntity
   {
-private:
+protected:
    Setting           setting; ///< Current settings for the position.
-   CArrayLong        positionTickets; ///< Array to store position tickets.
+   CArrayLong        entities; ///< Array to store position tickets.
 
 public:
    // Constructor
@@ -21,9 +21,9 @@ public:
 
    // Implementation of the IDetectEntity methods
 
-   virtual void      UpdateSetting(string symbol, ulong magic) override
+   virtual void      UpdateSetting(string sym, ulong magic) override
      {
-      setting.symbol = symbol;
+      setting.symbol = sym;
       setting.magic = magic;
      }
 
@@ -49,7 +49,7 @@ public:
 
    virtual bool      UpdateEntities() override
      {
-      positionTickets.Shutdown();
+      entities.Shutdown();
       int totalPositions = PositionsTotal();
 
       if(totalPositions == 0)
@@ -60,9 +60,35 @@ public:
          ulong ticket = PositionGetTicket(i);
          if(!IsValid(ticket))
             continue;
-         positionTickets.Add(ticket);
+         entities.Add(ticket);
         }
-      return positionTickets.Total() > 0;
+      return entities.Total() > 0;
      }
+
+   virtual bool      UpdateEntities(CObject &param) override
+     {
+      if(param.Type() != entities.Type())
+         return false;
+
+      entities = param;
+      return true;
+     }
+
+   virtual bool      DeleteEntities(void) override
+     { return        entities.Shutdown(); }
+
+   virtual bool      GetEntities(CObject &param) override
+     {
+      if(entities.Total())
+        {
+         param = entities;
+         return true;
+        }
+      else
+         return false;
+     }
+
+   virtual CObject*  GetEntities(void) override
+     { return &entities; }
   };
 //+------------------------------------------------------------------+
