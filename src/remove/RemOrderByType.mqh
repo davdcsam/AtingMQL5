@@ -35,7 +35,7 @@ private:
    /**
     * @brief Mode of removal.
     */
-   ENUM_MODES        mode;
+   ENUM_MODES        modeRemoval;
 
 protected:
    /**
@@ -54,6 +54,12 @@ protected:
    void              HandleOrder(ulong ticket, string orderType, CArrayLong &primaryTickets, CArrayLong &secondaryTickets);
 
 public:
+
+   /**
+    * @brief Default Constructor
+    */
+                     RemOrderByType(void);
+
    /**
     * @brief Constructor for the RemOrderByType class.
     * @param mode_arg Mode of removal.
@@ -84,8 +90,14 @@ public:
   };
 
 //+------------------------------------------------------------------+
+RemOrderByType::RemOrderByType(void)
+   : Remove(), modeRemoval(MODE_REMOVE_OPPOSITE_TYPE)
+  {
+  }
+
+//+------------------------------------------------------------------+
 RemOrderByType::RemOrderByType(ENUM_MODES mode_arg, IDetectEntity* dOrders, IDetectEntity* dPositions)
-   : Remove(dOrders, dPositions), mode(mode_arg)
+   : Remove(dOrders, dPositions), modeRemoval(mode_arg)
   {
   }
 
@@ -133,7 +145,7 @@ void RemOrderByType::ProcessOrder(ulong &ticket)
   {
    if(sellTickets.SearchLinear(ticket) != -1)
      {
-      if(mode == MODE_REMOVE_SAME_TYPE)
+      if(modeRemoval == MODE_REMOVE_SAME_TYPE)
         {
          HandleOrder(ticket, "sellTickets", sellTickets, buyTickets);
          internalFlagSell = false;
@@ -146,7 +158,7 @@ void RemOrderByType::ProcessOrder(ulong &ticket)
 
    if(buyTickets.SearchLinear(ticket) != -1)
      {
-      if(mode == MODE_REMOVE_SAME_TYPE)
+      if(modeRemoval == MODE_REMOVE_SAME_TYPE)
         {
          HandleOrder(ticket, "buyTickets", buyTickets, sellTickets);
          internalFlagBuy = false;
@@ -163,7 +175,11 @@ void RemOrderByType::HandleOrder(ulong ticket, string orderType, CArrayLong &pri
   {
    UpdateOrders();
 
-   if(!this.RemovePositionsFromArray(mode == MODE_REMOVE_SAME_TYPE ? primaryTickets : secondaryTickets))
+   for(int i=0;i<primaryTickets.Total();i++)
+     {
+     }
+
+   if(!this.RemoveOrdersFromArray(modeRemoval == MODE_REMOVE_SAME_TYPE ? primaryTickets : secondaryTickets))
      {
       PrintFormat("Failed removing orders in %s. Err: %d", orderType, GetLastError());
       return;
@@ -180,6 +196,7 @@ void RemOrderByType::TriggerPositionNotInArray()
       return;
 
    int positions_total = PositionsTotal();
+   Print("Total positiions ", positions_total);
    if(positions_total == 0)
       return;
 
