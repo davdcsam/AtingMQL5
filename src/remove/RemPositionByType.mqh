@@ -56,7 +56,7 @@ public:
     * @brief Constructor for the RemPositionByType class.
     * @param mode_arg Mode of removal.
     */
-                     RemPositionByType(ENUM_MODES mode_arg = MODE_REMOVE_SAME_TYPE);
+                     RemPositionByType(IDetectEntity* dOrders, IDetectEntity* dPositions, ENUM_MODES mode_arg = MODE_REMOVE_SAME_TYPE);
 
    /**
     * @brief Arrays to store position tickets for buy and sell positions.
@@ -81,8 +81,8 @@ public:
   };
 
 //+------------------------------------------------------------------+
-RemPositionByType::RemPositionByType(ENUM_MODES mode_arg)
-   : Remove(), mode(mode_arg)
+RemPositionByType::RemPositionByType(IDetectEntity* dOrders, IDetectEntity* dPositions, ENUM_MODES mode_arg = MODE_REMOVE_SAME_TYPE)
+   : Remove(dOrders, dPositions), mode(mode_arg)
   {
   }
 
@@ -158,7 +158,7 @@ void RemPositionByType::HandlerPosition(ulong ticket, string positionType, CArra
   {
    UpdatePositions();
 
-   if(!RemovePositionsFromCArray(mode == MODE_REMOVE_SAME_TYPE ? primaryTickets : secondaryTickets))
+   if(!this.RemovePositionsFromArray(mode == MODE_REMOVE_SAME_TYPE ? primaryTickets : secondaryTickets))
      {
       PrintFormat("Failed removing positions in %s. Err: %d", positionType, GetLastError());
       return;
@@ -196,7 +196,7 @@ void RemPositionByType::Run(ENUM_POSITION_TYPE type)
   {
    UpdatePositions();
 
-   if(RemovePositionsFromCArray(type == POSITION_TYPE_BUY ? buyTickets : sellTickets))
+   if(this.RemovePositionsFromArray(type == POSITION_TYPE_BUY ? buyTickets : sellTickets))
       PrintFormat("Removing position type %s", EnumToString(type));
   }
 //+------------------------------------------------------------------+
