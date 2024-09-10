@@ -4,6 +4,8 @@
 //|                            https://github.com/davdcsam/AtingMQL5 |
 //+------------------------------------------------------------------+
 #include "Remove.mqh"
+#include "../detect/IDetectEntity.mqh"
+
 
 //+------------------------------------------------------------------+
 /**
@@ -56,7 +58,7 @@ public:
     * @brief Constructor for the RemOrderByType class.
     * @param mode_arg Mode of removal.
     */
-                     RemOrderByType(ENUM_MODES mode_arg = MODE_REMOVE_SAME_TYPE);
+                     RemOrderByType(ENUM_MODES mode_arg, IDetectEntity* dOrders, IDetectEntity* dPositions);
 
    /**
     * @brief Arrays to store order tickets for buy and sell orders.
@@ -73,17 +75,17 @@ public:
     * @brief Verifies positions and removes orders based on their type.
     */
    void              TriggerPositionNotInArray();
-   
+
 
    /**
     * @brief Remove order by type
-    */   
-   void Run(ENUM_POSITION_TYPE type);
+    */
+   void              Run(ENUM_POSITION_TYPE type);
   };
 
 //+------------------------------------------------------------------+
-RemOrderByType::RemOrderByType(ENUM_MODES mode_arg)
-   : Remove(), mode(mode_arg)
+RemOrderByType::RemOrderByType(ENUM_MODES mode_arg, IDetectEntity* dOrders, IDetectEntity* dPositions)
+   : Remove(dOrders, dPositions), mode(mode_arg)
   {
   }
 
@@ -161,7 +163,7 @@ void RemOrderByType::HandleOrder(ulong ticket, string orderType, CArrayLong &pri
   {
    UpdateOrders();
 
-   if(!RemoveOrdersFromCArray(mode == MODE_REMOVE_SAME_TYPE ? primaryTickets : secondaryTickets))
+   if(!this.RemovePositionsFromArray(mode == MODE_REMOVE_SAME_TYPE ? primaryTickets : secondaryTickets))
      {
       PrintFormat("Failed removing orders in %s. Err: %d", orderType, GetLastError());
       return;
@@ -197,9 +199,9 @@ void RemOrderByType::TriggerPositionNotInArray()
 //+------------------------------------------------------------------+
 void RemOrderByType::Run(ENUM_POSITION_TYPE type)
   {
-   UpdateOrders();
+   this.UpdateOrders();
 
-   if(RemoveOrdersFromCArray(type == POSITION_TYPE_BUY ? buyTickets : sellTickets))
+   if(this.RemoveOrdersFromArray(type == POSITION_TYPE_BUY ? buyTickets : sellTickets))
       PrintFormat("Removing orders type %s", EnumToString(type));
   }
 //+------------------------------------------------------------------+
