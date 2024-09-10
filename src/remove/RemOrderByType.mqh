@@ -196,7 +196,6 @@ void RemOrderByType::TriggerPositionNotInArray()
       return;
 
    int positions_total = PositionsTotal();
-   Print("Total positiions ", positions_total);
    if(positions_total == 0)
       return;
 
