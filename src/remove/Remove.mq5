@@ -6,6 +6,9 @@
 #include "Remove.mqh"
 
 //+------------------------------------------------------------------+
+Remove::Remove() : detectOrders(NULL), detectPositions(NULL) {}
+
+//+------------------------------------------------------------------+
 Remove::Remove(IDetectEntity* dOrders, IDetectEntity* dPositions)
    : detectOrders(dOrders), detectPositions(dPositions) {}
 
@@ -14,8 +17,8 @@ void Remove::UpdateSetting(string sym, ulong magic)
   {
    this.setting.identifierString = sym;
    this.setting.identifierLong = magic;
-   this.detectOrders.UpdateEntities();
-   this.detectPositions.UpdateEntities();
+   this.detectOrders.UpdateSetting(sym, magic);
+   this.detectPositions.UpdateSetting(sym, magic);
   }
 
 //+------------------------------------------------------------------+
