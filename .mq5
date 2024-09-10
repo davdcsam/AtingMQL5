@@ -24,7 +24,8 @@
 #include "src//profitProtection//BreakEven.mqh"
 #include "src//profitProtection//TrailingStop.mqh"
 
-#include "src//remove//RemOrderByLocationPrice.mqh"
+#include "src/remove/Remove.mq5"
+#include "src//remove//RemOrderByLocationPrice.mq5"
 #include "src//remove//RemOrderByType.mqh"
 #include "src//remove//RemPositionByType.mqh"
 
