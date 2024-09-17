@@ -45,6 +45,7 @@ public:
     */
    enum ENUM_ORDER_TRANSACTION
      {
+      POSITION_EXECUTED_SUCCESSFULLY = 2, /**< Position executed successfully */
       ORDER_PLACED_SUCCESSFULLY = 1, /**< Order placed successfully */
       ERR_SEND_FAILED = 0 /**< Error: Send failed */
      };
@@ -210,8 +211,7 @@ Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPosition(ENUM_POSITION_TYPE
       Print(failSendingOrder());
       return ERR_SEND_FAILED;
      }
-
-   return ORDER_PLACED_SUCCESSFULLY;
+   return POSITION_EXECUTED_SUCCESSFULLY;
   }
 
 //+------------------------------------------------------------------+
@@ -221,13 +221,28 @@ Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPendingDefault(double price
 
    double stops[] = {tradeRequest.sl, tradeRequest.tp, tradeRequest.price};
 
-   if(!calcStop.VerifyNoNegative(stops) || !OrderSend(tradeRequest, tradeResult))
+   bool noNegativeStop = calcStop.VerifyNoNegative(stops);
+   bool sendSuccessfully = OrderSend(tradeRequest, tradeResult);
+
+   if(noNegativeStop && sendSuccessfully)
      {
-      Print(failSendingOrder());
-      return ERR_SEND_FAILED;
+      if(
+         tradeRequest.action == TRADE_ACTION_DEAL &&
+         PositionSelectByTicket(tradeResult.deal)
+      )
+         return POSITION_EXECUTED_SUCCESSFULLY;
+
+      if(tradeRequest.action == TRADE_ACTION_PENDING)
+        {
+         if(PositionSelectByTicket(tradeResult.order))
+            return POSITION_EXECUTED_SUCCESSFULLY;
+         if(OrderSelect(tradeResult.order))
+            return ORDER_PLACED_SUCCESSFULLY;
+        }
      }
 
-   return ORDER_PLACED_SUCCESSFULLY;
+   Print(failSendingOrder());
+   return ERR_SEND_FAILED;
   }
 
 //+------------------------------------------------------------------+
@@ -237,12 +252,28 @@ Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPendingOrPosition(double pr
 
    double stops[] = {tradeRequest.sl, tradeRequest.tp, tradeRequest.price};
 
-   if(!calcStop.VerifyNoNegative(stops) || !OrderSend(tradeRequest, tradeResult))
+   bool noNegativeStop = calcStop.VerifyNoNegative(stops);
+   bool sendSuccessfully = OrderSend(tradeRequest, tradeResult);
+
+   if(noNegativeStop && sendSuccessfully)
      {
-      Print(failSendingOrder());
-      return ERR_SEND_FAILED;
+      if(
+         tradeRequest.action == TRADE_ACTION_DEAL &&
+         PositionSelectByTicket(tradeResult.deal)
+      )
+         return POSITION_EXECUTED_SUCCESSFULLY;
+
+      if(tradeRequest.action == TRADE_ACTION_PENDING)
+        {
+         if(PositionSelectByTicket(tradeResult.order))
+            return POSITION_EXECUTED_SUCCESSFULLY;
+         if(OrderSelect(tradeResult.order))
+            return ORDER_PLACED_SUCCESSFULLY;
+        }
      }
-   return ORDER_PLACED_SUCCESSFULLY;
+
+   Print(failSendingOrder());
+   return ERR_SEND_FAILED;
   }
 
 //+------------------------------------------------------------------+
@@ -276,6 +307,9 @@ string Transaction::EnumOrderTransactionToString(ENUM_ORDER_TRANSACTION enumResu
    string result;
    switch(enumResult)
      {
+      case POSITION_EXECUTED_SUCCESSFULLY:
+         result = StringFormat("%s: Position executed successfully", EnumToString(enumResult));
+         break;
       case ORDER_PLACED_SUCCESSFULLY:
          result = StringFormat("%s: Pending order placed successfully", EnumToString(enumResult));
          break;
@@ -317,4 +351,5 @@ string Transaction::CommentToShow()
    return StringFormat("\n Lot Size: %.2f \n Stop Loss: %d\n Take Profit: %d\n Deviation: %d\n Magic: %d\n Correct Filling: %s\n",
                        lotSize, stopLoss, takeProfit, deviationTrade, magicNumber, EnumToString(tradeRequest.type_filling));
   }
+//+------------------------------------------------------------------+
 //+------------------------------------------------------------------+
