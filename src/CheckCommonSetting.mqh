@@ -33,7 +33,10 @@ public:
      {
       ArrayFree(result);
       if(ArraySize(values) == 0)
+        {
+         SetLastAtingErr(ATING_ERR_PARAM_EMPTY);
          return false;
+        }
 
       for(int i = 0; i < ArraySize(values); i++)
         {
@@ -44,7 +47,12 @@ public:
            }
         }
 
-      return ArraySize(result) > 0;
+      if(ArraySize(result) > 0)
+        {
+         SetLastAtingErr(ATING_ERR_SETTING_ZERO_VALUE);
+         return true;
+        }
+      return false;
      }
 
    template <typename CArrNumbers>
@@ -61,13 +69,16 @@ public:
          case TYPE_DOUBLE:
             break;
          default:
-            SetLastAtingErr(ATING_ERR_INVALID_TYPE_VALUE);
+            SetLastAtingErr(ATING_ERR_PARAM_INVALID_TYPE_VALUE);
             return false;
         }
 
       result.Shutdown();
       if(values.Total() == 0)
+        {
+         SetLastAtingErr(ATING_ERR_PARAM_EMPTY);
          return false;
+        }
 
       for(int i = 0; i < values.Total(); i++)
         {
@@ -75,7 +86,12 @@ public:
             result.Add(returnIndex ? i : values.At(i));
         }
 
-      return result.Total() > 0;
+      if(result.Total() > 0)
+        {
+         SetLastAtingErr(ATING_ERR_SETTING_ZERO_VALUE);
+         return true;
+        }
+      return false;
      }
   };
 
@@ -84,15 +100,26 @@ class NegativeProcessor
   {
 public:
    template <typename Numbers>
-   static bool       IsNegative(Numbers value)
-     { return (value < 0); }
+   static bool       IsNegative(Numbers value, bool setAtingErr = false)
+     {
+      if(value < 0)
+        {
+         if(setAtingErr)
+            SetLastAtingErr(ATING_ERR_SETTING_ZERO_VALUE);
+         return true;
+        }
+      return false;
+     }
 
    template <typename Numbers>
    static bool       Run(Numbers &values[], Numbers &result[], bool returnIndex = false)
      {
       ArrayFree(result);
       if(ArraySize(values) == 0)
+        {
+         SetLastAtingErr(ATING_ERR_PARAM_EMPTY);
          return false;
+        }
 
       for(int i = 0; i < ArraySize(values); i++)
         {
@@ -103,7 +130,12 @@ public:
            }
         }
 
-      return ArraySize(result) > 0;
+      if(ArraySize(result) > 0)
+        {
+         SetLastAtingErr(ATING_ERR_SETTING_NEGATIVE_VALUE);
+         return true;
+        }
+      return false;
      }
 
    template <typename CArrNumbers>
@@ -120,13 +152,16 @@ public:
          case TYPE_DOUBLE:
             break;
          default:
-            SetLastAtingErr(ATING_ERR_INVALID_TYPE_VALUE);
+            SetLastAtingErr(ATING_ERR_PARAM_INVALID_TYPE_VALUE);
             return false;
         }
 
       result.Shutdown();
       if(values.Total() == 0)
+        {
+         SetLastAtingErr(ATING_ERR_PARAM_EMPTY);
          return false;
+        }
 
       for(int i = 0; i < values.Total(); i++)
         {
@@ -134,7 +169,12 @@ public:
             result.Add(returnIndex ? i : values.At(i));
         }
 
-      return result.Total() > 0;
+      if(result.Total() > 0)
+        {
+         SetLastAtingErr(ATING_ERR_SETTING_NEGATIVE_VALUE);
+         return true;
+        }
+      return false;
      }
   };
 
@@ -142,21 +182,38 @@ public:
 class NoEmptyProcessor
   {
 public:
-   static bool       Run(string value)
+   static bool       Run(string value, bool setAtingErr = false)
      {
-      return (StringLen(value) > 0);
+      if(StringLen(value) > 0)
+         return false;
+      else
+         if(setAtingErr)
+           {
+            SetLastAtingErr(ATING_ERR_SETTING_EMPTY_VALUE);
+           }
+      return true;
      }
 
-   static bool       Run(CObject *obj)
+   static bool       Run(CObject *obj, bool setAtingErr = false)
      {
-      return obj != NULL;
+      if(obj != NULL)
+         return false;
+      else
+         if(setAtingErr)
+           {
+            SetLastAtingErr(ATING_ERR_SETTING_EMPTY_VALUE);
+           }
+      return true;
      }
 
    static bool       Run(string &values[], string &result[], bool returnIndex = false)
      {
       ArrayFree(result);
       if(ArraySize(values) == 0)
+        {
+         SetLastAtingErr(ATING_ERR_PARAM_EMPTY);
          return false;
+        }
 
       for(int i = 0; i < ArraySize(values); i++)
         {
@@ -167,14 +224,22 @@ public:
            }
         }
 
-      return ArraySize(result) > 0;
+      if(ArraySize(result) > 0)
+        {
+         SetLastAtingErr(ATING_ERR_SETTING_EMPTY_VALUE);
+         return false;
+        }
+      return true;
      }
 
    static bool       Run(CArrayString &values, CArrayString &result, bool returnIndex = false)
      {
       result.Shutdown();
       if(values.Total() == 0)
+        {
+         SetLastAtingErr(ATING_ERR_PARAM_EMPTY);
          return false;
+        }
 
       for(int i = 0; i < values.Total(); i++)
         {
@@ -182,14 +247,22 @@ public:
             result.Add(returnIndex ? IntegerToString(i) : values.At(i));
         }
 
-      return result.Total() > 0;
+      if(result.Total() > 0)
+        {
+         SetLastAtingErr(ATING_ERR_SETTING_EMPTY_VALUE);
+         return false;
+        }
+      return true;
      }
 
    static bool       Run(CObject *&values[], CObject *&result[], bool returnIndex = false)
      {
       ArrayFree(result);
       if(ArraySize(values) == 0)
+        {
+         SetLastAtingErr(ATING_ERR_PARAM_EMPTY);
          return false;
+        }
 
       for(int i = 0; i < ArraySize(values); i++)
         {
@@ -199,7 +272,12 @@ public:
             result[ArraySize(result) - 1] = (returnIndex ? values[i] : values[i]);
            }
         }
-      return ArraySize(result) > 0;
+      if(ArraySize(result) > 0)
+        {
+         SetLastAtingErr(ATING_ERR_SETTING_EMPTY_VALUE);
+         return false;
+        }
+      return true;
      }
   };
 //+------------------------------------------------------------------+
