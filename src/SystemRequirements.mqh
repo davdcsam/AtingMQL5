@@ -187,6 +187,12 @@ public:
 
    static bool       SymbolCommon(string sym)
      {
+      if(StringLen(sym) <= 0)
+        {
+         SetLastAtingErr(ATING_ERR_SETTING_EMPTY_VALUE);
+         return false;
+        }
+
       if(!SymbolInfoInteger(sym, SYMBOL_EXIST))
         {
          SetLastAtingErr(ATING_ERR_SYMBOL_NO_EXIST);
