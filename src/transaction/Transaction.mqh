@@ -3,7 +3,7 @@
 //|                                         Copyright 2024, davdcsam |
 //|                            https://github.com/davdcsam/AtingMQL5 |
 //+------------------------------------------------------------------+
-#include "Request.mqh"
+#include "Request.mq5"
 
 //+------------------------------------------------------------------+
 /**
@@ -25,7 +25,7 @@ public:
    /**
     * @brief Constructor for the Transaction class.
     */
-                     Transaction(void) {}
+                     Transaction(RoundVolume* rV, CalcStop* cS) : Request(rV, cS) {}
 
    /**
     * @enum ENUM_CHECK
@@ -151,13 +151,13 @@ string Transaction::failSendingOrder()
 Transaction::ENUM_CHECK Transaction::CheckArg()
   {
    bool isCustom;
-   if(!SymbolExist(symbol, isCustom))
+   if(!SymbolExist(this.setting.symbol, isCustom))
       return ERR_SYMBOL_NOT_AVAILABLE;
 
-   if(SymbolInfoDouble(symbol, SYMBOL_VOLUME_MIN) >= lotSize && SymbolInfoDouble(symbol, SYMBOL_VOLUME_MAX) <= lotSize)
+   if(SymbolInfoDouble(this.setting.symbol, SYMBOL_VOLUME_MIN) >= this.setting.lotSize && SymbolInfoDouble(this.setting.symbol, SYMBOL_VOLUME_MAX) <= this.setting.lotSize)
       return ERR_INVALID_LOT_SIZE;
 
-   if(deviationTrade < takeProfit * 0.001 || deviationTrade < stopLoss * 0.001)
+   if(this.setting.deviationTrade < this.setting.takeProfit * 0.001 || this.setting.deviationTrade < this.setting.stopLoss * 0.001)
      {
       return ERR_DEVIATION_INSUFFICIENT;
      }
@@ -168,9 +168,9 @@ Transaction::ENUM_CHECK Transaction::CheckArg()
 //+------------------------------------------------------------------+
 void Transaction::Update()
   {
-   tickSize = SymbolInfoDouble(symbol, SYMBOL_TRADE_TICK_SIZE);
-   priceAsk = round(SymbolInfoDouble(symbol, SYMBOL_ASK) / tickSize) * tickSize;
-   priceBid = round(SymbolInfoDouble(symbol, SYMBOL_BID) / tickSize) * tickSize;
+   tickSize = SymbolInfoDouble(this.setting.symbol, SYMBOL_TRADE_TICK_SIZE);
+   priceAsk = round(SymbolInfoDouble(this.setting.symbol, SYMBOL_ASK) / tickSize) * tickSize;
+   priceBid = round(SymbolInfoDouble(this.setting.symbol, SYMBOL_BID) / tickSize) * tickSize;
   }
 
 //+------------------------------------------------------------------+
@@ -289,10 +289,10 @@ string Transaction::EnumCheckTransactionToString(ENUM_CHECK enumResult)
          result = StringFormat("%s: Symbol %s not available.", EnumToString(enumResult), _Symbol);
          break;
       case ERR_INVALID_LOT_SIZE:
-         result = StringFormat("%s: Lot Size %.2f invalid.", EnumToString(enumResult), lotSize);
+         result = StringFormat("%s: Lot Size %.2f invalid.", EnumToString(enumResult), this.setting.lotSize);
          break;
       case ERR_DEVIATION_INSUFFICIENT:
-         result = StringFormat("%s: Deviation %d may not sufficient. Position couldn't place.", EnumToString(enumResult), deviationTrade);
+         result = StringFormat("%s: Deviation %d may not sufficient. Position couldn't place.", EnumToString(enumResult), this.setting.deviationTrade);
          break;
       default:
          result = "Unknown error.";
@@ -349,7 +349,7 @@ string Transaction::EnumFixFillingModeToString(ENUM_FIX_FILLING_MODE enumResult)
 string Transaction::CommentToShow()
   {
    return StringFormat("\n Lot Size: %.2f \n Stop Loss: %d\n Take Profit: %d\n Deviation: %d\n Magic: %d\n Correct Filling: %s\n",
-                       lotSize, stopLoss, takeProfit, deviationTrade, magicNumber, EnumToString(tradeRequest.type_filling));
+                       this.setting.lotSize, this.setting.stopLoss, this.setting.takeProfit, this.setting.deviationTrade, this.setting.magicNumber, EnumToString(tradeRequest.type_filling));
   }
 //+------------------------------------------------------------------+
 //+------------------------------------------------------------------+
