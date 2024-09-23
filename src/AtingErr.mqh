@@ -11,8 +11,8 @@ enum ENUM_ATING_ERR
    ATING_ERR_SETTING_EMPTY_VALUE,
 
 // Param Function
-   ATING_ERR_INVALID_TYPE_VALUE,
-   ATING_ERR_EMPTY_PARAM,
+   ATING_ERR_PARAM_INVALID_TYPE_VALUE,
+   ATING_ERR_PARAM_EMPTY,
 
 // Terminal
    ATING_ERR_TERMINAL_PROHIBITED_TRADE,
@@ -54,10 +54,10 @@ string DescriptionLastAtingError()
       case ATING_ERR_SETTING_EMPTY_VALUE:
          result += "Setting value cannot be empty";
          break;
-      case ATING_ERR_INVALID_TYPE_VALUE:
+      case ATING_ERR_PARAM_INVALID_TYPE_VALUE:
          result += "Invalid type value provided";
          break;
-      case ATING_ERR_EMPTY_PARAM:
+      case ATING_ERR_PARAM_EMPTY:
          result += "Param is empty";
          break;   
       case ATING_ERR_TERMINAL_PROHIBITED_TRADE:
