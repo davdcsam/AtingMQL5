@@ -8,6 +8,7 @@ enum ENUM_ATING_ERR
 // Setting
    ATING_ERR_SETTING_ZERO_VALUE,
    ATING_ERR_SETTING_NEGATIVE_VALUE,
+   ATING_ERR_SETTING_EMPTY_VALUE,
 
 // Param Function
    ATING_ERR_INVALID_TYPE_VALUE,
@@ -48,6 +49,9 @@ string DescriptionLastAtingError()
          break;
       case ATING_ERR_SETTING_NEGATIVE_VALUE:
          result += "Setting value cannot be negative";
+         break;
+      case ATING_ERR_SETTING_EMPTY_VALUE:
+         result += "Setting value cannot be empty";
          break;
       case ATING_ERR_INVALID_TYPE_VALUE:
          result += "Invalid type value provided";
