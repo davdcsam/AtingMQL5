@@ -36,7 +36,7 @@
 #include "src//time//TimeHelper.mqh"
 #include "src//time//TimeLapseTree.mqh"
 
-#include "src//transaction//Transaction.mqh"
+#include "src//transaction//Transaction.mq5"
 
 // Testing
 #include "test/TimeExecution.mqh"
