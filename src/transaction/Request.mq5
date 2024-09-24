@@ -6,6 +6,13 @@
 #include "Request.mqh"
 
 //+------------------------------------------------------------------+
+void Request::Request(RoundVolume* rV, CalcStop* cS)
+  {
+   roundVolume = rV;
+   calcStop = cS;
+  }
+
+//+------------------------------------------------------------------+
 void Request::UpdateSetting(string sym, double lot, uint tp, uint sl, uint dev, ulong magic)
   {
    this.setting.symbol = sym;
@@ -14,6 +21,9 @@ void Request::UpdateSetting(string sym, double lot, uint tp, uint sl, uint dev, 
    this.setting.takeProfit = tp;
    this.setting.stopLoss = sl;
    this.setting.deviationTrade = dev;
+
+   this.roundVolume.SetSymbol(this.setting.symbol);
+   this.calcStop.SetSymbol(this.setting.symbol);
   }
 
 //+------------------------------------------------------------------+
