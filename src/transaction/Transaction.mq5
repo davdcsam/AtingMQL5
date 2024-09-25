@@ -107,8 +107,6 @@ Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPendingOrPosition(double pr
 
    double stops[] = {tradeRequest.sl, tradeRequest.tp, tradeRequest.price};
 
-   Print(EnumToString(ENUM_TRADE_REQUEST_ACTIONS(tradeRequest.action)));
-
    if(calcStop.VerifyNoNegative(stops) && OrderSend(tradeRequest, tradeResult))
      {
       if(tradeRequest.action == TRADE_ACTION_DEAL && PositionSelectByTicket(tradeResult.order))
