@@ -91,9 +91,9 @@ Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPendingDefault(double price
    double stops[] = {tradeRequest.sl, tradeRequest.tp, tradeRequest.price};
 
    if(calcStop.VerifyNoNegative(stops) && OrderSend(tradeRequest, tradeResult) && OrderSelect(tradeResult.order))
-           {
-            Print(OrderGetInteger(ORDER_TICKET));
-            return ORDER_PLACED_SUCCESSFULLY;
+     {
+      Print(OrderGetInteger(ORDER_TICKET));
+      return ORDER_PLACED_SUCCESSFULLY;
      }
 
    Print(failSendingOrder());
@@ -107,16 +107,15 @@ Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPendingOrPosition(double pr
 
    double stops[] = {tradeRequest.sl, tradeRequest.tp, tradeRequest.price};
 
+   Print(EnumToString(ENUM_TRADE_REQUEST_ACTIONS(tradeRequest.action)));
+
    if(calcStop.VerifyNoNegative(stops) && OrderSend(tradeRequest, tradeResult))
      {
-      if(
-         tradeRequest.action == TRADE_ACTION_DEAL &&
-         PositionSelectByTicket(tradeResult.deal)
-      )
+      if(tradeRequest.action == TRADE_ACTION_DEAL && PositionSelectByTicket(tradeResult.order))
          return POSITION_EXECUTED_SUCCESSFULLY;
 
       if(tradeRequest.action == TRADE_ACTION_PENDING && OrderSelect(tradeResult.order))
-            return ORDER_PLACED_SUCCESSFULLY;
+         return ORDER_PLACED_SUCCESSFULLY;
      }
 
    Print(failSendingOrder());
