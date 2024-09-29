@@ -11,13 +11,18 @@
  * @brief Base interface for tasks.
  */
 interface BaseTask
-{
+  {
 public:
    /**
     * @brief Executes the task.
     */
    virtual void Run() {};
-};
+
+   /**
+    * @brief Executes the task.
+    */
+   virtual bool RunBoolean() { return true; };
+  };
 
 //+------------------------------------------------------------------+
 /**
@@ -25,7 +30,7 @@ public:
  * @brief Manages and executes a collection of tasks.
  */
 class TaskManager
-{
+  {
 private:
    datetime          nextTask; ///< Time for the next scheduled task
    int               arrKeys[]; ///< Array to hold task keys
@@ -46,16 +51,34 @@ public:
     * @brief Executes all the tasks currently in the task manager.
     */
    void              RunAllTasks(void);
-};
+
+   /**
+    * @brief Executes all the tasks bolean currently in the task manager.
+    */
+   bool              RunAllTaskBoolean(void);
+  };
 
 //+------------------------------------------------------------------+
 void TaskManager::RunAllTasks(void)
-{
+  {
    Tasks.CopyTo(arrKeys, arrValues, 0);
 
    for(int i = 0; i < ArraySize(arrValues); i++)
-   {
+     {
       arrValues[i].Run();
-   }
-}
+     }
+  }
+
+//+------------------------------------------------------------------+
+bool TaskManager::RunAllTaskBoolean(void)
+  {
+   Tasks.CopyTo(arrKeys, arrValues, 0);
+
+   for(int i = 0; i < ArraySize(arrValues); i++)
+     {
+      if(!arrValues[i].RunBoolean())
+         return false;
+     }
+   return true;
+  }
 //+------------------------------------------------------------------+
