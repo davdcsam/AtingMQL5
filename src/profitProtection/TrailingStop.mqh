@@ -21,11 +21,11 @@ public:
    /**
     * @brief Verifies and updates stop loss for all current positions based on trailing stop logic.
     */
-   void              Verify();
+   void              Run();
   };
 
 //+------------------------------------------------------------------+
-void TrailingStop::Verify()
+void TrailingStop::Run()
   {
 // Get the total number of positions
    int total_positions = PositionsTotal();

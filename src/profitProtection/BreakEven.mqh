@@ -35,7 +35,7 @@ public:
    /**
     * @brief Verifies and updates stop loss for all tracked positions.
     */
-   void              Verify();
+   void              Run();
   };
 
 //+------------------------------------------------------------------+
@@ -64,7 +64,7 @@ bool BreakEvenStages::UpdateTickets()
    return positionTickets.Total() > 0;
   }
 //+------------------------------------------------------------------+
-void BreakEvenStages::Verify()
+void BreakEvenStages::Run()
   {
    if(positionTickets.Total() == 0)
       return;
@@ -120,11 +120,11 @@ public:
    /**
     * @brief Verifies and updates stop loss for all current positions.
     */
-   void              Verify();
+   void              Run();
   };
 
 //+------------------------------------------------------------------+
-void BreakEven::Verify()
+void BreakEven::Run()
   {
 // Get the total number of positions
    int totalPositions = PositionsTotal();
