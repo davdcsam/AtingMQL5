@@ -26,8 +26,8 @@
 
 #include "src/remove/Remove.mq5"
 #include "src//remove//RemOrderByLocationPrice.mq5"
-#include "src//remove//RemOrderByType.mqh"
-#include "src//remove//RemPositionByType.mqh"
+#include "src//remove//RemOrderByType.mq5"
+#include "src//remove//RemPositionByType.mq5"
 
 #include "src//thirdParty//MarketOpenHours.mqh"
 
