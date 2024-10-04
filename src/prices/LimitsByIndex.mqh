@@ -7,7 +7,7 @@
 //+------------------------------------------------------------------+
 /**
  * @class LimitsByIndex
- * @brief Class to calculate and retrieve price limits based on index for a given symbol and timeframe.
+ * @brief Class to calculate and retrieve price limits based on index for a given symbol and time frame.
  */
 class LimitsByIndex
   {
@@ -24,62 +24,45 @@ public:
       uint           lowerIndex; ///< Index of the lower price limit
      };
 
+   struct Setting
+   {
+      string            sym; ///< Trading symbol
+      ENUM_TIMEFRAMES   timeFrame; ///< Time frame for the symbol
+      uint              counter; ///< Number of periods to consider
+      uint              shifter; ///< Shifting value for the index
+   };
+   
+
 protected:
-   string            symbol; ///< Trading symbol
-   ENUM_TIMEFRAMES   timeframe; ///< Timeframe for the symbol
-   uint              counter; ///< Number of periods to consider
-   uint              shifter; ///< Shifting value for the index
    Prices            prices; ///< Prices structure to hold calculated limits
+   Setting setting; ///< Setting structure
 
 public:
    /**
     * @brief Default constructor for the LimitsByIndex class.
     */
-                     LimitsByIndex() {}
+                     LimitsByIndex();
+                     ~LimitsByIndex();
 
-   /**
-    * @brief Updates the parameters for the class.
-    * @param symbol_arg Trading symbol
-    * @param timeframe_atr Timeframe for the symbol
-    * @param counter_arg Number of periods to consider
-    * @param shifter_arg Shifting value for the index
-    */
-   void              UpdateAtr(string symbol_arg, ENUM_TIMEFRAMES timeframe_atr, uint counter_arg, uint shifter_arg);
+   void              UpdateSetting(string sym, ENUM_TIMEFRAMES timeFrame, uint counter, uint shifter);
+
+   void GetSetting(Setting& s);
+   
+   Setting GetSetting(void);
+
+   bool CheckSetting(void);
 
    /**
     * @brief Retrieves the structure containing calculated price limits.
     * @return Prices structure with the calculated limits
     */
-   Prices            GetPricesStruct() { return prices; }
+
+   void GetPrices(Prices& p);
+   
+   Prices            GetPrices();
 
    /**
-    * @brief Calculates the upper and lower price limits based on index for the given symbol and timeframe.
+    * @brief Calculates the upper and lower price limits based on index for the given symbol and time frame.
     */
-   Prices              Get();
+   Prices              Run();
   };
-
-//+------------------------------------------------------------------+
-void LimitsByIndex::UpdateAtr(string symbol_arg, ENUM_TIMEFRAMES timeframe_atr, uint counter_arg, uint shifter_arg)
-  {
-   symbol = symbol_arg;
-   timeframe = timeframe_atr;
-   counter = counter_arg;
-   shifter = shifter_arg;
-  }
-
-//+------------------------------------------------------------------+
-LimitsByIndex::Prices LimitsByIndex::Get()
-  {
-// Find the highest value for the given symbol and timeframe.
-   prices.upperIndex = iHighest(symbol, timeframe, MODE_HIGH, counter, shifter);
-// Find the lowest value for the given symbol and timeframe.
-   prices.lowerIndex = iLowest(symbol, timeframe, MODE_LOW, counter, shifter);
-
-// Get the high value at the upper limit index.
-   prices.upper = iHigh(symbol, timeframe, prices.upperIndex);
-// Get the low value at the lower limit index.
-   prices.lower = iLow(symbol, timeframe, prices.lowerIndex);
-
-   return prices;
-  }
-//+------------------------------------------------------------------+
