@@ -25,44 +25,55 @@ public:
      };
 
    struct Setting
-   {
+     {
       string            sym; ///< Trading symbol
       ENUM_TIMEFRAMES   timeFrame; ///< Time frame for the symbol
       uint              counter; ///< Number of periods to consider
       uint              shifter; ///< Shifting value for the index
-   };
-   
+     };
+
 
 protected:
    Prices            prices; ///< Prices structure to hold calculated limits
-   Setting setting; ///< Setting structure
+   Setting           setting; ///< Setting structure
 
 public:
    /**
     * @brief Default constructor for the LimitsByIndex class.
     */
-                     LimitsByIndex();
-                     ~LimitsByIndex();
+                     LimitsByIndex(void);
+                    ~LimitsByIndex(void);
 
-   void              UpdateSetting(string sym, ENUM_TIMEFRAMES timeFrame, uint counter, uint shifter);
+   void              UpdateSetting(
+      string sym,
+      ENUM_TIMEFRAMES timeFrame,
+      uint counter,
+      uint shifter
+   );
 
-   void GetSetting(Setting& s);
-   
-   Setting GetSetting(void);
+   void              GetSetting(Setting& s);
 
-   bool CheckSetting(void);
+   Setting           GetSetting(void);
+
+   bool              CheckSetting(void);
+
+   string            SettingToString(void);
 
    /**
     * @brief Retrieves the structure containing calculated price limits.
     * @return Prices structure with the calculated limits
     */
 
-   void GetPrices(Prices& p);
-   
-   Prices            GetPrices();
+   void              GetPrices(Prices& p);
+
+   Prices            GetPrices(void);
+
+   string            PricesToString(void);
 
    /**
     * @brief Calculates the upper and lower price limits based on index for the given symbol and time frame.
     */
-   Prices              Run();
+   Prices              Run(void);
+
   };
+//+------------------------------------------------------------------+

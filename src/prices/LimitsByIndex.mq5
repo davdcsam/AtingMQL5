@@ -13,6 +13,8 @@ LimitsByIndex::LimitsByIndex() {};
 
 LimitsByIndex::~LimitsByIndex() {};
 
+
+
 // Setting
 //+------------------------------------------------------------------+
 void LimitsByIndex::UpdateSetting(string sym, ENUM_TIMEFRAMES timeFrame, uint counter, uint shifter)
@@ -40,6 +42,20 @@ bool LimitsByIndex::CheckSetting(void)
           );
   }
 
+//+------------------------------------------------------------------+
+string LimitsByIndex::SettingToString(void)
+  {
+   return StringFormat(
+             "Setting:\n   Symbol: %s\n   Time Frame: %s\n Counter: %u\n Shifter: %u",
+             this.setting.sym,
+             EnumToString(this.setting.timeFrame),
+             this.setting.counter,
+             this.setting.shifter
+          );
+  }
+
+
+
 // Prices
 //+------------------------------------------------------------------+
 void LimitsByIndex::GetPrices(LimitsByIndex::Prices& p) { p = this.prices; }
@@ -61,5 +77,17 @@ LimitsByIndex::Prices LimitsByIndex::Run()
    this.prices.lower = iLow(this.setting.sym, this.setting.timeFrame, this.prices.lowerIndex);
 
    return this.prices;
+  }
+
+//+------------------------------------------------------------------+
+string LimitsByIndex::PricesToString(void)
+  {
+   return StringFormat(
+             "Prices:\n   Upper Price Limit %f at index %u\n   Lower Price Limit %f at index %u",
+             this.prices.upper,
+             this.prices.upperIndex,
+             this.prices.lower,
+             this.prices.lowerIndex
+          );
   }
 //+------------------------------------------------------------------+
