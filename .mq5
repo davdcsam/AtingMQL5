@@ -17,9 +17,9 @@
 #include "src//filterOperativeDays//FilterByCSVFile.mqh"
 #include "src//filterOperativeDays//FilterByDayWeek.mqh"
 
-#include "src//prices//InstitutionalArithmeticPrices.mqh"
-#include "src//prices//LimitsByIndex.mqh"
-#include "src//prices//LimitsByTimeRange.mqh"
+#include "src//prices//InstitutionalArithmeticPrices.mq5"
+#include "src//prices//LimitsByIndex.mq5"
+#include "src//prices//LimitsByTimeRange.mq5"
 
 #include "src//profitProtection//BreakEven.mqh"
 #include "src//profitProtection//TrailingStop.mqh"
