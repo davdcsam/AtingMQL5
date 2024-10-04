@@ -100,7 +100,7 @@ class NegativeProcessor
   {
 public:
    template <typename Numbers>
-   static bool       IsNegative(Numbers value, bool setAtingErr = false)
+   static bool       IsNegative(Numbers value = 0, bool setAtingErr = false)
      {
       if(value < 0)
         {
