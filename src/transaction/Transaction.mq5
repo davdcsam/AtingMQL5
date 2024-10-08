@@ -115,6 +115,34 @@ Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPendingOrPosition(double pr
       if(tradeRequest.action == TRADE_ACTION_PENDING && OrderSelect(tradeResult.order))
          return ORDER_PLACED_SUCCESSFULLY;
      }
+   else
+     {
+      double ask, bid;
+      switch(tradeResult.retcode)
+        {
+         case TRADE_RETCODE_INVALID_PRICE:
+           {
+            ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
+            bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
+            /*
+            Current price passed type on any order type
+            It seems illogical as all the following statements should be false,
+            but in a higher delay could cause param type was assign an incorrect type.
+            */
+            if(
+               (type == ENUM_ORDER_TYPE_AVAILABLE::ORDER_TYPE_SELL_LIMIT && bid >= price)
+               ||
+               (type == ENUM_ORDER_TYPE_AVAILABLE::ORDER_TYPE_BUY_STOP && ask >= price)
+               ||
+               (type == ENUM_ORDER_TYPE_AVAILABLE::ORDER_TYPE_BUY_LIMIT && ask <= price)
+               ||
+               (type == ENUM_ORDER_TYPE_AVAILABLE::ORDER_TYPE_SELL_STOP && bid <= price)
+            )
+               return this.SendPosition((type == ENUM_ORDER_TYPE_AVAILABLE::ORDER_TYPE_BUY_LIMIT || type == ENUM_ORDER_TYPE_AVAILABLE::ORDER_TYPE_BUY_STOP ? POSITION_TYPE_BUY : POSITION_TYPE_SELL));
+           }
+         break;
+        }
+     }
 
    Print(failSendingOrder());
    return ERR_SEND_FAILED;
@@ -195,4 +223,6 @@ string Transaction::CommentToShow()
    return StringFormat("\n Lot Size: %.2f \n Stop Loss: %d\n Take Profit: %d\n Deviation: %d\n Magic: %d\n Correct Filling: %s\n",
                        this.setting.lotSize, this.setting.stopLoss, this.setting.takeProfit, this.setting.deviationTrade, this.setting.magicNumber, EnumToString(tradeRequest.type_filling));
   }
+//+------------------------------------------------------------------+
+
 //+------------------------------------------------------------------+
