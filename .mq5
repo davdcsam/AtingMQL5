@@ -15,7 +15,7 @@
 #include "src//detect//DetectPositions.mqh"
 
 #include "src//filterOperativeDays//FilterByCSVFile.mqh"
-#include "src//filterOperativeDays//FilterByDayWeek.mqh"
+#include "src//filterOperativeDays//FilterByDayWeek.mq5"
 
 #include "src//prices//InstitutionalArithmeticPrices.mq5"
 #include "src//prices//LimitsByIndex.mq5"
@@ -34,7 +34,7 @@
 #include "src//time//SectionTime.mqh"
 #include "src//time//SessionTrade.mqh"
 #include "src//time//TimeHelper.mqh"
-#include "src//time//TimeLapseTree.mqh"
+#include "src//time//TimeLapseTree.mq5"
 
 #include "src//transaction//Transaction.mq5"
 
