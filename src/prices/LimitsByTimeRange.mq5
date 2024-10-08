@@ -5,170 +5,118 @@
 //+------------------------------------------------------------------+
 #include "LimitsByTimeRange.mqh"
 
+// Constructor
 //+------------------------------------------------------------------+
-void LimitsByTimeRange::Update()
+LimitsByTimeRange::LimitsByTimeRange(void) {}
+LimitsByTimeRange::~LimitsByTimeRange(void) {}
+
+// Setting
+//+------------------------------------------------------------------+
+void LimitsByTimeRange::UpdateSetting(
+   string sym,
+   ENUM_TIMEFRAMES timeFrames,
+   uchar startHour,
+   uchar startMin,
+   uchar startSec,
+   uchar endHour,
+   uchar endMin,
+   uchar endSec)
   {
-   TimeTradeServer(dt);
+   this.setting.sym = sym;
+   this.setting.timeFrame = timeFrames;
 
-   start_datetime.year = dt.year;
-   start_datetime.mon = dt.mon;
-   start_datetime.day = dt.day;
-   start_datetime.hour = previous_start_hour;
-   start_datetime.min = previous_start_min;
-   start_datetime.sec = previous_start_sec;
+   this.start.hour = startHour;
+   this.start.min = startMin;
+   this.start.sec = startSec;
 
-   end_datetime.year = dt.year;
-   end_datetime.mon = dt.mon;
-   end_datetime.day = dt.day;
-   end_datetime.hour = previous_end_hour;
-   end_datetime.min = previous_end_min;
-   end_datetime.sec = previous_end_sec;
+   this.end.hour = endHour;
+   this.end.min = endMin;
+   this.end.sec = endSec;
+
+   ArraySetAsSeries(this.rates, true);
   }
 
 //+------------------------------------------------------------------+
-void LimitsByTimeRange::UpdateAtr(
-   uchar prev_start_hour,
-   uchar prev_start_min,
-   uchar prev_start_sec,
-   uchar prev_end_hour,
-   uchar prev_end_min,
-   uchar prev_end_sec,
-   ENUM_TIMEFRAMES timeframes_arg,
-   string symbol_arg
-)
+LimitsByTimeRange::Setting LimitsByTimeRange::GetSetting(void)
   {
-   previous_start_hour = prev_start_hour;
-   previous_start_min = prev_start_min;
-   previous_start_sec = prev_start_sec;
-   previous_end_hour = prev_end_hour;
-   previous_end_min = prev_end_min;
-   previous_end_sec = prev_end_sec;
-   timeframes = timeframes_arg;
-   symbol = symbol_arg;
-   ArraySetAsSeries(rates_limits, true);
+   return this.setting;
   }
 
 //+------------------------------------------------------------------+
-LimitsByTimeRange::ENUM_CHECK LimitsByTimeRange::CheckArg()
+void LimitsByTimeRange::GetSetting(Setting &s)
   {
-   Update();
-
-   if(
-      previous_start_hour >= 24 ||
-      previous_end_hour >= 24 ||
-      previous_start_min >= 60 ||
-      previous_end_min >= 60 ||
-      previous_start_sec >= 60 ||
-      previous_end_sec >= 60
-   )
-      return(INCORRECT_FORMATTING);
-
-   if(StructToTime(start_datetime) == StructToTime(end_datetime))
-      return(START_EQUAL_END);
-
-   if(StructToTime(start_datetime) > StructToTime(end_datetime))
-      return(START_OVER_END);
-
-   if(prices.lower == 0 && prices.upper == 0)
-      return(RATES_NO_FOUND);
-
-   return(PASSED);
+   s = this.setting;
   }
 
 //+------------------------------------------------------------------+
-string LimitsByTimeRange::EnumCheckToString(ENUM_CHECK enum_result)
+bool LimitsByTimeRange::CheckSetting(void)
   {
-   string result;
-   switch(enum_result)
-     {
-      case PASSED:
-         result = StringFormat(
-                     "%s: Arguments passed the check.",
-                     EnumToString(enum_result)
-                  );
-         break;
-      case START_EQUAL_END:
-         result = StringFormat(
-                     "%s: Start DateTime %s equals End DateTime %s.",
-                     EnumToString(enum_result),
-                     TimeToString(time_range.start),
-                     TimeToString(time_range.end)
-                  );
-         break;
-      case START_OVER_END:
-         result = StringFormat(
-                     "%s: Start DateTime %s is over End DateTime %s.",
-                     EnumToString(enum_result),
-                     TimeToString(time_range.start),
-                     TimeToString(time_range.end)
-                  );
-         break;
-      case INCORRECT_FORMATTING:
-         result = StringFormat(
-                     "%s: Incorrect formatting of inputs.",
-                     EnumToString(enum_result)
-                  );
-         break;
-      case RATES_NO_FOUND:
-         result = StringFormat(
-                     "%s: No rates found for the specified time range.",
-                     EnumToString(enum_result)
-                  );
-         break;
-      default:
-         result = "Unknown error.";
-         break;
-     }
-   return(result);
+   return SystemRequirements::SymbolCommon(this.setting.sym);
+  }
+
+// Prices
+//+------------------------------------------------------------------+
+LimitsByTimeRange::Prices LimitsByTimeRange::GetPrices(void)
+  {
+   return this.prices;
   }
 
 //+------------------------------------------------------------------+
-LimitsByTimeRange::TimeRange LimitsByTimeRange::GetTimeRange()
+void LimitsByTimeRange::GetPrices(Prices &p)
   {
-   Update();
+   p = this.prices;
+  }
 
+// TimeRange
+//+------------------------------------------------------------------+
+LimitsByTimeRange::TimeRange LimitsByTimeRange::GetTimeRange(void)
+  {
+   return this.timeRange;
+  }
+
+//+------------------------------------------------------------------+
+void LimitsByTimeRange::GetTimeRange(TimeRange &p)
+  {
+   p = this.timeRange;
+  }
+
+// Run
+//+------------------------------------------------------------------+
+LimitsByTimeRange::Prices LimitsByTimeRange::Run(void)
+  {
+   TimeHelper::UpdateDate(this.start, this.end);
    int multiplier = ((ENUM_DAY_OF_WEEK)dt.day_of_week == MONDAY) ? 3 : 1;
+   this.timeRange.start = StructToTime(this.start) - PeriodSeconds(PERIOD_D1) * multiplier;
+   this.timeRange.end = StructToTime(this.end) - PeriodSeconds(PERIOD_D1) * multiplier;
 
-   time_range.start = StructToTime(start_datetime) - PeriodSeconds(PERIOD_D1) * multiplier;
-   time_range.end = StructToTime(end_datetime) - PeriodSeconds(PERIOD_D1) * multiplier;
-
-   return(time_range);
-  }
-
-//+------------------------------------------------------------------+
-LimitsByTimeRange::Prices LimitsByTimeRange::Get()
-  {
-   GetTimeRange();
    CopyRates(
-      symbol,
-      timeframes,
-      time_range.start,
-      time_range.end,
-      rates_limits
+      this.setting.sym,
+      this.setting.timeFrame,
+      this.timeRange.start,
+      this.timeRange.end,
+      this.rates
    );
-
-   if(!rates_limits.Size())
+   if(!this.rates.Size())
       return prices;
 
-   prices.lower = rates_limits[0].low;
-   prices.lowerDatetime  = rates_limits[0].time;
-   prices.upper = rates_limits[0].high;
-   prices.upperDatetime  = rates_limits[0].time;
+   this.prices.lower = this.rates[0].low;
+   this.prices.lowerDatetime = this.rates[0].time;
+   this.prices.upper = this.rates[0].high;
+   this.prices.upperDatetime  = this.rates[0].time;
 
-   for(int i=0; i<ArraySize(rates_limits); i++)
+   for(int i=0; i<ArraySize(this.rates); i++)
      {
-      if(rates_limits[i].low < prices.lower)
+      if(this.rates[i].low < this.prices.lower)
         {
-         prices.lower = rates_limits[i].low;
-         prices.lowerDatetime = rates_limits[i].time;
+         this.prices.lower = this.rates[i].low;
+         this.prices.lowerDatetime = this.rates[i].time;
         }
-      if(rates_limits[i].high > prices.upper)
+      if(this.rates[i].high > this.prices.upper)
         {
-         prices.upper = rates_limits[i].high;
-         prices.upperDatetime = rates_limits[i].time;
+         this.prices.upper = this.rates[i].high;
+         this.prices.upperDatetime = this.rates[i].time;
         }
      }
-
-   return(prices);
+   return(this.prices);
   }
 //+----------------------------------------------------------------

@@ -3,6 +3,9 @@
 //|                                         Copyright 2024, davdcsam |
 //|                            https://github.com/davdcsam/AtingMQL5 |
 //+------------------------------------------------------------------+
+#include "../time/TimeHelper.mqh"
+#include "../CheckCommonSetting.mqh"
+#include "../SystemRequirements.mqh"
 
 //+------------------------------------------------------------------+
 /**
@@ -12,19 +15,6 @@
 class LimitsByTimeRange
   {
 public:
-   /**
-    * @enum ENUM_CHECK
-    * @brief Enumeration for different check results.
-    */
-   enum ENUM_CHECK
-     {
-      PASSED, ///< Check for section time passed
-      START_EQUAL_END, ///< Error: Start time is equal to end time
-      START_OVER_END, ///< Error: Start time is over end time
-      INCORRECT_FORMATTING, ///< Error: Incorrect formatting of time
-      RATES_NO_FOUND ///< Error: No rates found for the given time range
-     };
-
    /**
     * @struct TimeRange
     * @brief Structure to store the start and end datetime for the time range.
@@ -47,90 +37,61 @@ public:
       datetime       lowerDatetime; ///< Datetime of the lower price limit
      };
 
+   struct Setting
+     {
+      string            sym; ///< Trading symbol
+      ENUM_TIMEFRAMES   timeFrame; ///< Time frame for the symbol
+     };
+
 protected:
-   uchar             previous_start_hour; ///< Previous start hour
-   uchar             previous_start_min; ///< Previous start minute
-   uchar             previous_start_sec; ///< Previous start second
-   uchar             previous_end_hour; ///< Previous end hour
-   uchar             previous_end_min; ///< Previous end minute
-   uchar             previous_end_sec; ///< Previous end second
-   ENUM_TIMEFRAMES   timeframes; ///< Timeframe for the symbol
-   string            symbol; ///< Trading symbol
-
-   MqlDateTime       start_datetime; ///< Start datetime for the calculation
-   MqlDateTime       end_datetime; ///< End datetime for the calculation
+   MqlDateTime       start; ///< Start datetime for the calculation
+   MqlDateTime       end; ///< End datetime for the calculation
    MqlDateTime       dt; ///< Current datetime
-   MqlRates          rates_limits[]; ///< Array to store rates within the time range
-   TimeRange         time_range; ///< Time range for the calculation
+   MqlRates          rates[]; ///< Array to store rates within the time range
+   TimeRange         timeRange; ///< Time range for the calculation
    Prices            prices; ///< Prices structure to hold calculated limits
-
-   /**
-    * @brief Updates the start and end datetimes based on the previously set time parameters.
-    */
-   void              Update();
-
+   Setting           setting; ///< Setting structure
+   
 public:
    /**
     * @brief Default constructor for the LimitsByTimeRange class.
     */
-                     LimitsByTimeRange() {}
+                     LimitsByTimeRange(void);
+                    ~LimitsByTimeRange(void);
 
-   /**
-    * @brief Updates the attributes of the class.
-    * @param prev_start_hour Previous start hour
-    * @param prev_start_min Previous start minute
-    * @param prev_start_sec Previous start second
-    * @param prev_end_hour Previous end hour
-    * @param prev_end_min Previous end minute
-    * @param prev_end_sec Previous end second
-    * @param timeframes_arg Timeframe for the symbol
-    * @param symbol_arg Trading symbol
-    */
-   void              UpdateAtr(
-      uchar prev_start_hour,
-      uchar prev_start_min,
-      uchar prev_start_sec,
-      uchar prev_end_hour,
-      uchar prev_end_min,
-      uchar prev_end_sec,
-      ENUM_TIMEFRAMES timeframes_arg,
-      string symbol_arg
+   void              UpdateSetting(
+      string sym,
+      ENUM_TIMEFRAMES timeFrames,
+      uchar startHour,
+      uchar startMin,
+      uchar startSec,
+      uchar endHour,
+      uchar endMin,
+      uchar endSec
    );
+   Setting           GetSetting(void);
+   void              GetSetting(Setting& s);
+   bool              CheckSetting(void);
 
-   /**
-    * @brief Retrieves the structure containing calculated price limits.
-    * @return Prices structure with the calculated limits
-    */
-   Prices            GetPricesStruct() { return prices; }
-
-   /**
-    * @brief Retrieves the structure containing the time range used for calculations.
-    * @return TimeRange structure with the start and end times
-    */
-   TimeRange         GetTimeRangeStruct() { return time_range; }
-
-   /**
-    * @brief Checks the validity of the arguments for time range calculations.
-    * @return ENUM_CHECK result indicating the outcome of the check
-    */
-   ENUM_CHECK        CheckArg();
-
-   /**
-    * @brief Converts the ENUM_CHECK result to a human-readable string.
-    * @param enum_result ENUM_CHECK result
-    * @return String representation of the ENUM_CHECK result
-    */
-   string            EnumCheckToString(ENUM_CHECK enum_result);
+   Prices            GetPrices(void);
+   void              GetPrices(Prices &p);
 
    /**
     * @brief Calculates the time range based on the current and previous datetime settings.
     * @return TimeRange structure with the adjusted start and end times
     */
-   TimeRange         GetTimeRange();
+   TimeRange         GetTimeRange(void);
+
+   /**
+    * @brief Calculates the time range based on the current and previous datetime settings.
+    * @param TimeRange structure with the adjusted start and end times
+    */
+   void              GetTimeRange(TimeRange &p);
 
    /**
     * @brief Retrieves the price limits within the specified time range.
     * @return Prices structure with the calculated upper and lower limits
     */
-   Prices            Get();
+   Prices            Run();
   };
+//+------------------------------------------------------------------+
