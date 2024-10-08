@@ -31,8 +31,8 @@ public:
     */
    enum ENUM_PROFIT_PROTECTION_TYPE
    {
-      TRAILING_STOP, ///< Trailing Stop strategy.
-      BREAK_EVEN     ///< Break-even adjustment strategy.
+      TRAILING_STOP,
+      BREAK_EVEN
    };
 
 protected:
