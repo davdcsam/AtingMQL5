@@ -27,7 +27,7 @@ public:
       bool           saturday;  ///< Indicates if Saturday is an operative day
      };
 
-private:
+protected:
    /**
     * @brief Frame to store the operation status for each day of the week.
     */
@@ -42,50 +42,21 @@ public:
    /**
     * @brief Default constructor for the FilterByDayWeek class.
     */
-                     FilterByDayWeek(void) {};
+                     FilterByDayWeek(void);
+                    ~FilterByDayWeek(void);
 
    /**
     * @brief Updates the frame with the provided operation days.
     * @param noOperationDays Structure containing operation status for each day of the week.
     */
-   void              UpdateAtr(Frame &noOperationDays);
+   void              UpdateFrame(Frame &noOperationDays);
+   Frame             GetFrame(void);
+   void              GetFrame(Frame &f);
 
    /**
     * @brief Determines if today is an operative day based on the frame.
     * @return True if today is an operative day according to the frame; otherwise, false.
     */
    bool              IsOperativeDay(void);
+   bool              IsOperativeDay(MqlDateTime &mDT);
   };
-
-//+------------------------------------------------------------------+
-void FilterByDayWeek::UpdateAtr(Frame &noOperationDays)
-  {
-   frame = noOperationDays;
-  }
-
-//+------------------------------------------------------------------+
-bool FilterByDayWeek::IsOperativeDay(void)
-  {
-   TimeTradeServer(today);
-
-   switch(today.day_of_week)
-     {
-      case SUNDAY:
-         return frame.sunday;
-      case MONDAY:
-         return frame.monday;
-      case TUESDAY:
-         return frame.tuesday;
-      case WEDNESDAY:
-         return frame.wednesday;
-      case THURSDAY:
-         return frame.thursday;
-      case FRIDAY:
-         return frame.friday;
-      case SATURDAY:
-         return frame.saturday;
-      default:
-         return false;
-     }
-  }
-//+------------------------------------------------------------------+
