@@ -42,9 +42,7 @@ bool ProfitProtection::CheckSetting(void)
    double arr[2], result[];
    arr[0] = this.setting.activationPercent;
    arr[1] = this.setting.deviationPercent;
-   return (
-             !ZeroProcessor::Run(arr, result, true) &&
-             !NegativeProcessor::Run(arr, result, true));
+   return (!NegativeProcessor::Run(arr, result, true));
   }
 
 //+------------------------------------------------------------------+

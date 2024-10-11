@@ -38,7 +38,8 @@ bool LimitsByIndex::CheckSetting(void)
    return (
              SystemRequirements::SymbolCommon(this.setting.sym) &&
              !ZeroProcessor::Run(this.setting.counter) &&
-             !ZeroProcessor::Run(this.setting.shifter)
+             !NegativeProcessor::IsNegative(this.setting.shifter, true) &&
+             !NegativeProcessor::IsNegative(this.setting.shifter, true)
           );
   }
 
