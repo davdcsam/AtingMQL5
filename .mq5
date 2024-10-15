@@ -5,42 +5,50 @@
 //+------------------------------------------------------------------+
 
 // Reference
-#include "src//BooleanEnums.mqh"
-#include "src//CheckCommonSetting.mqh"
-#include "src//SystemRequirements.mqh"
+//+------------------------------------------------------------------+
+#include "src/baseOnTask/TaskManager.mqh"
 
-#include "src//baseOnTask//TaskManager.mqh"
+#include "src/detect/DetectOrders.mqh"
+#include "src/detect/DetectPositions.mqh"
+#include "src/detect/IDetectEntity.mqh"
 
-#include "src//detect//DetectOrders.mqh"
-#include "src//detect//DetectPositions.mqh"
+#include "src/filterOperativeDays/daysFilter/DaysFilterTree.mq5"
+#include "src/filterOperativeDays/FilterByCSVFile.mqh"
+#include "src/filterOperativeDays/FilterByDayWeek.mq5"
 
-#include "src//filterOperativeDays//FilterByCSVFile.mqh"
-#include "src//filterOperativeDays//FilterByDayWeek.mq5"
+#include "src/prices/institutionalArithmeticPrices/InstitutionalArithmeticPrices.mq5"
+#include "src/prices/limitsByIndex/LimitsByIndex.mq5"
+#include "src/prices/limitsByTimeRange/LimitsByTimeRange.mq5"
 
-#include "src//prices//InstitutionalArithmeticPrices.mq5"
-#include "src//prices//LimitsByIndex.mq5"
-#include "src//prices//LimitsByTimeRange.mq5"
+#include "src/profitProtection/breakEven/BreakEven.mqh"
+#include "src/profitProtection/trailingStop/TrailingStop.mqh"
+#include "src/profitProtection/ProfitProtection.mq5"
 
-#include "src//profitProtection//BreakEven.mqh"
-#include "src//profitProtection//TrailingStop.mqh"
-
+#include "src/remove/remOrder/RemOrderByLocationPrice.mq5"
+#include "src/remove/remOrder/RemOrderByType.mq5"
+#include "src/remove/remPosition/RemPositionByType.mq5"
 #include "src/remove/Remove.mq5"
-#include "src//remove//RemOrderByLocationPrice.mq5"
-#include "src//remove//RemOrderByType.mq5"
-#include "src//remove//RemPositionByType.mq5"
 
-#include "src//thirdParty//MarketOpenHours.mqh"
+#include "src/thirdParty/MarketOpenHours.mqh"
 
-#include "src//time//SectionTime.mqh"
-#include "src//time//SessionTrade.mqh"
-#include "src//time//TimeHelper.mqh"
-#include "src//time//TimeLapseTree.mq5"
+#include "src/time/sectionTime/SectionTime.mqh"
+#include "src/time/sessionTrade/SessionTrade.mqh"
+#include "src/time/timeLapse/TimeLapseTree.mq5"
+#include "src/time/TimeHelper.mqh"
 
-#include "src//transaction//Transaction.mq5"
+#include "src/transaction/CalcStop.mqh"
+#include "src/transaction/Request.mq5"
+#include "src/transaction/RoundVolume.mqh"
+#include "src/transaction/Transaction.mq5"
+
+#include "src/AtingErr.mqh"
+#include "src/BooleanEnums.mqh"
+#include "src/CheckCommonSetting.mqh"
+#include "src/SystemRequirements.mqh"
 
 // Testing
-#include "test/TimeExecution.mqh"
+//+------------------------------------------------------------------+
 #include "test/src.CheckCommonSetting.mqh"
 #include "test/src.SystemRequirements.mqh"
-
+#include "test/TimeExecution.mqh"
 //+------------------------------------------------------------------+

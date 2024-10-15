@@ -4,8 +4,8 @@
 //|                            https://github.com/davdcsam/AtingMQL5 |
 //+------------------------------------------------------------------+
 #include "LimitsByIndex.mqh"
-#include "../CheckCommonSetting.mqh"
-#include "../SystemRequirements.mqh"
+#include "../../CheckCommonSetting.mqh"
+#include "../../SystemRequirements.mqh"
 
 // Constructor
 //+------------------------------------------------------------------+

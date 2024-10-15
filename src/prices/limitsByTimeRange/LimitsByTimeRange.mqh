@@ -3,9 +3,9 @@
 //|                                         Copyright 2024, davdcsam |
 //|                            https://github.com/davdcsam/AtingMQL5 |
 //+------------------------------------------------------------------+
-#include "../time/TimeHelper.mqh"
-#include "../CheckCommonSetting.mqh"
-#include "../SystemRequirements.mqh"
+#include "../../time/TimeHelper.mqh"
+#include "../../CheckCommonSetting.mqh"
+#include "../../SystemRequirements.mqh"
 
 //+------------------------------------------------------------------+
 /**

@@ -3,8 +3,8 @@
 //|                                         Copyright 2024, davdcsam |
 //|                            https://github.com/davdcsam/AtingMQL5 |
 //+------------------------------------------------------------------+
-#include "Remove.mqh"
-#include "../detect/IDetectEntity.mqh"
+#include "../Remove.mqh"
+#include "../../detect/IDetectEntity.mqh"
 
 //+------------------------------------------------------------------+
 /**

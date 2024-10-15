@@ -9,22 +9,22 @@
 /**
  * @brief Node structure for the TimeLapseTree.
  */
-class TimeLapseTreeNode : public CObject
+class TimeLapseNode : public CObject
 {
 public:
     int identifier;           ///< Unique identifier for the node
     datetime startTime;       ///< Start time of the time lapse
     datetime endTime;         ///< End time of the time lapse
-    TimeLapseTreeNode *left;  ///< Pointer to the left child
-    TimeLapseTreeNode *right; ///< Pointer to the right child
+    TimeLapseNode *left;  ///< Pointer to the left child
+    TimeLapseNode *right; ///< Pointer to the right child
 
     /**
-     * @brief Constructor for TimeLapseTreeNode.
+     * @brief Constructor for TimeLapseNode.
      * @param id Node identifier
      * @param start Start time of the time lapse
      * @param end End time of the time lapse
      */
-    TimeLapseTreeNode(int id, datetime start, datetime end)
+    TimeLapseNode(int id, datetime start, datetime end)
     {
         identifier = id;
         startTime = start;
@@ -34,9 +34,9 @@ public:
     };
 
     /**
-     * @brief Destructor for TimeLapseTreeNode.
+     * @brief Destructor for TimeLapseNode.
      */
-    virtual ~TimeLapseTreeNode() 
+    virtual ~TimeLapseNode() 
     {
         if (left != NULL)
         {

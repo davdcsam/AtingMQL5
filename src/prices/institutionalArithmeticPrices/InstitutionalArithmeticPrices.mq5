@@ -4,7 +4,7 @@
 //|                            https://github.com/davdcsam/AtingMQL5 |
 //+------------------------------------------------------------------+
 #include "InstitutionalArithmeticPrices.mqh"
-#include "../CheckCommonSetting.mqh"
+#include "../../CheckCommonSetting.mqh"
 
 //+------------------------------------------------------------------+
 template<typename T>

@@ -17,10 +17,10 @@ TimeLapseTree::~TimeLapseTree()
   }
 
 //+------------------------------------------------------------------+
-TimeLapseTreeNode* TimeLapseTree::InsertRecursive(TimeLapseTreeNode* node, int id, datetime start, datetime end)
+TimeLapseNode* TimeLapseTree::InsertRecursive(TimeLapseNode* node, int id, datetime start, datetime end)
   {
    if(node == NULL)
-      node = new TimeLapseTreeNode(id, start, end);
+      node = new TimeLapseNode(id, start, end);
    else
      {
       if(id < node.identifier)
@@ -33,7 +33,7 @@ TimeLapseTreeNode* TimeLapseTree::InsertRecursive(TimeLapseTreeNode* node, int i
   }
 
 //+------------------------------------------------------------------+
-void TimeLapseTree::InorderRecursive(TimeLapseTreeNode* node)
+void TimeLapseTree::InorderRecursive(TimeLapseNode* node)
   {
    if(node != NULL)
      {
@@ -44,7 +44,7 @@ void TimeLapseTree::InorderRecursive(TimeLapseTreeNode* node)
   }
 
 //+------------------------------------------------------------------+
-TimeLapseTreeNode* TimeLapseTree::GetNode(TimeLapseTreeNode* node, int id)
+TimeLapseNode* TimeLapseTree::GetNode(TimeLapseNode* node, int id)
   {
    if(node == NULL)
       return NULL;
@@ -59,7 +59,7 @@ TimeLapseTreeNode* TimeLapseTree::GetNode(TimeLapseTreeNode* node, int id)
   }
 
 //+------------------------------------------------------------------+
-void TimeLapseTree::GetNodesInRange(CArrayObj &result, TimeLapseTreeNode* rootNode, datetime dt)
+void TimeLapseTree::GetNodesInRange(CArrayObj &result, TimeLapseNode* rootNode, datetime dt)
   {
    if(rootNode != NULL)
      {
@@ -68,7 +68,7 @@ void TimeLapseTree::GetNodesInRange(CArrayObj &result, TimeLapseTreeNode* rootNo
 
       // Check the current node
       if(dt >= rootNode.startTime && dt <= rootNode.endTime)
-         result.Add(new TimeLapseTreeNode(rootNode.identifier, rootNode.startTime, rootNode.endTime));
+         result.Add(new TimeLapseNode(rootNode.identifier, rootNode.startTime, rootNode.endTime));
 
       // Check the right subtree
       GetNodesInRange(result, rootNode.right, dt);
@@ -76,7 +76,7 @@ void TimeLapseTree::GetNodesInRange(CArrayObj &result, TimeLapseTreeNode* rootNo
   }
 
 //+------------------------------------------------------------------+
-void TimeLapseTree::CollectIdentifiers(TimeLapseTreeNode* node, CArrayInt &identifiers)
+void TimeLapseTree::CollectIdentifiers(TimeLapseNode* node, CArrayInt &identifiers)
   {
    if(node != NULL)
      {
@@ -91,7 +91,7 @@ void TimeLapseTree::Insert(int id, datetime start, datetime end)
   { root = InsertRecursive(root, id, start, end); }
 
 //+------------------------------------------------------------------+
-void TimeLapseTree::Insert(TimeLapseTreeNode* newNode)
+void TimeLapseTree::Insert(TimeLapseNode* newNode)
   {
    root = InsertRecursive(root, newNode.identifier, newNode.startTime, newNode.endTime);
   }
@@ -99,7 +99,7 @@ void TimeLapseTree::Insert(TimeLapseTreeNode* newNode)
 //+------------------------------------------------------------------+
 bool TimeLapseTree::UpdateNode(int id, datetime newStart, datetime newEnd)
   {
-   TimeLapseTreeNode* node = GetNode(root, id);
+   TimeLapseNode* node = GetNode(root, id);
    if(node != NULL)
      {
       node.startTime = newStart;
@@ -110,9 +110,9 @@ bool TimeLapseTree::UpdateNode(int id, datetime newStart, datetime newEnd)
   }
 
 //+------------------------------------------------------------------+
-bool TimeLapseTree::UpdateNode(TimeLapseTreeNode *newNode)
+bool TimeLapseTree::UpdateNode(TimeLapseNode *newNode)
   {
-   TimeLapseTreeNode* node = GetNode(root, newNode.identifier);
+   TimeLapseNode* node = GetNode(root, newNode.identifier);
    if(node != NULL)
      {
       node.startTime = newNode.startTime;
@@ -129,7 +129,7 @@ void TimeLapseTree::UpdateDates(void)
    GetAllIdentifiers(identifiers);
    for(int i=0;i<identifiers.Total();i++)
      {
-      TimeLapseTreeNode* node = GetNode(identifiers.At(i));
+      TimeLapseNode* node = GetNode(identifiers.At(i));
       Time timeS, timeE;
       TimeHelper::DateTimeToTimeStruct(timeS, node.startTime);
       TimeHelper::DateTimeToTimeStruct(timeE, node.endTime);
@@ -143,7 +143,7 @@ void TimeLapseTree::TraverseInorder()
   { InorderRecursive(root); }
 
 //+------------------------------------------------------------------+
-TimeLapseTreeNode* TimeLapseTree::GetNode(int id)
+TimeLapseNode* TimeLapseTree::GetNode(int id)
   { return GetNode(root, id); }
 
 //+------------------------------------------------------------------+
@@ -158,7 +158,7 @@ void TimeLapseTree::GetNodesByIdentifierCArr(CArrayObj &result, CArrayInt &ident
   {
    for(int i = 0; i < identifiers.Total(); i++)
      {
-      TimeLapseTreeNode* node = GetNode(root, identifiers[i]);
+      TimeLapseNode* node = GetNode(root, identifiers[i]);
       if(node != NULL)
         {
          result.Add(node);
@@ -171,7 +171,7 @@ void TimeLapseTree::GetNodesByIdentifierArr(CArrayObj &result, int &identifiers[
   {
    for(int i = 0; i < ArraySize(identifiers); i++)
      {
-      TimeLapseTreeNode* node = GetNode(root, identifiers[i]);
+      TimeLapseNode* node = GetNode(root, identifiers[i]);
       if(node != NULL)
         {
          result.Add(node);
@@ -187,7 +187,7 @@ void TimeLapseTree::GetIdentifierInRange(CArrayInt &result, datetime dt)
 
    for(int i = 0; i < nodesInRange.Total(); i++)
      {
-      TimeLapseTreeNode* node = (TimeLapseTreeNode*)nodesInRange.At(i);
+      TimeLapseNode* node = (TimeLapseNode*)nodesInRange.At(i);
       if(node != NULL)
          result.Add(node.identifier);
       delete node;
@@ -208,7 +208,7 @@ void TimeLapseTree::GetIdentifierInRange(int &result[], datetime dt)
 
    for(int i = 0; i < total; i++)
      {
-      TimeLapseTreeNode* node = (TimeLapseTreeNode*)nodesInRange.At(i);
+      TimeLapseNode* node = (TimeLapseNode*)nodesInRange.At(i);
       if(node != NULL)
          result[i] = node.identifier;
       delete node;
