@@ -5,6 +5,7 @@
 //+------------------------------------------------------------------+
 #include <Arrays/ArrayObj.mqh>
 #include "DaysFilterNode.mqh"
+#include "../DateTimeStringFormat.mqh"
 
 //+------------------------------------------------------------------+
 class DaysFilterTree
@@ -26,6 +27,9 @@ public:
    bool              IsBalanced(void);
 
    void              Clear(void);
+
+   bool              LoadCSV(string fileName);
+   bool              LoadTXT(string fileName);
 private:
    DaysFilterNode    *root;
 
