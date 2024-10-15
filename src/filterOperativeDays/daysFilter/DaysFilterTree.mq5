@@ -76,6 +76,43 @@ void DaysFilterTree::Clear(void)
    this.root = NULL;
   }
 
+//+------------------------------------------------------------------+
+bool DaysFilterTree::LoadCSV(string fileName)
+  {
+   if(!StringFind(fileName, ".csv", -1))
+     {
+      Alert("Extension file invalid");
+      return false;
+     }
+
+   int fileHandle = FileOpen(fileName, FILE_ANSI | FILE_READ | FILE_CSV | FILE_COMMON, "\t");
+   if(fileHandle == INVALID_HANDLE)
+     {
+      Alert(StringFormat(
+               "Failed to open %s. Err code: %d",
+               TerminalInfoString(TERMINAL_COMMONDATA_PATH) + "\\Files\\" + fileName,
+               GetLastError()
+            ));
+      return false;
+     }
+
+   PrintFormat("File %s found", fileName);
+
+   while(!FileIsEnding(fileHandle))
+     {
+      string dt = FileReadString(fileHandle);
+      if(DateTimeStringFormat::IsValidDateTime(dt))      
+         this.Insert(dt);
+     }
+
+   FileClose(fileHandle);
+   return true;
+  }
+
+
+bool DaysFilterTree::LoadTXT(string fileName); // Pending
+
+
 /*
     ____       _            _         __  __      _   _               _
    |  _ \ _ __(_)_   ____ _| |_ ___  |  \/  | ___| |_| |__   ___   __| |___
@@ -303,7 +340,7 @@ DaysFilterNode*   DaysFilterTree::FindNode(DaysFilterNode *node, datetime d)
   }
 
 //+------------------------------------------------------------------+
-datetime          DateTimeToDate(datetime &dt)
+datetime          DaysFilterTree::DateTimeToDate(datetime &dt)
   {
    MqlDateTime mdt;
    TimeToStruct(dt, mdt);
