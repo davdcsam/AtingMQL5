@@ -101,16 +101,46 @@ bool DaysFilterTree::LoadCSV(string fileName)
    while(!FileIsEnding(fileHandle))
      {
       string dt = FileReadString(fileHandle);
-      if(DateTimeStringFormat::IsValidDateTime(dt))      
-         this.Insert(dt);
+      if(DateTimeStringFormat::IsValidDateTime(dt))
+         this.Insert(StringToTime(dt));
      }
 
    FileClose(fileHandle);
    return true;
   }
 
+//+------------------------------------------------------------------+
+bool DaysFilterTree::LoadTXT(string fileName)
+  {
+   if(!StringFind(fileName, ".txt", -1))
+     {
+      Alert("Extension file invalid");
+      return false;
+     }
 
-bool DaysFilterTree::LoadTXT(string fileName); // Pending
+   int fileHandle = FileOpen(fileName, FILE_ANSI | FILE_READ | FILE_TXT | FILE_COMMON, "\t");
+   if(fileHandle == INVALID_HANDLE)
+     {
+      Alert(StringFormat(
+               "Failed to open %s. Err code: %d",
+               TerminalInfoString(TERMINAL_COMMONDATA_PATH) + "\\Files\\" + fileName,
+               GetLastError()
+            ));
+      return false;
+     }
+
+   PrintFormat("File %s found", fileName);
+
+   while(!FileIsEnding(fileHandle))
+     {
+      string dt = FileReadString(fileHandle);
+      if(DateTimeStringFormat::IsValidDateTime(dt))
+         this.Insert(StringToTime(dt));
+     }
+
+   FileClose(fileHandle);
+   return true;
+  }
 
 
 /*
