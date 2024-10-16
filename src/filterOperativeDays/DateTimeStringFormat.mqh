@@ -28,14 +28,8 @@ public:
       // If the date is valid, check the time part if it is present.
       if(IsDateValid(datePart))
         {
-         Print("date valid");
          if(timePart != "")
-            {
-            bool test = IsTimeValid(timePart);
-            Print("timevalid : ", test);
-            return test;
-            // return IsTimeValid(timePart);
-            }
+            return IsTimeValid(timePart);
          return true;
         }
       return false; // None of the formats are valid
