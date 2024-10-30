@@ -30,7 +30,7 @@ public:
 
    bool              LoadCSV(string fileName);
    bool              LoadTXT(string fileName);
-private:
+protected:
    DaysFilterNode    *root;
 
    void              UpdateHeight(DaysFilterNode *node);
