@@ -108,7 +108,7 @@ public:
     * @param type Position type.
     * @param filling Order filling type.
     */
-   void BuildPosition(MqlTradeRequest& request, ENUM_POSITION_TYPE type, ENUM_ORDER_TYPE_FILLING filling);
+   void BuildPosition(MqlTradeRequest& request, ENUM_POSITION_TYPE type, ENUM_ORDER_TYPE_FILLING filling, string comment = "");
 
    /**
     * @brief Builds a pending order.
@@ -118,7 +118,7 @@ public:
     * @param price Price for the pending order.
     * @param expiration Expiration time for the pending order (default is 0).
     */
-   void BuildPending(MqlTradeRequest& request, ENUM_ORDER_TYPE_BASE type, ENUM_ORDER_TYPE_FILLING filling, double price, datetime expiration = 0);
+   void BuildPending(MqlTradeRequest& request, ENUM_ORDER_TYPE_BASE type, ENUM_ORDER_TYPE_FILLING filling, double price, datetime expiration = 0, string comment = "");
 
    /**
     * @brief Builds a pending order or position.
@@ -128,5 +128,5 @@ public:
     * @param price Price for the pending order.
     * @param expiration Expiration time for the pending order (default is 0).
     */
-   void BuildPendingOrPosition(MqlTradeRequest& request, ENUM_ORDER_TYPE_AVAILABLE type, ENUM_ORDER_TYPE_FILLING filling, double price, datetime expiration = 0);
+   void BuildPendingOrPosition(MqlTradeRequest& request, ENUM_ORDER_TYPE_AVAILABLE type, ENUM_ORDER_TYPE_FILLING filling, double price, datetime expiration = 0, string comment = "");
 };

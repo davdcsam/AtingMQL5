@@ -68,7 +68,7 @@ void Request::BuildCheckPosition(MqlTradeRequest& request, ENUM_POSITION_TYPE ty
   }
 
 //+------------------------------------------------------------------+
-void Request::BuildPosition(MqlTradeRequest& request, ENUM_POSITION_TYPE type, ENUM_ORDER_TYPE_FILLING filling)
+void Request::BuildPosition(MqlTradeRequest& request, ENUM_POSITION_TYPE type, ENUM_ORDER_TYPE_FILLING filling, string comment = "")
   {
    ZeroMemory(request);
 
@@ -80,6 +80,7 @@ void Request::BuildPosition(MqlTradeRequest& request, ENUM_POSITION_TYPE type, E
    request.magic = this.setting.magicNumber;
    request.type_filling = filling;
    request.price = (type == POSITION_TYPE_BUY) ? SymbolInfoDouble(this.setting.symbol, SYMBOL_ASK) : SymbolInfoDouble(this.setting.symbol, SYMBOL_BID);
+   request.comment = comment;
    if(this.setting.takeProfit != 0)
       request.tp = calcStop.Run(request.price, this.setting.takeProfit, type, CalcStop::TAKE_PROFIT);
    if(this.setting.stopLoss != 0)
@@ -87,7 +88,7 @@ void Request::BuildPosition(MqlTradeRequest& request, ENUM_POSITION_TYPE type, E
   }
 
 //+------------------------------------------------------------------+
-void Request::BuildPending(MqlTradeRequest& request, ENUM_ORDER_TYPE_BASE type, ENUM_ORDER_TYPE_FILLING filling, double price, datetime expiration = 0)
+void Request::BuildPending(MqlTradeRequest& request, ENUM_ORDER_TYPE_BASE type, ENUM_ORDER_TYPE_FILLING filling, double price, datetime expiration = 0, string comment = "")
   {
    double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
    double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
@@ -125,6 +126,7 @@ void Request::BuildPending(MqlTradeRequest& request, ENUM_ORDER_TYPE_BASE type, 
    request.magic = this.setting.magicNumber;
    request.type_filling = filling;
    request.price = price;
+   request.comment = comment;
    if(expiration != 0 && TimeTradeServer() < expiration)
      {
       request.type_time = ORDER_TIME_SPECIFIED;
@@ -137,7 +139,7 @@ void Request::BuildPending(MqlTradeRequest& request, ENUM_ORDER_TYPE_BASE type, 
   }
 
 //+------------------------------------------------------------------+
-void Request::BuildPendingOrPosition(MqlTradeRequest& request, ENUM_ORDER_TYPE_AVAILABLE type, ENUM_ORDER_TYPE_FILLING filling, double price, datetime expiration = 0)
+void Request::BuildPendingOrPosition(MqlTradeRequest& request, ENUM_ORDER_TYPE_AVAILABLE type, ENUM_ORDER_TYPE_FILLING filling, double price, datetime expiration = 0, string comment = "")
   {
    double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
    double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
@@ -169,6 +171,7 @@ void Request::BuildPendingOrPosition(MqlTradeRequest& request, ENUM_ORDER_TYPE_A
    request.magic = this.setting.magicNumber;
    request.type_filling = filling;
    request.price = price;
+   request.comment = comment;
    if(expiration != 0 && TimeTradeServer() < expiration)
      {
       request.type_time = ORDER_TIME_SPECIFIED;

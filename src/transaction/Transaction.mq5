@@ -69,9 +69,9 @@ Transaction::ENUM_FIX_FILLING_MODE Transaction::FixFillingMode()
   }
 
 //+------------------------------------------------------------------+
-Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPosition(ENUM_POSITION_TYPE type)
+Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPosition(ENUM_POSITION_TYPE type, string comment = "")
   {
-   BuildPosition(tradeRequest, type, typeFillingMode);
+   BuildPosition(tradeRequest, type, typeFillingMode, comment);
 
    double stops[] = {tradeRequest.sl, tradeRequest.tp, tradeRequest.price};
 
@@ -84,15 +84,14 @@ Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPosition(ENUM_POSITION_TYPE
   }
 
 //+------------------------------------------------------------------+
-Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPendingDefault(double price, ENUM_ORDER_TYPE_BASE type, datetime expiration = 0)
+Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPendingDefault(double price, ENUM_ORDER_TYPE_BASE type, datetime expiration = 0, string comment = "")
   {
-   BuildPending(tradeRequest, type, typeFillingMode, price, expiration);
+   BuildPending(tradeRequest, type, typeFillingMode, price, expiration, comment);
 
    double stops[] = {tradeRequest.sl, tradeRequest.tp, tradeRequest.price};
 
    if(calcStop.VerifyNoNegative(stops) && OrderSend(tradeRequest, tradeResult) && OrderSelect(tradeResult.order))
      {
-      Print(OrderGetInteger(ORDER_TICKET));
       return ORDER_PLACED_SUCCESSFULLY;
      }
 
@@ -101,9 +100,9 @@ Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPendingDefault(double price
   }
 
 //+------------------------------------------------------------------+
-Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPendingOrPosition(double price, ENUM_ORDER_TYPE_AVAILABLE type, datetime expiration = 0)
+Transaction::ENUM_ORDER_TRANSACTION Transaction::SendPendingOrPosition(double price, ENUM_ORDER_TYPE_AVAILABLE type, datetime expiration = 0, string comment = "")
   {
-   BuildPendingOrPosition(tradeRequest, type, typeFillingMode, price, expiration);
+   BuildPendingOrPosition(tradeRequest, type, typeFillingMode, price, expiration, comment);
 
    double stops[] = {tradeRequest.sl, tradeRequest.tp, tradeRequest.price};
 

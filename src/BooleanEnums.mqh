@@ -8,8 +8,8 @@
 
 enum ENUM_BOOLEAN_TOGGLE
   {
-  ON = 1, // On
-  OFF = 0 // Off
+   ON = 1, // On
+   OFF = 0 // Off
   };
 enum ENUM_BOOLEAN_PROCESS
   {
@@ -31,6 +31,11 @@ enum ENUM_BOOLEAN_VISIBILITY
    SHOW = 1, // Show
    HIDE = 0 // Hide
   };
+enum ENUM_BOOLEAN_CONNECTION_STATE
+  {
+   JOINED = 1, // Joined
+   SEPARATED = 0 // Separated
+  };
 enum ENUM_BOOLEAN_AVAILABLE
   {
    AVAILABLE = 1, // Available
@@ -42,9 +47,13 @@ enum ENUM_BOOLEAN_OPERATIONAL_STATE
    INACTIVE = 0 // Inactive
   };
 enum ENUM_BOOLEAN_PROHIBITION
-{
+  {
    ALLOW = 1, // Allow
    BAN = 0 // Ban
-};
-
+  };
+enum ENUM_BOOLEAN_FILL
+  {
+   FILLED = 1, // Filled
+   EMPTY = 0 // Empty
+  };
 //+------------------------------------------------------------------+

@@ -89,7 +89,7 @@ public:
     * @param type The type of position order.
     * @return The result of sending the order as ENUM_ORDER_TRANSACTION.
     */
-   ENUM_ORDER_TRANSACTION SendPosition(ENUM_POSITION_TYPE type);
+   ENUM_ORDER_TRANSACTION SendPosition(ENUM_POSITION_TYPE type, string comment = "");
 
    /**
     * @brief Sends a pending order with default parameters for the transaction.
@@ -98,7 +98,7 @@ public:
     * @param expiration The expiration order.
     * @return The result of sending the order as ENUM_ORDER_TRANSACTION.
     */
-   ENUM_ORDER_TRANSACTION SendPendingDefault(double price, ENUM_ORDER_TYPE_BASE type, datetime expiration);
+   ENUM_ORDER_TRANSACTION SendPendingDefault(double price, ENUM_ORDER_TYPE_BASE type, datetime expiration, string comment = "");
 
    /**
     * @brief Sends a pending or position order for the transaction.
@@ -107,7 +107,7 @@ public:
     * @param expiration The expiration order.
     * @return The result of sending the order as ENUM_ORDER_TRANSACTION.
     */
-   ENUM_ORDER_TRANSACTION SendPendingOrPosition(double price, ENUM_ORDER_TYPE_AVAILABLE type, datetime expiration);
+   ENUM_ORDER_TRANSACTION SendPendingOrPosition(double price, ENUM_ORDER_TYPE_AVAILABLE type, datetime expiration, string comment = "");
 
    /**
     * @brief Converts the check transaction result to a string.
